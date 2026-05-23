@@ -258,6 +258,119 @@
 }
 .scc-wf__cta--ghost:hover { filter: none; background: var(--wf-hover); }
 
+/* --- path editor ------------------------------------------------ */
+.scc-wf__viewer.is-editing .scc-wf__svg {
+  cursor: crosshair;
+  touch-action: none;
+}
+.scc-wf__edit-edge {
+  stroke: var(--wf-accent);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-opacity: 0.85;
+  fill: none;
+  pointer-events: none;
+}
+.scc-wf__edit-stroke {
+  fill: none;
+  stroke: var(--wf-accent);
+  stroke-opacity: 0.65;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.scc-wf__edit-node { cursor: grab; }
+.scc-wf__edit-node:active { cursor: grabbing; }
+.scc-wf__edit-node circle {
+  stroke-width: 2;
+  transition: r 100ms ease;
+}
+.scc-wf__edit-node text {
+  font: 700 11px/1 'Clarkson','Helvetica Neue',Helvetica,Arial,sans-serif;
+  letter-spacing: 0.08em;
+  fill: var(--wf-ink);
+  paint-order: stroke fill;
+  stroke: var(--wf-bg);
+  stroke-width: 3;
+  stroke-linejoin: round;
+  pointer-events: none;
+  user-select: none;
+}
+.scc-wf__edit-node--junction circle {
+  fill: var(--wf-bg);
+  stroke: var(--wf-accent);
+}
+.scc-wf__edit-node--kiosk circle {
+  fill: var(--wf-ink);
+  stroke: var(--wf-bg);
+}
+.scc-wf__edit-node--entrance-main circle {
+  fill: var(--wf-accent);
+  stroke: var(--wf-accent-on);
+}
+.scc-wf__edit-node--entrance-tenant circle {
+  fill: var(--wf-soft);
+  stroke: var(--wf-ink);
+}
+.scc-wf__edit-node.is-selected circle {
+  stroke: var(--wf-accent);
+  stroke-width: 4;
+  filter: drop-shadow(0 0 6px hsla(var(--accent-hsl, 16.91,100%,56.86%), 0.7));
+}
+
+.scc-wf__editor {
+  position: absolute; top: 16px; left: 16px;
+  width: 280px;
+  background: var(--wf-bg);
+  border: 1px solid var(--wf-rule);
+  padding: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  font-size: 12px;
+  z-index: 6;
+}
+.scc-wf__editor-title {
+  font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+.scc-wf__editor-tools {
+  display: flex; flex-wrap: wrap; gap: 4px;
+  margin-bottom: 10px;
+}
+.scc-wf__tool {
+  font: inherit; font-size: 11px;
+  padding: 6px 8px;
+  background: transparent;
+  color: var(--wf-ink);
+  border: 1px solid var(--wf-rule);
+  cursor: pointer;
+  border-radius: 3px;
+}
+.scc-wf__tool.is-active {
+  background: var(--wf-accent);
+  color: var(--wf-accent-on);
+  border-color: var(--wf-accent);
+}
+.scc-wf__editor-hint {
+  font-size: 11px;
+  color: var(--wf-dark); opacity: 0.75;
+  line-height: 1.4;
+  margin: 0 0 10px;
+}
+.scc-wf__editor-stats {
+  font-size: 11px;
+  color: var(--wf-dark); opacity: 0.7;
+  margin-bottom: 10px;
+}
+.scc-wf__editor-stats code {
+  font-family: monospace;
+  background: var(--wf-hover);
+  padding: 1px 4px;
+}
+.scc-wf__editor-actions { display: flex; flex-wrap: wrap; gap: 4px; }
+.scc-wf__editor .scc-wf__cta { font-size: 11px; padding: 8px 12px; }
+
 /* Mobile: sidebar collapses to bottom sheet. */
 @media (max-width: 720px) {
   .scc-wf {

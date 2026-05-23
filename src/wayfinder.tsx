@@ -8,6 +8,7 @@ interface Props {
   initialCategory?: string;
   initialStore?: string;
   fromKiosk?: string;
+  editMode?: boolean;
 }
 
 const KIOSKS: GraphNode[] = (graphData.nodes as GraphNode[]).filter(
@@ -23,7 +24,7 @@ function defaultKioskId(preferred?: string): string {
   return KIOSKS[0]?.id ?? "";
 }
 
-export function Wayfinder({ initialCategory, initialStore, fromKiosk }: Props) {
+export function Wayfinder({ initialCategory, initialStore, fromKiosk, editMode }: Props) {
   const seeded = initialStore ? STORES.find((s) => s.id === initialStore) ?? null : null;
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string | null>(seeded?.category ?? initialCategory ?? null);
@@ -95,6 +96,7 @@ export function Wayfinder({ initialCategory, initialStore, fromKiosk }: Props) {
           routeFrom={routeOrigin ?? undefined}
           onSelectStore={(s) => setSelected(s)}
           onSelectKiosk={(id) => setRouteOrigin(id)}
+          editMode={editMode}
         />
 
         {selected && (
