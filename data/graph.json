@@ -2,46 +2,70 @@
   "nodes": [
     {
       "id": "kiosk-a",
-      "x": 60,
-      "y": 646.5,
+      "x": 220,
+      "y": 600,
       "type": "kiosk",
       "label": "West Entrance"
     },
     {
       "id": "kiosk-b",
-      "x": 1140,
-      "y": 646.5,
+      "x": 1130,
+      "y": 660,
       "type": "kiosk",
       "label": "East Entrance"
     },
     {
-      "id": "j-nw",
-      "x": 300,
-      "y": 300,
+      "id": "c-w",
+      "x": 380,
+      "y": 420,
       "type": "junction"
     },
     {
-      "id": "j-ne",
-      "x": 900,
-      "y": 300,
+      "id": "c-m1",
+      "x": 540,
+      "y": 430,
       "type": "junction"
     },
     {
-      "id": "j-sw",
-      "x": 300,
-      "y": 993,
+      "id": "c-m2",
+      "x": 700,
+      "y": 450,
       "type": "junction"
     },
     {
-      "id": "j-se",
-      "x": 900,
-      "y": 993,
+      "id": "c-e",
+      "x": 880,
+      "y": 470,
       "type": "junction"
     },
     {
-      "id": "j-c",
-      "x": 600,
-      "y": 646.5,
+      "id": "s-w",
+      "x": 400,
+      "y": 800,
+      "type": "junction"
+    },
+    {
+      "id": "s-m1",
+      "x": 560,
+      "y": 800,
+      "type": "junction"
+    },
+    {
+      "id": "s-m2",
+      "x": 700,
+      "y": 810,
+      "type": "junction"
+    },
+    {
+      "id": "s-e",
+      "x": 880,
+      "y": 830,
+      "type": "junction"
+    },
+    {
+      "id": "med-j",
+      "x": 680,
+      "y": 1100,
       "type": "junction"
     },
     {
@@ -388,405 +412,400 @@
       "store": "wcgservices"
     },
     {
-      "id": "unit",
+      "id": "unit-18",
       "x": 409.32,
       "y": 844.56,
       "type": "store",
-      "store": "unit"
+      "store": "unit-18"
     },
     {
-      "id": "unit",
+      "id": "unit-19",
       "x": 426.24,
       "y": 830.48,
       "type": "store",
-      "store": "unit"
+      "store": "unit-19"
     },
     {
-      "id": "unit",
+      "id": "unit-22",
       "x": 477.96,
       "y": 815.26,
       "type": "store",
-      "store": "unit"
+      "store": "unit-22"
     },
     {
-      "id": "unit",
+      "id": "unit-27",
       "x": 567.28,
       "y": 863.21,
       "type": "store",
-      "store": "unit"
+      "store": "unit-27"
     },
     {
-      "id": "unit",
+      "id": "unit-32",
       "x": 596.6,
       "y": 773.16,
       "type": "store",
-      "store": "unit"
+      "store": "unit-32"
     },
     {
-      "id": "unit",
+      "id": "unit-33",
       "x": 610.36,
       "y": 736.78,
       "type": "store",
-      "store": "unit"
+      "store": "unit-33"
     },
     {
-      "id": "unit",
+      "id": "unit-55",
       "x": 442.65,
       "y": 723.32,
       "type": "store",
-      "store": "unit"
+      "store": "unit-55"
     }
   ],
   "edges": [
     {
-      "a": "kiosk-a",
-      "b": "j-nw",
-      "cost": 422
+      "a": "c-w",
+      "b": "c-m1",
+      "cost": 160
+    },
+    {
+      "a": "c-m1",
+      "b": "c-m2",
+      "cost": 161
+    },
+    {
+      "a": "c-m2",
+      "b": "c-e",
+      "cost": 181
+    },
+    {
+      "a": "s-w",
+      "b": "s-m1",
+      "cost": 160
+    },
+    {
+      "a": "s-m1",
+      "b": "s-m2",
+      "cost": 140
+    },
+    {
+      "a": "s-m2",
+      "b": "s-e",
+      "cost": 181
     },
     {
       "a": "kiosk-a",
-      "b": "j-sw",
-      "cost": 422
+      "b": "c-w",
+      "cost": 241
     },
     {
       "a": "kiosk-a",
-      "b": "j-c",
-      "cost": 540
+      "b": "s-w",
+      "cost": 269
     },
     {
       "a": "kiosk-b",
-      "b": "j-ne",
-      "cost": 422
+      "b": "c-e",
+      "cost": 314
     },
     {
       "a": "kiosk-b",
-      "b": "j-se",
-      "cost": 422
+      "b": "s-e",
+      "cost": 302
     },
     {
-      "a": "kiosk-b",
-      "b": "j-c",
-      "cost": 540
+      "a": "c-m1",
+      "b": "s-m1",
+      "cost": 371
     },
     {
-      "a": "j-nw",
-      "b": "j-ne",
-      "cost": 600
+      "a": "c-m2",
+      "b": "s-m2",
+      "cost": 360
     },
     {
-      "a": "j-ne",
-      "b": "j-se",
-      "cost": 693
+      "a": "s-m2",
+      "b": "med-j",
+      "cost": 291
     },
     {
-      "a": "j-se",
-      "b": "j-sw",
-      "cost": 600
-    },
-    {
-      "a": "j-sw",
-      "b": "j-nw",
-      "cost": 693
-    },
-    {
-      "a": "j-nw",
-      "b": "j-c",
-      "cost": 458
-    },
-    {
-      "a": "j-ne",
-      "b": "j-c",
-      "cost": 458
-    },
-    {
-      "a": "j-se",
-      "b": "j-c",
-      "cost": 458
-    },
-    {
-      "a": "j-sw",
-      "b": "j-c",
-      "cost": 458
-    },
-    {
-      "a": "j-c",
+      "a": "s-w",
       "b": "a1donuts",
-      "cost": 172
+      "cost": 81
     },
     {
-      "a": "j-c",
+      "a": "s-m1",
       "b": "asiangourmet",
-      "cost": 158
+      "cost": 89
     },
     {
-      "a": "j-se",
+      "a": "kiosk-b",
       "b": "barburrito",
-      "cost": 384
+      "cost": 36
     },
     {
-      "a": "j-nw",
+      "a": "c-m1",
       "b": "bmo",
-      "cost": 303
+      "cost": 362
     },
     {
-      "a": "j-c",
+      "a": "s-m1",
       "b": "cell-max",
-      "cost": 99
+      "cost": 67
     },
     {
-      "a": "j-c",
+      "a": "s-m1",
       "b": "crazy-rolls-ice-cream",
-      "cost": 30
+      "cost": 170
     },
     {
-      "a": "j-se",
+      "a": "med-j",
       "b": "dentist",
-      "cost": 297
+      "cost": 93
     },
     {
-      "a": "j-c",
+      "a": "s-m1",
       "b": "dollarama",
-      "cost": 96
+      "cost": 100
     },
     {
-      "a": "j-c",
+      "a": "s-w",
       "b": "famousoptic",
+      "cost": 59
+    },
+    {
+      "a": "c-m2",
+      "b": "fikacannabis",
       "cost": 197
     },
     {
-      "a": "j-ne",
-      "b": "fikacannabis",
-      "cost": 142
-    },
-    {
-      "a": "j-ne",
+      "a": "c-m2",
       "b": "firstchoicehaircutters",
-      "cost": 152
+      "cost": 181
     },
     {
-      "a": "j-sw",
+      "a": "s-m1",
       "b": "fit4less",
-      "cost": 203
+      "cost": 143
     },
     {
-      "a": "j-c",
+      "a": "s-m1",
       "b": "honey-nails-spa",
-      "cost": 240
+      "cost": 81
     },
     {
-      "a": "j-c",
+      "a": "s-m1",
       "b": "infolottokiosk",
-      "cost": 70
+      "cost": 92
     },
     {
-      "a": "j-c",
+      "a": "s-m2",
       "b": "kumon",
-      "cost": 166
+      "cost": 55
     },
     {
-      "a": "j-c",
+      "a": "s-m1",
       "b": "lacoupla",
+      "cost": 174
+    },
+    {
+      "a": "s-w",
+      "b": "lola-norma-s-karinderya",
+      "cost": 66
+    },
+    {
+      "a": "s-m1",
+      "b": "lynearhairsalon",
+      "cost": 72
+    },
+    {
+      "a": "s-m1",
+      "b": "mad-digital-exchange",
+      "cost": 57
+    },
+    {
+      "a": "s-m1",
+      "b": "nailsforyou",
+      "cost": 148
+    },
+    {
+      "a": "s-m2",
+      "b": "nofrills",
+      "cost": 67
+    },
+    {
+      "a": "med-j",
+      "b": "onenesswellnesscentre",
+      "cost": 108
+    },
+    {
+      "a": "s-m1",
+      "b": "pamirrugsco",
       "cost": 20
     },
     {
-      "a": "j-c",
-      "b": "lola-norma-s-karinderya",
-      "cost": 186
-    },
-    {
-      "a": "j-c",
-      "b": "lynearhairsalon",
-      "cost": 226
-    },
-    {
-      "a": "j-c",
-      "b": "mad-digital-exchange",
-      "cost": 202
-    },
-    {
-      "a": "j-c",
-      "b": "nailsforyou",
-      "cost": 23
-    },
-    {
-      "a": "j-se",
-      "b": "nofrills",
-      "cost": 215
-    },
-    {
-      "a": "j-se",
-      "b": "onenesswellnesscentre",
-      "cost": 297
-    },
-    {
-      "a": "j-c",
-      "b": "pamirrugsco",
-      "cost": 171
-    },
-    {
-      "a": "j-c",
+      "a": "s-m1",
       "b": "peplosbydesigner",
-      "cost": 191
+      "cost": 35
     },
     {
-      "a": "j-c",
+      "a": "s-m2",
       "b": "pitaland",
-      "cost": 73
+      "cost": 124
     },
     {
-      "a": "j-c",
+      "a": "s-m2",
       "b": "popeyes",
       "cost": 101
     },
     {
-      "a": "j-c",
+      "a": "s-w",
       "b": "rapizza",
-      "cost": 192
+      "cost": 61
     },
     {
-      "a": "j-c",
+      "a": "s-w",
       "b": "realfruitbubbletea",
-      "cost": 225
+      "cost": 86
     },
     {
-      "a": "j-ne",
+      "a": "kiosk-b",
       "b": "rogers",
-      "cost": 392
+      "cost": 36
     },
     {
-      "a": "j-c",
+      "a": "s-m1",
       "b": "samphhealth",
-      "cost": 111
+      "cost": 81
     },
     {
-      "a": "j-c",
+      "a": "s-m1",
       "b": "samrsquosshoesrepair",
-      "cost": 193
+      "cost": 35
     },
     {
-      "a": "j-ne",
+      "a": "c-e",
       "b": "shoppersdrugmart",
-      "cost": 125
+      "cost": 50
     },
     {
-      "a": "j-sw",
+      "a": "s-w",
       "b": "softrontax",
-      "cost": 223
+      "cost": 60
     },
     {
-      "a": "j-c",
+      "a": "s-m1",
       "b": "south-common-library",
-      "cost": 160
+      "cost": 23
     },
     {
-      "a": "j-se",
+      "a": "med-j",
       "b": "southcommonmedicalcentre",
-      "cost": 283
+      "cost": 118
     },
     {
-      "a": "j-c",
+      "a": "s-m2",
       "b": "south-common-orthopedic",
-      "cost": 126
+      "cost": 74
     },
     {
-      "a": "j-ne",
+      "a": "c-m2",
       "b": "stackedpancakeampbreakfasthouse",
-      "cost": 177
+      "cost": 146
     },
     {
-      "a": "j-sw",
+      "a": "s-w",
       "b": "stanzigelsteinlawyers",
-      "cost": 169
+      "cost": 50
     },
     {
-      "a": "j-ne",
+      "a": "c-m2",
       "b": "subway",
       "cost": 163
     },
     {
-      "a": "j-c",
+      "a": "s-m1",
       "b": "sunrise-orthotics",
-      "cost": 196
+      "cost": 63
     },
     {
-      "a": "j-c",
+      "a": "s-m2",
       "b": "sunshine-healthcare",
-      "cost": 176
+      "cost": 46
     },
     {
-      "a": "j-nw",
+      "a": "kiosk-a",
       "b": "td",
-      "cost": 265
+      "cost": 205
     },
     {
-      "a": "j-se",
+      "a": "kiosk-b",
       "b": "thairoomgrand",
-      "cost": 384
+      "cost": 22
     },
     {
-      "a": "j-c",
+      "a": "s-m1",
       "b": "theupperhandgamesandsportscards",
-      "cost": 6
+      "cost": 164
     },
     {
-      "a": "j-c",
+      "a": "s-m2",
       "b": "thewineshop",
-      "cost": 126
+      "cost": 80
     },
     {
-      "a": "j-c",
+      "a": "s-m2",
       "b": "topstitch",
-      "cost": 136
+      "cost": 63
     },
     {
-      "a": "j-c",
+      "a": "s-m1",
       "b": "viewcleaners",
-      "cost": 37
-    },
-    {
-      "a": "j-nw",
-      "b": "walmartsupercentre",
-      "cost": 254
-    },
-    {
-      "a": "j-c",
-      "b": "wcgservices",
-      "cost": 53
-    },
-    {
-      "a": "j-sw",
-      "b": "unit",
       "cost": 184
     },
     {
-      "a": "j-sw",
-      "b": "unit",
-      "cost": 206
+      "a": "kiosk-a",
+      "b": "walmartsupercentre",
+      "cost": 114
     },
     {
-      "a": "j-c",
-      "b": "unit",
-      "cost": 208
+      "a": "s-m1",
+      "b": "wcgservices",
+      "cost": 110
     },
     {
-      "a": "j-c",
-      "b": "unit",
-      "cost": 219
+      "a": "s-w",
+      "b": "unit-18",
+      "cost": 46
     },
     {
-      "a": "j-c",
-      "b": "unit",
-      "cost": 127
+      "a": "s-w",
+      "b": "unit-19",
+      "cost": 40
     },
     {
-      "a": "j-c",
-      "b": "unit",
-      "cost": 91
+      "a": "s-w",
+      "b": "unit-22",
+      "cost": 79
     },
     {
-      "a": "j-c",
-      "b": "unit",
-      "cost": 175
+      "a": "s-m1",
+      "b": "unit-27",
+      "cost": 64
+    },
+    {
+      "a": "s-m1",
+      "b": "unit-32",
+      "cost": 45
+    },
+    {
+      "a": "s-m1",
+      "b": "unit-33",
+      "cost": 81
+    },
+    {
+      "a": "s-w",
+      "b": "unit-55",
+      "cost": 88
     }
   ]
 }
