@@ -257,6 +257,106 @@
   border: 1px solid var(--wf-rule);
 }
 .scc-wf__cta--ghost:hover { filter: none; background: var(--wf-hover); }
+.scc-wf__cta:disabled { opacity: 0.35; cursor: not-allowed; }
+.scc-wf__cta:disabled:hover { filter: none; background: transparent; }
+
+/* --- directions card -------------------------------------------- */
+.scc-wf__directions {
+  display: flex; flex-direction: column; gap: 6px;
+  border: 1px solid var(--wf-rule);
+  background: var(--wf-bg);
+  padding: 10px;
+  margin: 0 0 16px;
+}
+.scc-wf__slot {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  font: inherit;
+  padding: 10px 12px;
+  background: transparent;
+  border: 1px solid var(--wf-rule);
+  cursor: pointer;
+  text-align: left;
+  color: var(--wf-ink);
+  width: 100%;
+}
+.scc-wf__slot:hover { background: var(--wf-hover); }
+.scc-wf__slot.is-active {
+  border-color: var(--wf-accent);
+  box-shadow: inset 0 0 0 1px var(--wf-accent);
+}
+.scc-wf__slot-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--wf-dark); opacity: 0.7;
+}
+.scc-wf__slot-value {
+  font-size: 14px; font-weight: 600;
+  color: var(--wf-ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.scc-wf__slot-value:not(:has(*))::first-line { color: var(--wf-dark); }
+.scc-wf__slot:not(.is-active) .scc-wf__slot-value { opacity: 0.85; }
+.scc-wf__slot[data-empty="true"] .scc-wf__slot-value,
+.scc-wf__slot .scc-wf__slot-value:empty { opacity: 0.4; }
+.scc-wf__slot-clear {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: hsla(var(--black-hsl, 0,0%,5.1%), 0.06);
+  font-size: 11px;
+  cursor: pointer;
+  user-select: none;
+}
+.scc-wf__slot-clear:hover { background: hsla(var(--black-hsl, 0,0%,5.1%), 0.15); }
+.scc-wf__directions-actions {
+  display: flex; gap: 6px;
+  margin-top: 4px;
+}
+.scc-wf__directions-actions .scc-wf__cta {
+  flex: 1; font-size: 11px; padding: 8px 10px;
+}
+
+/* --- directory list polish ------------------------------------- */
+.scc-wf__list-header {
+  list-style: none;
+  font: 700 10px/1 inherit;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--wf-dark); opacity: 0.6;
+  padding: 14px 6px 6px;
+}
+.scc-wf__item--kiosk strong {
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.scc-wf__item--kiosk strong::before {
+  content: "📍";
+  font-size: 12px;
+}
+.scc-wf__item .scc-wf__unit {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+}
+.scc-wf__item--from { box-shadow: inset 3px 0 0 var(--wf-dark); }
+.scc-wf__item--to   { box-shadow: inset 3px 0 0 var(--wf-accent); }
+.scc-wf__item--from.scc-wf__item--to {
+  box-shadow: inset 3px 0 0 var(--wf-accent),
+              inset -3px 0 0 var(--wf-dark);
+}
+
+.scc-wf__route-info {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--wf-ink);
+  background: var(--wf-soft);
+  padding: 8px 10px;
+}
+.scc-wf__route-info--hint {
+  background: transparent;
+  color: var(--wf-dark); opacity: 0.7;
+  font-size: 11px;
+}
 
 /* --- path editor ------------------------------------------------ */
 .scc-wf__viewer.is-editing .scc-wf__svg {
