@@ -1,0 +1,57 @@
+{
+  "stores": [
+    {
+      "id": "winners",
+      "name": "Winners",
+      "unit": "L1-100",
+      "floor": 1,
+      "category": "apparel",
+      "anchor": true,
+      "hours": "mall"
+    },
+    {
+      "id": "dollarama",
+      "name": "Dollarama",
+      "unit": "L1-104",
+      "floor": 1,
+      "category": "general",
+      "hours": "mall"
+    },
+    {
+      "id": "bmo",
+      "name": "BMO",
+      "unit": "L1-110",
+      "floor": 1,
+      "category": "services",
+      "hours": { "mon_fri": "09:30-17:00", "sat": "09:30-16:00", "sun": "closed" }
+    },
+    {
+      "id": "rogers",
+      "name": "Rogers",
+      "unit": "L2-205",
+      "floor": 2,
+      "category": "services",
+      "hours": "mall"
+    },
+    {
+      "id": "cellmax",
+      "name": "Cellmax",
+      "unit": "L2-208",
+      "floor": 2,
+      "category": "services",
+      "hours": "mall"
+    }
+  ],
+  "mall_hours": {
+    "mon_fri": "10:00-21:00",
+    "sat": "10:00-18:00",
+    "sun": "11:00-17:00"
+  },
+  "categories": [
+    { "id": "apparel",  "label": "Apparel" },
+    { "id": "food",     "label": "Food & Dining" },
+    { "id": "services", "label": "Services" },
+    { "id": "general",  "label": "General Merch" },
+    { "id": "anchor",   "label": "Anchors" }
+  ]
+}
