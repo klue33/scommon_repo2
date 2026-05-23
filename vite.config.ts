@@ -3,7 +3,12 @@ import preact from "@preact/preset-vite";
 import { resolve } from "node:path";
 
 export default defineConfig(({ mode }) => ({
-  plugins: [preact()],
+  plugins: [
+    // babel:{} opts out of @preact/preset-vite's transformHookNames
+    // plugin, which CJS-requires zimmerframe >=1.x (ESM-only) and
+    // 500s the dev server. Production build doesn't load that path.
+    preact({ babel: {} }),
+  ],
   resolve: {
     alias: { "@": resolve(__dirname, ".") },
   },
