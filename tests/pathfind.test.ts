@@ -49,4 +49,17 @@ describe("pathfind", () => {
     });
     expect(route(g, "a", "b")).toBeNull();
   });
+
+  it("routes from the east kiosk takes a different path than the west kiosk", () => {
+    const g = buildGraph(graph as any);
+    const fromWest = route(g, "kiosk-a", "rogers");
+    const fromEast = route(g, "kiosk-b", "rogers");
+    expect(fromWest).not.toBeNull();
+    expect(fromEast).not.toBeNull();
+    // West kiosk has to traverse the full sidewalk; east kiosk is
+    // adjacent to j3 (Rogers's junction).
+    expect(fromEast!.cost).toBeLessThan(fromWest!.cost);
+    expect(fromEast!.path).toContain("kiosk-b");
+    expect(fromWest!.path).not.toContain("kiosk-b");
+  });
 });

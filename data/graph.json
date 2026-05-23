@@ -1,6 +1,7 @@
 {
   "nodes": [
-    { "id": "kiosk-a",   "x":  120, "y":  240, "type": "kiosk" },
+    { "id": "kiosk-a",   "x":  120, "y":  240, "type": "kiosk", "label": "West Entrance" },
+    { "id": "kiosk-b",   "x":  960, "y":  340, "type": "kiosk", "label": "East Entrance" },
     { "id": "j1",        "x":  300, "y":  240, "type": "junction" },
     { "id": "j2",        "x":  520, "y":  240, "type": "junction" },
     { "id": "j3",        "x":  720, "y":  240, "type": "junction" },
@@ -20,6 +21,7 @@
     { "a": "j2",        "b": "bmo",       "cost": 120 },
     { "a": "j3",        "b": "rogers",    "cost": 120 },
     { "a": "j3",        "b": "cellmax",   "cost": 120 },
-    { "a": "j3",        "b": "five-guys", "cost": 180 }
+    { "a": "j3",        "b": "five-guys", "cost": 180 },
+    { "a": "j3",        "b": "kiosk-b",   "cost": 260 }
   ]
 }

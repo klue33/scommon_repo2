@@ -7,6 +7,7 @@ interface Props {
   selectedStore?: Store | null;
   routeFrom?: string;          // node id (typically a kiosk)
   onSelectStore?: (s: Store) => void;
+  onSelectKiosk?: (id: string) => void;
 }
 
 // Base viewBox of the synthetic site plan. Matches the coordinate
@@ -16,7 +17,7 @@ const VIEW = { x: -40, y: 60, w: 1020, h: 360 };
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 6;
 
-export function MapViewer({ selectedStore, routeFrom, onSelectStore }: Props) {
+export function MapViewer({ selectedStore, routeFrom, onSelectStore, onSelectKiosk }: Props) {
   const graph = useMemo(() => buildGraph(graphData as any), []);
 
   const [zoom, setZoom] = useState(1);
@@ -45,9 +46,9 @@ export function MapViewer({ selectedStore, routeFrom, onSelectStore }: Props) {
   };
 
   const onPointerDown = (e: PointerEvent) => {
-    // Only start a pan on background drag; let store clicks bubble.
+    // Only start a pan on background drag; let store / kiosk clicks bubble.
     const target = e.target as Element;
-    if (target.closest("[data-store-id]")) return;
+    if (target.closest("[data-store-id], [data-kiosk-id]")) return;
     dragRef.current = { x: e.clientX, y: e.clientY, pid: e.pointerId };
     svgRef.current?.setPointerCapture(e.pointerId);
   };
@@ -133,12 +134,23 @@ export function MapViewer({ selectedStore, routeFrom, onSelectStore }: Props) {
         })}
 
         {/* kiosk pins */}
-        {kiosks.map((n) => (
-          <g key={n.id} class="scc-wf__kiosk" data-kiosk-id={n.id}>
-            <circle cx={n.x} cy={n.y} r={9} />
-            <text x={n.x} y={n.y + 24} textAnchor="middle">KIOSK</text>
-          </g>
-        ))}
+        {kiosks.map((n) => {
+          const isActive = routeFrom === n.id;
+          const label = n.label ?? n.id.replace(/^kiosk-/, "Kiosk ").toUpperCase();
+          return (
+            <g
+              key={n.id}
+              class={"scc-wf__kiosk" + (isActive ? " is-active" : "")}
+              data-kiosk-id={n.id}
+              onClick={() => onSelectKiosk?.(n.id)}
+              role={onSelectKiosk ? "button" : undefined}
+              tabindex={onSelectKiosk ? 0 : undefined}
+            >
+              <circle cx={n.x} cy={n.y} r={9} />
+              <text x={n.x} y={n.y + 24} textAnchor="middle">{label}</text>
+            </g>
+          );
+        })}
 
         {/* "you are here" pulse on the routing origin */}
         {origin && (

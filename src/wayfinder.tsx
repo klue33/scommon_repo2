@@ -1,6 +1,8 @@
 import { useMemo, useState } from "preact/hooks";
 import { CATEGORIES, STORES, searchStores, type Store } from "./lib/stores";
 import { MapViewer } from "./components/MapViewer";
+import graphData from "@/data/graph.json";
+import { type GraphNode } from "./lib/pathfind";
 
 interface Props {
   initialCategory?: string;
@@ -8,25 +10,38 @@ interface Props {
   fromKiosk?: string;
 }
 
-// Until a "Choose your starting kiosk" picker exists, fall back to
-// the first kiosk so the routing layer renders something the moment
-// a store is selected.
-const FALLBACK_KIOSK = "kiosk-a";
+const KIOSKS: GraphNode[] = (graphData.nodes as GraphNode[]).filter(
+  (n) => n.type === "kiosk",
+);
+
+function kioskLabel(k: GraphNode): string {
+  return k.label ?? k.id.replace(/^kiosk-/, "Kiosk ").toUpperCase();
+}
+
+function defaultKioskId(preferred?: string): string {
+  if (preferred && KIOSKS.some((k) => k.id === preferred)) return preferred;
+  return KIOSKS[0]?.id ?? "";
+}
 
 export function Wayfinder({ initialCategory, initialStore, fromKiosk }: Props) {
   const seeded = initialStore ? STORES.find((s) => s.id === initialStore) ?? null : null;
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string | null>(seeded?.category ?? initialCategory ?? null);
   const [selected, setSelected] = useState<Store | null>(seeded);
-  const [showRoute, setShowRoute] = useState<boolean>(Boolean(fromKiosk));
-
-  const routeFrom = showRoute ? (fromKiosk ?? FALLBACK_KIOSK) : undefined;
+  // routeOrigin === null means "no route shown". A kiosk id means
+  // "route from this kiosk to the selected store".
+  const [routeOrigin, setRouteOrigin] = useState<string | null>(
+    fromKiosk ? defaultKioskId(fromKiosk) : null,
+  );
 
   const visible = useMemo(() => {
     let xs = searchStores(query, STORES);
     if (category) xs = xs.filter((s) => s.category === category);
     return xs;
   }, [query, category]);
+
+  const startRoute = () => setRouteOrigin(defaultKioskId(fromKiosk));
+  const clearRoute = () => setRouteOrigin(null);
 
   return (
     <div class="scc-wf">
@@ -77,8 +92,9 @@ export function Wayfinder({ initialCategory, initialStore, fromKiosk }: Props) {
       <section class="scc-wf__map">
         <MapViewer
           selectedStore={selected}
-          routeFrom={routeFrom}
+          routeFrom={routeOrigin ?? undefined}
           onSelectStore={(s) => setSelected(s)}
+          onSelectKiosk={(id) => setRouteOrigin(id)}
         />
 
         {selected && (
@@ -88,19 +104,36 @@ export function Wayfinder({ initialCategory, initialStore, fromKiosk }: Props) {
               Unit {selected.unit} ·{" "}
               {CATEGORIES.find((c) => c.id === selected.category)?.label ?? selected.category}
             </div>
-            <div class="scc-wf__actions">
-              <button class="scc-wf__cta" onClick={() => setShowRoute(true)}>
-                {showRoute ? "Routing…" : "Get directions"}
-              </button>
-              {showRoute && (
-                <button
-                  class="scc-wf__cta scc-wf__cta--ghost"
-                  onClick={() => setShowRoute(false)}
+
+            {routeOrigin && KIOSKS.length > 0 && (
+              <div class="scc-wf__from">
+                <label class="scc-wf__from-label" for="scc-wf-from">From</label>
+                <select
+                  id="scc-wf-from"
+                  class="scc-wf__from-select"
+                  value={routeOrigin}
+                  onChange={(e) => setRouteOrigin((e.target as HTMLSelectElement).value)}
                 >
+                  {KIOSKS.map((k) => (
+                    <option key={k.id} value={k.id}>{kioskLabel(k)}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            <div class="scc-wf__actions">
+              {routeOrigin === null ? (
+                <button class="scc-wf__cta" onClick={startRoute}>Get directions</button>
+              ) : (
+                <button class="scc-wf__cta scc-wf__cta--ghost" onClick={clearRoute}>
                   Clear route
                 </button>
               )}
             </div>
+
+            {routeOrigin === null && KIOSKS.length > 1 && (
+              <p class="scc-wf__hint">Tip: click a kiosk pin on the map to route from there.</p>
+            )}
           </div>
         )}
       </section>

@@ -3,7 +3,10 @@ export interface GraphNode {
   x: number;
   y: number;
   type: "kiosk" | "store" | "junction" | "exit";
+  /** For type==="store", links back to stores.json by store id. */
   store?: string;
+  /** For type==="kiosk", a human label shown in the From picker. */
+  label?: string;
 }
 
 export interface GraphEdge {

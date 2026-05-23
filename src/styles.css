@@ -136,10 +136,12 @@
 }
 .scc-wf__store.is-selected text { fill: var(--wf-accent-on); }
 
+.scc-wf__kiosk { cursor: pointer; }
 .scc-wf__kiosk circle {
   fill: var(--wf-ink);
   stroke: var(--wf-bg);
   stroke-width: 2;
+  transition: fill 120ms ease, r 120ms ease;
 }
 .scc-wf__kiosk text {
   font: 700 8px/1 'Clarkson','Helvetica Neue',Helvetica,Arial,sans-serif;
@@ -147,6 +149,11 @@
   fill: var(--wf-ink);
   pointer-events: none;
   user-select: none;
+}
+.scc-wf__kiosk:hover circle { fill: var(--wf-accent); }
+.scc-wf__kiosk.is-active circle {
+  fill: var(--wf-accent);
+  stroke: var(--wf-accent-on);
 }
 
 .scc-wf__origin-halo {
@@ -201,6 +208,27 @@
 }
 .scc-wf__detail h2 { margin: 0 0 4px; font-size: 18px; }
 .scc-wf__meta { font-size: 13px; color: var(--wf-dark); opacity: 0.7; margin-bottom: 12px; }
+.scc-wf__from {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 10px;
+}
+.scc-wf__from-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--wf-dark); opacity: 0.7;
+}
+.scc-wf__from-select {
+  flex: 1;
+  font: inherit; font-size: 13px;
+  padding: 6px 8px;
+  background: transparent;
+  color: var(--wf-ink);
+  border: 1px solid var(--wf-rule);
+}
+.scc-wf__hint {
+  margin: 8px 0 0; font-size: 11px; color: var(--wf-dark); opacity: 0.6;
+  line-height: 1.4;
+}
 .scc-wf__actions { display: flex; gap: 6px; flex-wrap: wrap; }
 .scc-wf__cta {
   font: inherit; font-size: 13px; font-weight: 600;
