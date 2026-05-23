@@ -5,3 +5,6 @@ dist/
 *.log
 coverage/
 .vitest/
+
+# stray local copies of the live SCC HTML (not project code)
+index1.html
