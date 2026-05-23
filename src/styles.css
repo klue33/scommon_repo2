@@ -136,13 +136,16 @@
     scc-wf-rise   1.4s ease-out 1 both,
     scc-wf-beacon 2.4s ease-in-out infinite 1.4s;
 }
-/* Helper variables to keep the long filter chains readable. */
+/* Helper variables to keep the long filter chains readable.
+   Building walls are dark (so the orange "roof" reads as a distinct
+   surface against them); only the ambient halo is in the accent
+   colour so the beacon still announces itself. */
 .scc-wf__unit.is-selected {
-  --beacon-a: hsla(var(--accent-hsl, 16.91,100%,56.86%), 1);
-  --beacon-b: hsla(var(--accent-hsl, 16.91,100%,56.86%), 0.9);
-  --beacon-c: hsla(var(--accent-hsl, 16.91,100%,56.86%), 0.75);
-  --beacon-d: hsla(var(--accent-hsl, 16.91,100%,56.86%), 0.55);
-  --beacon-soft: hsla(var(--accent-hsl, 16.91,100%,56.86%), 0.7);
+  --beacon-a: hsla(var(--black-hsl, 0,0%,5.1%), 0.92);
+  --beacon-b: hsla(var(--black-hsl, 0,0%,5.1%), 0.78);
+  --beacon-c: hsla(var(--black-hsl, 0,0%,5.1%), 0.6);
+  --beacon-d: hsla(var(--black-hsl, 0,0%,5.1%), 0.35);
+  --beacon-soft: hsla(var(--accent-hsl, 16.91,100%,56.86%), 0.55);
 }
 /* The "rise" — two pulses that lift the polygon higher each time,
    stacking drop-shadows to fake the building walls. */
@@ -162,7 +165,7 @@
       drop-shadow(0 9px 0 var(--beacon-c))
       drop-shadow(0 11px 0 var(--beacon-c))
       drop-shadow(0 13px 4px var(--beacon-d))
-      drop-shadow(0 0 22px var(--beacon-a));
+      drop-shadow(0 0 22px var(--beacon-soft));
   }
   /* First retract: settle partway down, partial extrusion. */
   36% {
@@ -172,7 +175,7 @@
       drop-shadow(0 3px 0 var(--beacon-b))
       drop-shadow(0 5px 0 var(--beacon-c))
       drop-shadow(0 7px 4px var(--beacon-d))
-      drop-shadow(0 0 12px var(--beacon-b));
+      drop-shadow(0 0 12px var(--beacon-soft));
   }
   /* Second pulse: maximum lift, full extrusion. */
   54% {
@@ -189,7 +192,7 @@
       drop-shadow(0 17px 0 var(--beacon-c))
       drop-shadow(0 19px 0 var(--beacon-c))
       drop-shadow(0 22px 6px var(--beacon-d))
-      drop-shadow(0 0 30px var(--beacon-a));
+      drop-shadow(0 0 30px var(--beacon-soft));
   }
   /* Second retract: hovers a little lower than the peak. */
   72% {
@@ -202,7 +205,7 @@
       drop-shadow(0 9px 0 var(--beacon-c))
       drop-shadow(0 11px 0 var(--beacon-c))
       drop-shadow(0 14px 4px var(--beacon-d))
-      drop-shadow(0 0 20px var(--beacon-b));
+      drop-shadow(0 0 20px var(--beacon-soft));
   }
   /* Final risen state — same as 72% but slightly stronger glow,
      hands off to the perpetual beacon. */
@@ -248,7 +251,7 @@
       drop-shadow(0 13px 0 var(--beacon-c))
       drop-shadow(0 15px 0 var(--beacon-c))
       drop-shadow(0 18px 6px var(--beacon-d))
-      drop-shadow(0 0 36px var(--beacon-a));
+      drop-shadow(0 0 36px var(--beacon-soft));
   }
 }
 @media (prefers-reduced-motion: reduce) {
