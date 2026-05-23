@@ -111,12 +111,38 @@
   fill: var(--wf-bg);
   stroke: var(--wf-ink);
   stroke-width: 1.2;
-  transition: fill 120ms ease, stroke 120ms ease;
+  /* Scale around each unit's own centre when animating. */
+  transform-origin: center;
+  transform-box: fill-box;
+  transition: fill 160ms ease, stroke 160ms ease, filter 160ms ease;
 }
-.scc-wf__unit:hover { fill: var(--wf-hover); }
+.scc-wf__unit:hover:not(.is-selected) {
+  fill: var(--wf-hover);
+  filter: drop-shadow(0 0 10px hsla(var(--accent-hsl, 16.91,100%,56.86%), 0.55));
+}
+/* Steady state for the selected unit: solid accent fill + a soft
+   ambient glow. */
 .scc-wf__unit.is-selected {
   fill: var(--wf-accent);
   stroke: var(--wf-accent);
+  filter: drop-shadow(0 0 8px hsla(var(--accent-hsl, 16.91,100%,56.86%), 0.7));
+  /* Two expand/retract pulses then settle. The path is keyed by
+     pulse counter in MapViewer.tsx so each new selection restarts
+     this animation from frame 0. */
+  animation: scc-wf-attention 1.4s ease-out 1 both;
+}
+@keyframes scc-wf-attention {
+  0%   { transform: scale(1);    filter: drop-shadow(0 0 0  transparent); }
+  18%  { transform: scale(1.10); filter: drop-shadow(0 0 22px hsla(var(--accent-hsl, 16.91,100%,56.86%), 1))
+                                          drop-shadow(0 0 8px  hsla(var(--accent-hsl, 16.91,100%,56.86%), 0.8)); }
+  36%  { transform: scale(1);    filter: drop-shadow(0 0 4px  hsla(var(--accent-hsl, 16.91,100%,56.86%), 0.5)); }
+  54%  { transform: scale(1.10); filter: drop-shadow(0 0 22px hsla(var(--accent-hsl, 16.91,100%,56.86%), 1))
+                                          drop-shadow(0 0 8px  hsla(var(--accent-hsl, 16.91,100%,56.86%), 0.8)); }
+  72%  { transform: scale(1);    filter: drop-shadow(0 0 4px  hsla(var(--accent-hsl, 16.91,100%,56.86%), 0.5)); }
+  100% { transform: scale(1);    filter: drop-shadow(0 0 8px  hsla(var(--accent-hsl, 16.91,100%,56.86%), 0.7)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scc-wf__unit.is-selected { animation: none; }
 }
 .scc-wf__unit.is-vacant {
   fill: hsla(var(--black-hsl, 0,0%,5.1%), 0.04);

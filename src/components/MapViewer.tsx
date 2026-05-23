@@ -74,6 +74,16 @@ export function MapViewer({
     return r?.points ?? null;
   }, [graph, routeFrom, selectedStore]);
 
+  // --- selection pulse -------------------------------------------
+  // Bumps every time selectedStore changes; used as part of the
+  // selected polygon's React key so the CSS "attention" animation
+  // restarts on every (re)selection — including selecting the same
+  // store twice in a row.
+  const [pulseKey, setPulseKey] = useState(0);
+  useEffect(() => {
+    if (selectedStore?.id) setPulseKey((k) => k + 1);
+  }, [selectedStore?.id]);
+
   // --- editor state ----------------------------------------------
   const [editGraph, setEditGraph] = useState<{ nodes: EditNode[]; edges: EditEdge[] }>(
     () => loadInitialEditGraph(),
@@ -382,7 +392,8 @@ export function MapViewer({
             const d = polygonToPath(f.geometry.coordinates);
             return (
               <path
-                key={p.store_id} class={classes} d={d}
+                key={isSelected ? `${p.store_id}-pulse-${pulseKey}` : p.store_id}
+                class={classes} d={d}
                 data-store-id={p.store_id}
                 onClick={() => !editMode && store && onSelectStore?.(store)}
               >
