@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
 import graphData from "@/data/graph.json";
-import { buildGraph, route, type GraphNode } from "../lib/pathfind";
+import { type GraphNode } from "../lib/pathfind";
 import { storeById, STORES, type Store, VIEW_BOX } from "../lib/stores";
 
 interface Props {
   selectedStore?: Store | null;
-  routeFrom?: string;
   onSelectStore?: (s: Store) => void;
-  onSelectKiosk?: (id: string) => void;
   /** When true, MapViewer renders the path-editor overlay + toolbar. */
   editMode?: boolean;
 }
@@ -37,9 +35,8 @@ const PEN_RAW_STEP = 4;                 // min screen-px between raw points samp
 const SNAP_RADIUS = 22;                 // px in viewBox space for snapping stroke endpoints to existing nodes
 
 export function MapViewer({
-  selectedStore, routeFrom, onSelectStore, onSelectKiosk, editMode = false,
+  selectedStore, onSelectStore, editMode = false,
 }: Props) {
-  const graph = useMemo(() => buildGraph(graphData as any), []);
   const [collection, setCollection] = useState<SiteFeatureCollection | null>(null);
 
   useEffect(() => {
@@ -64,15 +61,6 @@ export function MapViewer({
   const vx = vx0 + pan.x;
   const vy = vy0 + pan.y;
   const viewBox = `${vx} ${vy} ${vw} ${vh}`;
-
-  // --- routing ----------------------------------------------------
-  const routePoints = useMemo(() => {
-    if (!selectedStore || !routeFrom) return null;
-    const goalNode = findNodeForStore(graph, selectedStore.id);
-    if (!goalNode || !graph.nodes.has(routeFrom)) return null;
-    const r = route(graph, routeFrom, goalNode.id);
-    return r?.points ?? null;
-  }, [graph, routeFrom, selectedStore]);
 
   // --- selection pulse -------------------------------------------
   // Bumps every time selectedStore changes; used as part of the
@@ -342,9 +330,10 @@ export function MapViewer({
 
   // --- render -----------------------------------------------------
   const reset = () => { setZoom(1); setPan({ x: 0, y: 0 }); };
-  const nodes = [...graph.nodes.values()];
-  const kiosks = nodes.filter((n) => n.type === "kiosk");
-  const origin = routeFrom ? graph.nodes.get(routeFrom) : null;
+  // Kiosks (main entrances) still render as informational markers on
+  // the map, but are no longer click-to-route — routing has been
+  // removed from the UI.
+  const kiosks = (graphData.nodes as Array<GraphNode>).filter((n) => n.type === "kiosk");
   const cx = vx0 + VW / 2;
   const cy = vy0 + VH / 2;
   const rotateTransform = `rotate(${ROTATION_DEG} ${cx} ${cy})`;
@@ -455,34 +444,14 @@ export function MapViewer({
           })}
 
           {!editMode && kiosks.map((n) => {
-            const isActive = routeFrom === n.id;
             const label = n.label ?? n.id.replace(/^kiosk-/, "Kiosk ").toUpperCase();
             return (
-              <g
-                key={n.id}
-                class={"scc-wf__kiosk" + (isActive ? " is-active" : "")}
-                data-kiosk-id={n.id}
-                onClick={() => onSelectKiosk?.(n.id)}
-                role={onSelectKiosk ? "button" : undefined}
-                tabindex={onSelectKiosk ? 0 : undefined}
-              >
+              <g key={n.id} class="scc-wf__kiosk" data-kiosk-id={n.id}>
                 <circle cx={n.x} cy={n.y} r={14} />
                 <text x={n.x} y={n.y + 32} textAnchor="middle">{label}</text>
               </g>
             );
           })}
-
-          {!editMode && origin && (
-            <g class="scc-wf__origin">
-              <circle class="scc-wf__origin-halo" cx={origin.x} cy={origin.y} r={26} />
-              <circle class="scc-wf__origin-dot" cx={origin.x} cy={origin.y} r={9} />
-            </g>
-          )}
-
-          {!editMode && routePoints && (
-            <polyline class="scc-wf__route"
-                      points={routePoints.map(([x, y]) => `${x},${y}`).join(" ")} />
-          )}
         </g>
       </svg>
 
@@ -542,11 +511,6 @@ function polygonToPath(rings: number[][][]): string {
     const cmds = ring.map(([x, y], i) => `${i === 0 ? "M" : "L"}${x},${y}`);
     return cmds.join(" ") + " Z";
   }).join(" ");
-}
-
-function findNodeForStore(g: ReturnType<typeof buildGraph>, storeId: string): GraphNode | undefined {
-  for (const n of g.nodes.values()) if (n.store === storeId) return n;
-  return undefined;
 }
 
 function clamp(n: number, lo: number, hi: number) { return Math.max(lo, Math.min(hi, n)); }

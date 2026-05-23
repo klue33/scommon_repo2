@@ -18,7 +18,6 @@ interface EmbedConfig {
   target?: string;
   initialCategory?: string;
   initialStore?: string;
-  fromKiosk?: string;
 }
 
 declare global {
@@ -36,14 +35,15 @@ function mount() {
   }
   const url = new URL(window.location.href);
   const initialStore = cfg.initialStore ?? url.searchParams.get("to") ?? undefined;
-  const fromKiosk = cfg.fromKiosk ?? url.searchParams.get("from") ?? undefined;
   const initialCategory = cfg.initialCategory ?? url.searchParams.get("category") ?? undefined;
+  // Dev-only foot-path editor: enable with ?edit=1 in the URL.
+  const editMode = url.searchParams.get("edit") === "1";
 
   render(
     <Wayfinder
       initialCategory={initialCategory}
       initialStore={initialStore}
-      fromKiosk={fromKiosk}
+      editMode={editMode}
     />,
     el,
   );
