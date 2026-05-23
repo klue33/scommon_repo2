@@ -1,0 +1,156 @@
+/*
+ * scc-wayfinder embed styles.
+ *
+ * All colors flow through Squarespace's site-style HSL tokens so the
+ * widget tracks any palette change made in the SCC site editor. Hex
+ * fallbacks are the values pulled from the live site on 2026-05-23
+ * (cream/off-white background, near-black ink, vibrant orange accent,
+ * peach light accent, charcoal dark accent).
+ */
+.scc-wf {
+  --wf-bg:        hsla(var(--white-hsl, 60, 9.09%, 97.84%), 1);
+  --wf-ink:       hsla(var(--black-hsl, 0, 0%, 5.1%), 1);
+  --wf-accent:    hsla(var(--accent-hsl, 16.91, 100%, 56.86%), 1);
+  --wf-accent-on: hsla(var(--safeInverseAccent-hsl, 60, 9.09%, 97.84%), 1);
+  --wf-soft:      hsla(var(--lightAccent-hsl, 31.65, 90.1%, 80.2%), 1);
+  --wf-dark:      hsla(var(--darkAccent-hsl, 180, 1.96%, 10%), 1);
+  --wf-rule:      hsla(var(--black-hsl, 0, 0%, 5.1%), 0.12);
+  --wf-hover:     hsla(var(--lightAccent-hsl, 31.65, 90.1%, 80.2%), 0.35);
+
+  font-family: 'Clarkson', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: var(--wf-ink);
+  background: var(--wf-bg);
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  height: 100%;
+  min-height: 560px;
+  box-sizing: border-box;
+}
+.scc-wf *, .scc-wf *::before, .scc-wf *::after { box-sizing: inherit; }
+
+.scc-wf__sidebar {
+  border-right: 1px solid var(--wf-rule);
+  padding: 20px 18px;
+  overflow: auto;
+  background: var(--wf-bg);
+}
+.scc-wf__title {
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+  font-weight: 700;
+}
+.scc-wf__search {
+  width: 100%;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 14px;
+  border: 1px solid var(--wf-rule);
+  border-radius: 0;
+  background: transparent;
+  color: var(--wf-ink);
+  margin-bottom: 14px;
+}
+.scc-wf__search:focus { outline: 2px solid var(--wf-accent); outline-offset: 1px; }
+
+.scc-wf__chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.scc-wf__chip {
+  font: inherit;
+  font-size: 12px;
+  padding: 6px 10px;
+  border: 1px solid var(--wf-rule);
+  background: transparent;
+  color: var(--wf-ink);
+  cursor: pointer;
+  border-radius: 999px;
+}
+.scc-wf__chip.is-active {
+  background: var(--wf-accent);
+  color: var(--wf-accent-on);
+  border-color: var(--wf-accent);
+}
+
+.scc-wf__list { list-style: none; margin: 0; padding: 0; }
+.scc-wf__item {
+  display: flex; justify-content: space-between; gap: 8px; align-items: baseline;
+  width: 100%; text-align: left;
+  font: inherit; font-size: 14px;
+  padding: 10px 8px;
+  border: 0; background: transparent; color: var(--wf-ink);
+  cursor: pointer;
+  border-bottom: 1px solid var(--wf-rule);
+}
+.scc-wf__item:hover { background: var(--wf-hover); }
+.scc-wf__item.is-active { background: var(--wf-soft); }
+.scc-wf__unit { font-size: 12px; color: var(--wf-dark); opacity: 0.7; }
+.scc-wf__empty { padding: 12px 8px; color: var(--wf-dark); opacity: 0.6; font-size: 13px; }
+
+.scc-wf__map {
+  position: relative;
+  overflow: hidden;
+  background: var(--wf-bg);
+}
+.scc-wf__floors {
+  position: absolute; top: 12px; left: 12px;
+  display: flex; gap: 4px; z-index: 10;
+}
+.scc-wf__floor {
+  font: inherit; font-size: 13px; font-weight: 600;
+  padding: 8px 14px;
+  background: var(--wf-bg);
+  color: var(--wf-ink);
+  border: 1px solid var(--wf-rule);
+  cursor: pointer;
+}
+.scc-wf__floor.is-active {
+  background: var(--wf-ink);
+  color: var(--wf-bg);
+  border-color: var(--wf-ink);
+}
+
+.scc-wf__canvas {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.scc-wf__placeholder {
+  color: var(--wf-dark); opacity: 0.5;
+  font-size: 14px; letter-spacing: 0.04em;
+}
+
+.scc-wf__detail {
+  position: absolute; right: 16px; top: 16px;
+  width: 280px;
+  background: var(--wf-bg);
+  border: 1px solid var(--wf-rule);
+  padding: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+.scc-wf__detail h2 { margin: 0 0 4px; font-size: 18px; }
+.scc-wf__meta { font-size: 13px; color: var(--wf-dark); opacity: 0.7; margin-bottom: 12px; }
+.scc-wf__cta {
+  font: inherit; font-size: 13px; font-weight: 600;
+  padding: 10px 16px;
+  background: var(--wf-accent);
+  color: var(--wf-accent-on);
+  border: 0;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.scc-wf__cta:hover { filter: brightness(1.05); }
+
+/* Mobile: sidebar collapses to bottom sheet. */
+@media (max-width: 720px) {
+  .scc-wf {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 40vh;
+  }
+  .scc-wf__sidebar {
+    border-right: 0;
+    border-top: 1px solid var(--wf-rule);
+    order: 2;
+  }
+  .scc-wf__map { order: 1; }
+  .scc-wf__detail { right: 8px; left: 8px; width: auto; }
+}

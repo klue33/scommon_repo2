@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { buildGraph, route } from "@/lib/pathfind";
+import { buildGraph, route } from "@/src/lib/pathfind";
 import l1 from "@/data/graph.l1.json";
 import l2 from "@/data/graph.l2.json";
 

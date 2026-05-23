@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { searchStores } from "@/lib/stores";
+import { searchStores } from "@/src/lib/stores";
 
 const fixture = [
   { id: "winners",   name: "Winners",   unit: "L1-100", floor: 1, category: "apparel",  hours: "mall" },

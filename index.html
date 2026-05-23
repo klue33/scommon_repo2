@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SCC Wayfinder — dev</title>
+    <style>
+      /* Stand-in for the Squarespace site-style variables so dev mode
+         renders with the live brand palette. The embed inherits these
+         from the page when injected into Squarespace. */
+      :root {
+        --white-hsl: 60, 9.09%, 97.84%;
+        --black-hsl: 0, 0%, 5.1%;
+        --accent-hsl: 16.91, 100%, 56.86%;
+        --safeDarkAccent-hsl: 16.91, 100%, 56.86%;
+        --lightAccent-hsl: 31.65, 90.1%, 80.2%;
+        --darkAccent-hsl: 180, 1.96%, 10%;
+      }
+      html, body { margin: 0; height: 100%; background: hsla(var(--white-hsl), 1); }
+      #scc-wayfinder { height: 100vh; }
+    </style>
+  </head>
+  <body>
+    <div id="scc-wayfinder"></div>
+    <script type="module" src="/src/embed.ts"></script>
+  </body>
+</html>

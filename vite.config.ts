@@ -1,0 +1,30 @@
+import { defineConfig } from "vite";
+import preact from "@preact/preset-vite";
+import { resolve } from "node:path";
+
+export default defineConfig(({ mode }) => ({
+  plugins: [preact()],
+  resolve: {
+    alias: { "@": resolve(__dirname, ".") },
+  },
+  build: {
+    target: "es2020",
+    cssCodeSplit: false,
+    rollupOptions: {
+      input: resolve(__dirname, "src/embed.ts"),
+      output: {
+        // Single, predictably-named files so the Squarespace embed
+        // snippet can reference them without a manifest lookup.
+        entryFileNames: "wayfinder.js",
+        chunkFileNames: "wayfinder-[name].js",
+        assetFileNames: (info) =>
+          info.name?.endsWith(".css") ? "wayfinder.css" : "[name][extname]",
+      },
+    },
+  },
+  server: { host: "127.0.0.1", port: 3100 },
+  test: {
+    environment: "jsdom",
+    globals: false,
+  },
+}));

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isOpenAt } from "@/lib/hours";
+import { isOpenAt } from "@/src/lib/hours";
 
 const mallStore = { id: "x", name: "X", unit: "U", floor: 1, category: "c", hours: "mall" } as any;
 const customStore = { id: "y", name: "Y", unit: "U", floor: 1, category: "c", hours: { mon_fri: "09:30-17:00", sat: "09:30-16:00", sun: "closed" } } as any;
