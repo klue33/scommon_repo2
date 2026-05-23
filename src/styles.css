@@ -98,22 +98,13 @@
   display: block;
   touch-action: none;
   cursor: grab;
-  background:
-    linear-gradient(hsla(var(--black-hsl, 0,0%,5.1%), 0.04) 1px, transparent 1px) 0 0 / 40px 40px,
-    linear-gradient(90deg, hsla(var(--black-hsl, 0,0%,5.1%), 0.04) 1px, transparent 1px) 0 0 / 40px 40px,
-    var(--wf-bg);
+  background: var(--wf-bg);
 }
+.scc-wf__lot, .scc-wf__lot-stalls { pointer-events: none; }
 .scc-wf__svg:active { cursor: grabbing; }
 
-.scc-wf__edge {
-  stroke: var(--wf-dark);
-  stroke-opacity: 0.08;
-  stroke-width: 4;
-  stroke-linecap: round;
-  fill: none;
-  pointer-events: none;
-}
-.scc-wf__junction { fill: var(--wf-dark); opacity: 0.35; }
+/* .scc-wf__edge / .scc-wf__junction styles removed — synthetic
+   backbone is no longer rendered. Real foot paths still TBD. */
 
 .scc-wf__unit {
   cursor: pointer;

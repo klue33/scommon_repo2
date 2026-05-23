@@ -118,6 +118,29 @@ export function MapViewer({ selectedStore, routeFrom, onSelectStore, onSelectKio
         role="application"
         aria-label="Site map"
       >
+        <defs>
+          {/* parking stall stripes — 24px-wide stalls; 90deg = stripes
+              run vertical (north-south parking rows). */}
+          <pattern id="scc-parking" patternUnits="userSpaceOnUse"
+                   width="26" height="68" patternTransform="rotate(0)">
+            <rect width="26" height="68" fill="hsla(var(--darkAccent-hsl, 180,1.96%,10%), 0.10)" />
+            {/* white stall lines down each stall divider */}
+            <line x1="13" y1="6" x2="13" y2="62"
+                  stroke="hsla(var(--white-hsl, 60,9.09%,97.84%), 0.55)" stroke-width="1.2" />
+          </pattern>
+          {/* drive lanes — a coarser hatch laid over a wider band */}
+          <pattern id="scc-drive" patternUnits="userSpaceOnUse"
+                   width="40" height="40" patternTransform="rotate(0)">
+            <rect width="40" height="40" fill="hsla(var(--darkAccent-hsl, 180,1.96%,10%), 0.06)" />
+          </pattern>
+        </defs>
+
+        {/* asphalt + parking-lot backdrop fills the whole viewBox.
+            Buildings draw on top with their solid fills, so the
+            parking shows through only outside the unit footprints. */}
+        <rect class="scc-wf__lot" x={vx0} y={vy0} width={VW} height={VH} fill="url(#scc-drive)" />
+        <rect class="scc-wf__lot-stalls" x={vx0} y={vy0} width={VW} height={VH} fill="url(#scc-parking)" />
+
         {/* unit polygons (the real buildings) */}
         {collection?.features.map((f) => {
           const p = f.properties;
@@ -143,19 +166,9 @@ export function MapViewer({ selectedStore, routeFrom, onSelectStore, onSelectKio
           );
         })}
 
-        {/* sidewalk graph edges — drawn faintly behind labels */}
-        {graphData.edges.map((e, i) => {
-          const a = graph.nodes.get(e.a);
-          const b = graph.nodes.get(e.b);
-          if (!a || !b) return null;
-          return (
-            <line
-              key={`edge-${i}`}
-              class="scc-wf__edge"
-              x1={a.x} y1={a.y} x2={b.x} y2={b.y}
-            />
-          );
-        })}
+        {/* Synthetic backbone edges are no longer rendered here.
+            The graph still drives routing, but real foot paths still
+            need to be authored — see public/maps/README.md. */}
 
         {/* selected-store label (rendered above its polygon) */}
         {collection?.features.map((f) => {
