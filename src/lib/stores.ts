@@ -8,7 +8,6 @@ export interface Store {
   id: string;
   name: string;
   unit: string;
-  floor: 1 | 2 | 3;
   category: string;
   anchor?: boolean;
   hours: Hours;
