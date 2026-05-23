@@ -45,13 +45,17 @@ chips, with one shared SVG site plan and one shared node graph.
 - [x] Click a store on the map → highlight + detail panel
 
 ### New features (the "more" part)
-- [ ] **Pan + pinch-zoom** on the map (touch + mouse)
+- [x] **Pan + pinch-zoom** on the map (drag + wheel + pointer events;
+      touch via `touch-action: none` and pointer capture)
 - [x] **Category filters** (Anchors, Apparel, Restaurants, Food &
       Quick Bites, Services, General Merchandise) — replaces the
       legacy Level 1/2/3 buckets
-- [ ] **"You are here"** — pick a kiosk or scan a kiosk QR
-- [ ] **Turn-by-turn routing** — A\* on the graph; renders the
-      route polyline; step-by-step text directions for kiosk mode
+- [x] **"You are here"** — pulses on the routing origin when
+      `?from=<kiosk>` is in the URL, or when the user clicks
+      "Get directions" (falls back to first kiosk until a starting
+      picker exists)
+- [x] **Routed polyline** — A\* path renders as a dashed marching
+      polyline. Step-by-step text directions still TODO.
 - [x] **Open-now indicator** per store using mall hours + per-store
       overrides
 - [x] **Deep links** — `/wayfinder?to=<slug>&from=<kiosk>&category=<slug>`
@@ -76,9 +80,12 @@ chips, with one shared SVG site plan and one shared node graph.
 index.html             dev shell with palette stand-in for vite serve
 vite.config.ts         single-file bundle config
 src/
-  embed.ts             entry point; mounts into #scc-wayfinder
-  wayfinder.tsx        Preact root component
+  embed.tsx            entry point; mounts into #scc-wayfinder
+  wayfinder.tsx        Preact root: directory + map + detail panel
   styles.css           scoped to .scc-wf, inherits Squarespace vars
+  components/
+    MapViewer.tsx      SVG canvas: pan/zoom, stores, kiosks, route,
+                       "you are here" pulse
   lib/
     pathfind.ts        A* on a single-plane graph
     stores.ts          search ranking
@@ -107,15 +114,19 @@ right colors before it's embedded into Squarespace.
 
 Scaffold + embed plumbing complete; floor model removed in favour of
 categories. All 13 tests green, bundle builds clean
-(`dist/wayfinder.js` 16.6 KB / 6.8 KB gz; `dist/wayfinder.css`
-3.2 KB / 1.1 KB gz). Next moves:
+(`dist/wayfinder.js` 21.3 KB / 8.6 KB gz; `dist/wayfinder.css`
+5.3 KB / 1.6 KB gz). MapViewer renders the synthetic site map from
+`data/graph.json` so the dev server shows a working wayfinder right
+now — pan, zoom, store highlight, "you are here" pulse, dashed
+animated route polyline all live. Next moves:
 
 1. ~~`npm install && npm test`~~ — done, green.
 2. Trace the real SCC site plan into `public/maps/site.svg` with
    `data-store-id="<slug>"` on each store shape.
 3. Author the real node graph against the traced SVG coordinates.
-4. Build `MapViewer` (SVG injection, pan/zoom, store highlight,
-   route polyline).
-5. Wire the routing UI (From / To pickers).
+4. ~~Build `MapViewer`~~ — done (renders from graph for now). Swap
+   to fetching `public/maps/site.svg` once the real plan is traced.
+5. Wire a proper "From" picker (kiosk dropdown / map-click); the
+   accessible "Choose your starting point" flow.
 6. Host the built bundle; update the live `/wayfinder` Code Block
    per `EMBED.md`.

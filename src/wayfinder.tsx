@@ -1,5 +1,6 @@
 import { useMemo, useState } from "preact/hooks";
 import { CATEGORIES, STORES, searchStores, type Store } from "./lib/stores";
+import { MapViewer } from "./components/MapViewer";
 
 interface Props {
   initialCategory?: string;
@@ -7,11 +8,19 @@ interface Props {
   fromKiosk?: string;
 }
 
+// Until a "Choose your starting kiosk" picker exists, fall back to
+// the first kiosk so the routing layer renders something the moment
+// a store is selected.
+const FALLBACK_KIOSK = "kiosk-a";
+
 export function Wayfinder({ initialCategory, initialStore, fromKiosk }: Props) {
   const seeded = initialStore ? STORES.find((s) => s.id === initialStore) ?? null : null;
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string | null>(seeded?.category ?? initialCategory ?? null);
   const [selected, setSelected] = useState<Store | null>(seeded);
+  const [showRoute, setShowRoute] = useState<boolean>(Boolean(fromKiosk));
+
+  const routeFrom = showRoute ? (fromKiosk ?? FALLBACK_KIOSK) : undefined;
 
   const visible = useMemo(() => {
     let xs = searchStores(query, STORES);
@@ -66,12 +75,11 @@ export function Wayfinder({ initialCategory, initialStore, fromKiosk }: Props) {
       </aside>
 
       <section class="scc-wf__map">
-        <div class="scc-wf__canvas" aria-label="Site map">
-          {/* TODO: <MapViewer highlight={selected?.id} fromKiosk={fromKiosk} /> */}
-          <div class="scc-wf__placeholder">
-            Site plan — SVG goes here
-          </div>
-        </div>
+        <MapViewer
+          selectedStore={selected}
+          routeFrom={routeFrom}
+          onSelectStore={(s) => setSelected(s)}
+        />
 
         {selected && (
           <div class="scc-wf__detail" role="complementary">
@@ -80,9 +88,19 @@ export function Wayfinder({ initialCategory, initialStore, fromKiosk }: Props) {
               Unit {selected.unit} ·{" "}
               {CATEGORIES.find((c) => c.id === selected.category)?.label ?? selected.category}
             </div>
-            <button class="scc-wf__cta">
-              Directions{fromKiosk ? " from kiosk" : ""}
-            </button>
+            <div class="scc-wf__actions">
+              <button class="scc-wf__cta" onClick={() => setShowRoute(true)}>
+                {showRoute ? "Routing…" : "Get directions"}
+              </button>
+              {showRoute && (
+                <button
+                  class="scc-wf__cta scc-wf__cta--ghost"
+                  onClick={() => setShowRoute(false)}
+                >
+                  Clear route
+                </button>
+              )}
+            </div>
           </div>
         )}
       </section>

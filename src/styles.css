@@ -91,14 +91,105 @@
   overflow: hidden;
   background: var(--wf-bg);
 }
-.scc-wf__canvas {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
+/* --- map viewer ------------------------------------------------- */
+.scc-wf__viewer { position: absolute; inset: 0; }
+.scc-wf__svg {
+  width: 100%; height: 100%;
+  display: block;
+  touch-action: none;
+  cursor: grab;
+  background:
+    linear-gradient(hsla(var(--black-hsl, 0,0%,5.1%), 0.04) 1px, transparent 1px) 0 0 / 40px 40px,
+    linear-gradient(90deg, hsla(var(--black-hsl, 0,0%,5.1%), 0.04) 1px, transparent 1px) 0 0 / 40px 40px,
+    var(--wf-bg);
 }
-.scc-wf__placeholder {
-  color: var(--wf-dark); opacity: 0.5;
-  font-size: 14px; letter-spacing: 0.04em;
+.scc-wf__svg:active { cursor: grabbing; }
+
+.scc-wf__edge {
+  stroke: var(--wf-dark);
+  stroke-opacity: 0.2;
+  stroke-width: 6;
+  stroke-linecap: round;
+  fill: none;
 }
+.scc-wf__junction { fill: var(--wf-dark); opacity: 0.35; }
+
+.scc-wf__store {
+  cursor: pointer;
+}
+.scc-wf__store rect {
+  fill: var(--wf-bg);
+  stroke: var(--wf-ink);
+  stroke-width: 1.5;
+  transition: fill 120ms ease, stroke 120ms ease;
+}
+.scc-wf__store text {
+  font: 600 11px/1 'Clarkson','Helvetica Neue',Helvetica,Arial,sans-serif;
+  fill: var(--wf-ink);
+  pointer-events: none;
+  user-select: none;
+}
+.scc-wf__store:hover rect { fill: var(--wf-hover); }
+.scc-wf__store.is-selected rect {
+  fill: var(--wf-accent);
+  stroke: var(--wf-accent);
+}
+.scc-wf__store.is-selected text { fill: var(--wf-accent-on); }
+
+.scc-wf__kiosk circle {
+  fill: var(--wf-ink);
+  stroke: var(--wf-bg);
+  stroke-width: 2;
+}
+.scc-wf__kiosk text {
+  font: 700 8px/1 'Clarkson','Helvetica Neue',Helvetica,Arial,sans-serif;
+  letter-spacing: 0.1em;
+  fill: var(--wf-ink);
+  pointer-events: none;
+  user-select: none;
+}
+
+.scc-wf__origin-halo {
+  fill: var(--wf-accent);
+  opacity: 0.25;
+  animation: scc-wf-pulse 1.6s ease-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.scc-wf__origin-dot { fill: var(--wf-accent); }
+@keyframes scc-wf-pulse {
+  0%   { transform: scale(0.6); opacity: 0.5; }
+  100% { transform: scale(1.6); opacity: 0;   }
+}
+
+.scc-wf__route {
+  fill: none;
+  stroke: var(--wf-accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 10 8;
+  animation: scc-wf-route-march 1.5s linear infinite;
+  pointer-events: none;
+}
+@keyframes scc-wf-route-march {
+  to { stroke-dashoffset: -36; }
+}
+
+.scc-wf__zoom {
+  position: absolute; right: 16px; bottom: 16px;
+  display: flex; flex-direction: column; gap: 4px;
+  z-index: 5;
+}
+.scc-wf__zoom button {
+  width: 36px; height: 36px;
+  font: 600 18px/1 'Clarkson','Helvetica Neue',Helvetica,Arial,sans-serif;
+  background: var(--wf-bg);
+  color: var(--wf-ink);
+  border: 1px solid var(--wf-rule);
+  cursor: pointer;
+}
+.scc-wf__zoom button:hover { background: var(--wf-hover); }
 
 .scc-wf__detail {
   position: absolute; right: 16px; top: 16px;
@@ -110,6 +201,7 @@
 }
 .scc-wf__detail h2 { margin: 0 0 4px; font-size: 18px; }
 .scc-wf__meta { font-size: 13px; color: var(--wf-dark); opacity: 0.7; margin-bottom: 12px; }
+.scc-wf__actions { display: flex; gap: 6px; flex-wrap: wrap; }
 .scc-wf__cta {
   font: inherit; font-size: 13px; font-weight: 600;
   padding: 10px 16px;
@@ -121,6 +213,12 @@
   text-transform: uppercase;
 }
 .scc-wf__cta:hover { filter: brightness(1.05); }
+.scc-wf__cta--ghost {
+  background: transparent;
+  color: var(--wf-ink);
+  border: 1px solid var(--wf-rule);
+}
+.scc-wf__cta--ghost:hover { filter: none; background: var(--wf-hover); }
 
 /* Mobile: sidebar collapses to bottom sheet. */
 @media (max-width: 720px) {
