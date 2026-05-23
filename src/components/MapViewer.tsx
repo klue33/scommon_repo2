@@ -1,24 +1,48 @@
-import { useMemo, useRef, useState } from "preact/hooks";
+import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 import graphData from "@/data/graph.json";
 import { buildGraph, route, type GraphNode } from "../lib/pathfind";
-import { storeById, type Store } from "../lib/stores";
+import { storeById, type Store, VIEW_BOX } from "../lib/stores";
 
 interface Props {
   selectedStore?: Store | null;
-  routeFrom?: string;          // node id (typically a kiosk)
+  routeFrom?: string;
   onSelectStore?: (s: Store) => void;
   onSelectKiosk?: (id: string) => void;
 }
 
-// Base viewBox of the synthetic site plan. Matches the coordinate
-// space of data/graph.json — when the real public/maps/site.svg
-// arrives this will switch to its viewBox.
-const VIEW = { x: -40, y: 60, w: 1020, h: 360 };
+interface SiteFeature {
+  type: "Feature";
+  properties: {
+    store_id: string;
+    unit: string;
+    name: string;
+    category: string;
+    vacant: boolean;
+    centroid: [number, number];
+  };
+  geometry: { type: "Polygon"; coordinates: number[][][] };
+}
+
+interface SiteFeatureCollection {
+  type: "FeatureCollection";
+  features: SiteFeature[];
+}
+
 const MIN_ZOOM = 0.5;
-const MAX_ZOOM = 6;
+const MAX_ZOOM = 8;
 
 export function MapViewer({ selectedStore, routeFrom, onSelectStore, onSelectKiosk }: Props) {
   const graph = useMemo(() => buildGraph(graphData as any), []);
+  const [collection, setCollection] = useState<SiteFeatureCollection | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(new URL("/maps/site.geojson", document.baseURI).toString())
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`site.geojson ${r.status}`))))
+      .then((data: SiteFeatureCollection) => { if (!cancelled) setCollection(data); })
+      .catch((err) => console.error("[scc-wayfinder] failed to load site.geojson", err));
+    return () => { cancelled = true; };
+  }, []);
 
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -33,10 +57,11 @@ export function MapViewer({ selectedStore, routeFrom, onSelectStore, onSelectKio
     return r?.points ?? null;
   }, [graph, routeFrom, selectedStore]);
 
-  const vw = VIEW.w / zoom;
-  const vh = VIEW.h / zoom;
-  const vx = VIEW.x + pan.x;
-  const vy = VIEW.y + pan.y;
+  const [vx0, vy0, VW, VH] = VIEW_BOX;
+  const vw = VW / zoom;
+  const vh = VH / zoom;
+  const vx = vx0 + pan.x;
+  const vy = vy0 + pan.y;
   const viewBox = `${vx} ${vy} ${vw} ${vh}`;
 
   const onWheel = (e: WheelEvent) => {
@@ -46,7 +71,6 @@ export function MapViewer({ selectedStore, routeFrom, onSelectStore, onSelectKio
   };
 
   const onPointerDown = (e: PointerEvent) => {
-    // Only start a pan on background drag; let store / kiosk clicks bubble.
     const target = e.target as Element;
     if (target.closest("[data-store-id], [data-kiosk-id]")) return;
     dragRef.current = { x: e.clientX, y: e.clientY, pid: e.pointerId };
@@ -57,9 +81,8 @@ export function MapViewer({ selectedStore, routeFrom, onSelectStore, onSelectKio
     if (!dragRef.current) return;
     const svg = svgRef.current!;
     const rect = svg.getBoundingClientRect();
-    // Scale screen-pixel delta into viewBox units.
-    const scaleX = (VIEW.w / zoom) / rect.width;
-    const scaleY = (VIEW.h / zoom) / rect.height;
+    const scaleX = (VW / zoom) / rect.width;
+    const scaleY = (VH / zoom) / rect.height;
     const dx = (e.clientX - dragRef.current.x) * scaleX;
     const dy = (e.clientY - dragRef.current.y) * scaleY;
     setPan((p) => ({ x: p.x - dx, y: p.y - dy }));
@@ -77,8 +100,6 @@ export function MapViewer({ selectedStore, routeFrom, onSelectStore, onSelectKio
   const reset = () => { setZoom(1); setPan({ x: 0, y: 0 }); };
 
   const nodes = [...graph.nodes.values()];
-  const stores = nodes.filter((n) => n.type === "store");
-  const junctions = nodes.filter((n) => n.type === "junction");
   const kiosks = nodes.filter((n) => n.type === "kiosk");
   const origin = routeFrom ? graph.nodes.get(routeFrom) : null;
 
@@ -97,10 +118,36 @@ export function MapViewer({ selectedStore, routeFrom, onSelectStore, onSelectKio
         role="application"
         aria-label="Site map"
       >
-        {/* sidewalks */}
+        {/* unit polygons (the real buildings) */}
+        {collection?.features.map((f) => {
+          const p = f.properties;
+          const store = storeById(p.store_id);
+          const isSelected = selectedStore?.id === p.store_id;
+          const classes = [
+            "scc-wf__unit",
+            `scc-wf__unit--${p.category}`,
+            p.vacant ? "is-vacant" : "",
+            isSelected ? "is-selected" : "",
+          ].filter(Boolean).join(" ");
+          const d = polygonToPath(f.geometry.coordinates);
+          return (
+            <path
+              key={p.store_id}
+              class={classes}
+              d={d}
+              data-store-id={p.store_id}
+              onClick={() => store && onSelectStore?.(store)}
+            >
+              <title>{p.name} · #{p.unit}</title>
+            </path>
+          );
+        })}
+
+        {/* sidewalk graph edges — drawn faintly behind labels */}
         {graphData.edges.map((e, i) => {
-          const a = graph.nodes.get(e.a)!;
-          const b = graph.nodes.get(e.b)!;
+          const a = graph.nodes.get(e.a);
+          const b = graph.nodes.get(e.b);
+          if (!a || !b) return null;
           return (
             <line
               key={`edge-${i}`}
@@ -110,26 +157,18 @@ export function MapViewer({ selectedStore, routeFrom, onSelectStore, onSelectKio
           );
         })}
 
-        {/* junctions (small dots so the network is visible during dev) */}
-        {junctions.map((n) => (
-          <circle key={n.id} class="scc-wf__junction" cx={n.x} cy={n.y} r={2.5} />
-        ))}
-
-        {/* store cells */}
-        {stores.map((n) => {
-          const store = storeById(n.store!);
-          if (!store) return null;
-          const isSelected = selectedStore?.id === store.id;
+        {/* selected-store label (rendered above its polygon) */}
+        {collection?.features.map((f) => {
+          if (selectedStore?.id !== f.properties.store_id) return null;
+          const [cx, cy] = f.properties.centroid;
           return (
-            <g
-              key={n.id}
-              class={"scc-wf__store" + (isSelected ? " is-selected" : "")}
-              data-store-id={store.id}
-              onClick={() => onSelectStore?.(store)}
+            <text
+              key={`lbl-${f.properties.store_id}`}
+              class="scc-wf__label"
+              x={cx} y={cy + 4} textAnchor="middle"
             >
-              <rect x={n.x - 42} y={n.y - 18} width={84} height={36} rx={3} />
-              <text x={n.x} y={n.y + 4} textAnchor="middle">{store.name}</text>
-            </g>
+              {f.properties.name}
+            </text>
           );
         })}
 
@@ -146,8 +185,8 @@ export function MapViewer({ selectedStore, routeFrom, onSelectStore, onSelectKio
               role={onSelectKiosk ? "button" : undefined}
               tabindex={onSelectKiosk ? 0 : undefined}
             >
-              <circle cx={n.x} cy={n.y} r={9} />
-              <text x={n.x} y={n.y + 24} textAnchor="middle">{label}</text>
+              <circle cx={n.x} cy={n.y} r={14} />
+              <text x={n.x} y={n.y + 32} textAnchor="middle">{label}</text>
             </g>
           );
         })}
@@ -155,8 +194,8 @@ export function MapViewer({ selectedStore, routeFrom, onSelectStore, onSelectKio
         {/* "you are here" pulse on the routing origin */}
         {origin && (
           <g class="scc-wf__origin">
-            <circle class="scc-wf__origin-halo" cx={origin.x} cy={origin.y} r={18} />
-            <circle class="scc-wf__origin-dot" cx={origin.x} cy={origin.y} r={6} />
+            <circle class="scc-wf__origin-halo" cx={origin.x} cy={origin.y} r={26} />
+            <circle class="scc-wf__origin-dot" cx={origin.x} cy={origin.y} r={9} />
           </g>
         )}
 
@@ -176,6 +215,13 @@ export function MapViewer({ selectedStore, routeFrom, onSelectStore, onSelectKio
       </div>
     </div>
   );
+}
+
+function polygonToPath(rings: number[][][]): string {
+  return rings.map((ring) => {
+    const cmds = ring.map(([x, y], i) => `${i === 0 ? "M" : "L"}${x},${y}`);
+    return cmds.join(" ") + " Z";
+  }).join(" ");
 }
 
 function findNodeForStore(

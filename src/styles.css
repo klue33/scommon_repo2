@@ -107,46 +107,65 @@
 
 .scc-wf__edge {
   stroke: var(--wf-dark);
-  stroke-opacity: 0.2;
-  stroke-width: 6;
+  stroke-opacity: 0.08;
+  stroke-width: 4;
   stroke-linecap: round;
   fill: none;
+  pointer-events: none;
 }
 .scc-wf__junction { fill: var(--wf-dark); opacity: 0.35; }
 
-.scc-wf__store {
+.scc-wf__unit {
   cursor: pointer;
-}
-.scc-wf__store rect {
   fill: var(--wf-bg);
   stroke: var(--wf-ink);
-  stroke-width: 1.5;
+  stroke-width: 1.2;
   transition: fill 120ms ease, stroke 120ms ease;
 }
-.scc-wf__store text {
-  font: 600 11px/1 'Clarkson','Helvetica Neue',Helvetica,Arial,sans-serif;
-  fill: var(--wf-ink);
-  pointer-events: none;
-  user-select: none;
-}
-.scc-wf__store:hover rect { fill: var(--wf-hover); }
-.scc-wf__store.is-selected rect {
+.scc-wf__unit:hover { fill: var(--wf-hover); }
+.scc-wf__unit.is-selected {
   fill: var(--wf-accent);
   stroke: var(--wf-accent);
 }
-.scc-wf__store.is-selected text { fill: var(--wf-accent-on); }
+.scc-wf__unit.is-vacant {
+  fill: hsla(var(--black-hsl, 0,0%,5.1%), 0.04);
+  stroke-dasharray: 4 4;
+  stroke-opacity: 0.5;
+}
+/* Tint occupied units by category. The accent override on selection
+   sits above these in cascade so selection still wins. */
+.scc-wf__unit--anchor       { fill: hsla(var(--lightAccent-hsl, 31.65,90.1%,80.2%), 0.55); }
+.scc-wf__unit--restaurants  { fill: hsla(var(--lightAccent-hsl, 31.65,90.1%,80.2%), 0.35); }
+.scc-wf__unit--food         { fill: hsla(var(--lightAccent-hsl, 31.65,90.1%,80.2%), 0.25); }
+.scc-wf__unit--services     { fill: hsla(var(--white-hsl, 60,9.09%,97.84%), 1); }
+.scc-wf__unit--general      { fill: hsla(var(--white-hsl, 60,9.09%,97.84%), 1); }
+
+.scc-wf__label {
+  font: 700 16px/1 'Clarkson','Helvetica Neue',Helvetica,Arial,sans-serif;
+  fill: var(--wf-accent-on);
+  paint-order: stroke fill;
+  stroke: var(--wf-accent);
+  stroke-width: 4;
+  stroke-linejoin: round;
+  pointer-events: none;
+  user-select: none;
+}
 
 .scc-wf__kiosk { cursor: pointer; }
 .scc-wf__kiosk circle {
   fill: var(--wf-ink);
   stroke: var(--wf-bg);
-  stroke-width: 2;
-  transition: fill 120ms ease, r 120ms ease;
+  stroke-width: 3;
+  transition: fill 120ms ease;
 }
 .scc-wf__kiosk text {
-  font: 700 8px/1 'Clarkson','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font: 700 14px/1 'Clarkson','Helvetica Neue',Helvetica,Arial,sans-serif;
   letter-spacing: 0.1em;
   fill: var(--wf-ink);
+  paint-order: stroke fill;
+  stroke: var(--wf-bg);
+  stroke-width: 3;
+  stroke-linejoin: round;
   pointer-events: none;
   user-select: none;
 }

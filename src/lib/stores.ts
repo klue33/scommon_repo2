@@ -9,8 +9,16 @@ export interface Store {
   name: string;
   unit: string;
   category: string;
-  anchor?: boolean;
-  hours: Hours;
+  /** Per-store override. When absent, treat as "mall" hours. */
+  hours?: Hours;
+  /** True for available/vacant units. */
+  vacant?: boolean;
+  /** Workflow state from the source feed: 'Occupied', 'Available', etc. */
+  occupancy?: string;
+  /** SmartCentres' per-tenant URL slug, used to link out to their detail page. */
+  subdomain?: string | null;
+  /** [x, y] in viewBox units; matches the polygon centroid in site.geojson. */
+  centroid?: [number, number] | null;
 }
 
 export interface Category {
@@ -21,6 +29,12 @@ export interface Category {
 export const STORES: Store[] = data.stores as Store[];
 export const CATEGORIES: Category[] = data.categories as Category[];
 export const MALL_HOURS = data.mall_hours as Exclude<Hours, "mall">;
+/** SVG viewBox sized to the projected property bounds. */
+const VB = (data as { viewBox?: number[] }).viewBox;
+export const VIEW_BOX: [number, number, number, number] =
+  VB && VB.length === 4
+    ? [VB[0], VB[1], VB[2], VB[3]]
+    : [0, 0, 1200, 1293];
 
 /**
  * Rank stores by relevance to a free-text query.

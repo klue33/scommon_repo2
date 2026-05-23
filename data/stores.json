@@ -1,60 +1,783 @@
 {
   "stores": [
     {
-      "id": "winners",
-      "name": "Winners",
-      "unit": "100",
-      "category": "apparel",
-      "anchor": true,
-      "hours": "mall"
+      "id": "a1donuts",
+      "unit": "51",
+      "name": "A-1 Donuts",
+      "category": "food",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "a1donuts",
+      "centroid": [
+        468.5,
+        757.4
+      ]
     },
     {
-      "id": "dollarama",
-      "name": "Dollarama",
-      "unit": "104",
-      "category": "general",
-      "hours": "mall"
+      "id": "asiangourmet",
+      "unit": "50",
+      "name": "Asian Gourmet",
+      "category": "restaurants",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "asiangourmet",
+      "centroid": [
+        483.88,
+        753.04
+      ]
+    },
+    {
+      "id": "barburrito",
+      "unit": "3",
+      "name": "BarBurrito",
+      "category": "restaurants",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "barburrito",
+      "centroid": [
+        1141.16,
+        694.74
+      ]
     },
     {
       "id": "bmo",
+      "unit": "11",
       "name": "BMO",
-      "unit": "110",
       "category": "services",
-      "hours": { "mon_fri": "09:30-17:00", "sat": "09:30-16:00", "sun": "closed" }
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "bmo",
+      "centroid": [
+        498.04,
+        70.52
+      ]
+    },
+    {
+      "id": "cell-max",
+      "unit": "49",
+      "name": "Cell Max",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": null,
+      "centroid": [
+        553.36,
+        733.36
+      ]
+    },
+    {
+      "id": "crazy-rolls-ice-cream",
+      "unit": "42",
+      "name": "Crazy Rolls Ice Cream",
+      "category": "food",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": null,
+      "centroid": [
+        630.41,
+        645.18
+      ]
+    },
+    {
+      "id": "dentist",
+      "unit": "13",
+      "name": "Dentist",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "dentist",
+      "centroid": [
+        679.84,
+        1192.51
+      ]
+    },
+    {
+      "id": "dollarama",
+      "unit": "47",
+      "name": "Dollarama",
+      "category": "anchor",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "dollarama",
+      "centroid": [
+        524.77,
+        706.91
+      ]
+    },
+    {
+      "id": "famousoptic",
+      "unit": "54",
+      "name": "Famous Optic",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "famousoptic",
+      "centroid": [
+        432.49,
+        750.86
+      ]
+    },
+    {
+      "id": "fikacannabis",
+      "unit": "10",
+      "name": "FIKA Cannabis",
+      "category": "general",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "fikacannabis",
+      "centroid": [
+        762.59,
+        263.2
+      ]
+    },
+    {
+      "id": "firstchoicehaircutters",
+      "unit": "9",
+      "name": "First Choice Haircutters",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "firstchoicehaircutters",
+      "centroid": [
+        750.28,
+        276.6
+      ]
+    },
+    {
+      "id": "fit4less",
+      "unit": "16",
+      "name": "Fit4Less",
+      "category": "anchor",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "fit4less",
+      "centroid": [
+        490.98,
+        924.88
+      ]
+    },
+    {
+      "id": "honey-nails-spa",
+      "unit": "26",
+      "name": "Honey  Nails & Spa",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": null,
+      "centroid": [
+        532.99,
+        876.59
+      ]
+    },
+    {
+      "id": "infolottokiosk",
+      "unit": "56",
+      "name": "Info/Lotto | Kiosk",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "infolottokiosk",
+      "centroid": [
+        598.87,
+        716.56
+      ]
+    },
+    {
+      "id": "kumon",
+      "unit": "37",
+      "name": "Kumon Math & Reading Centre",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "kumon",
+      "centroid": [
+        645.21,
+        805.94
+      ]
+    },
+    {
+      "id": "lacoupla",
+      "unit": "45",
+      "name": "La Coupla",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "lacoupla",
+      "centroid": [
+        590.51,
+        628.48
+      ]
+    },
+    {
+      "id": "lola-norma-s-karinderya",
+      "unit": "52",
+      "name": "Lola Norma's Karinderya",
+      "category": "restaurants",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": null,
+      "centroid": [
+        451.61,
+        758.92
+      ]
+    },
+    {
+      "id": "lynearhairsalon",
+      "unit": "25",
+      "name": "Lynear Hair Salon",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "lynearhairsalon",
+      "centroid": [
+        515.84,
+        856.55
+      ]
+    },
+    {
+      "id": "mad-digital-exchange",
+      "unit": "24",
+      "name": "MAD Digital Exchange",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": null,
+      "centroid": [
+        509.68,
+        827.47
+      ]
+    },
+    {
+      "id": "nailsforyou",
+      "unit": "43",
+      "name": "Nails For You",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "nailsforyou",
+      "centroid": [
+        615.57,
+        662.78
+      ]
+    },
+    {
+      "id": "nofrills",
+      "unit": "2",
+      "name": "No Frills",
+      "category": "anchor",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "nofrills",
+      "centroid": [
+        720.44,
+        873.88
+      ]
+    },
+    {
+      "id": "onenesswellnesscentre",
+      "unit": "14",
+      "name": "Oneness Wellness Centre",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "onenesswellnesscentre",
+      "centroid": [
+        694.82,
+        1207.18
+      ]
+    },
+    {
+      "id": "pamirrugsco",
+      "unit": "30",
+      "name": "Pamir Rugs Co.",
+      "category": "general",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "pamirrugsco",
+      "centroid": [
+        572.67,
+        815.18
+      ]
+    },
+    {
+      "id": "peplosbydesigner",
+      "unit": "29",
+      "name": "Peplos by Designer",
+      "category": "general",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "peplosbydesigner",
+      "centroid": [
+        566.82,
+        834.16
+      ]
+    },
+    {
+      "id": "pitaland",
+      "unit": "41",
+      "name": "Pita Land",
+      "category": "restaurants",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "pitaland",
+      "centroid": [
+        655.75,
+        694.3
+      ]
+    },
+    {
+      "id": "popeyes",
+      "unit": "40",
+      "name": "Popeyes Louisiana Chicken",
+      "category": "restaurants",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "popeyes",
+      "centroid": [
+        676.31,
+        711.95
+      ]
+    },
+    {
+      "id": "rapizza",
+      "unit": "53",
+      "name": "RAPiZZA",
+      "category": "restaurants",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": null,
+      "centroid": [
+        444.24,
+        758.64
+      ]
+    },
+    {
+      "id": "realfruitbubbletea",
+      "unit": "21",
+      "name": "Real Fruit Bubble Tea",
+      "category": "food",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "realfruitbubbletea",
+      "centroid": [
+        478.04,
+        835.23
+      ]
     },
     {
       "id": "rogers",
+      "unit": "5",
       "name": "Rogers",
-      "unit": "205",
       "category": "services",
-      "hours": "mall"
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "rogers",
+      "centroid": [
+        1109.47,
+        630.78
+      ]
     },
     {
-      "id": "cellmax",
-      "name": "Cellmax",
-      "unit": "208",
+      "id": "samphhealth",
+      "unit": "34",
+      "name": "S&H Health",
       "category": "services",
-      "hours": "mall"
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "samphhealth",
+      "centroid": [
+        626.37,
+        753.91
+      ]
     },
     {
-      "id": "five-guys",
-      "name": "Five Guys",
-      "unit": "300",
+      "id": "samrsquosshoesrepair",
+      "unit": "28",
+      "name": "Sam\u2019s Shoes Repair",
+      "category": "other",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "samrsquosshoesrepair",
+      "centroid": [
+        547.68,
+        832.77
+      ]
+    },
+    {
+      "id": "shoppersdrugmart",
+      "unit": "6",
+      "name": "Shoppers Drug Mart",
+      "category": "anchor",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "shoppersdrugmart",
+      "centroid": [
+        901.13,
+        425.22
+      ]
+    },
+    {
+      "id": "softrontax",
+      "unit": "20",
+      "name": "Softron Tax",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "softrontax",
+      "centroid": [
+        451.93,
+        829.35
+      ]
+    },
+    {
+      "id": "south-common-library",
+      "unit": "31",
+      "name": "South Common Library",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": null,
+      "centroid": [
+        581.91,
+        805.88
+      ]
+    },
+    {
+      "id": "southcommonmedicalcentre",
+      "unit": "15",
+      "name": "South Common Medical Centre",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "southcommonmedicalcentre",
+      "centroid": [
+        720.05,
+        1211.42
+      ]
+    },
+    {
+      "id": "south-common-orthopedic",
+      "unit": "35",
+      "name": "South Common Orthopedic",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": null,
+      "centroid": [
+        639.87,
+        766.12
+      ]
+    },
+    {
+      "id": "stackedpancakeampbreakfasthouse",
+      "unit": "7",
+      "name": "Stacked Pancake & Breakfast House",
       "category": "restaurants",
-      "hours": "mall"
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "stackedpancakeampbreakfasthouse",
+      "centroid": [
+        723.36,
+        306.02
+      ]
+    },
+    {
+      "id": "stanzigelsteinlawyers",
+      "unit": "17",
+      "name": "Stan Zigelstein Lawyers",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "stanzigelsteinlawyers",
+      "centroid": [
+        386.88,
+        847.98
+      ]
+    },
+    {
+      "id": "subway",
+      "unit": "8",
+      "name": "Subway",
+      "category": "restaurants",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "subway",
+      "centroid": [
+        737.09,
+        290.96
+      ]
+    },
+    {
+      "id": "sunrise-orthotics",
+      "unit": "23",
+      "name": "Sunrise Orthotics",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": null,
+      "centroid": [
+        499.11,
+        814.56
+      ]
+    },
+    {
+      "id": "sunshine-healthcare",
+      "unit": "38",
+      "name": "Sunshine Healthcare",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": null,
+      "centroid": [
+        653.75,
+        813.84
+      ]
+    },
+    {
+      "id": "td",
+      "unit": "12",
+      "name": "TD Bank",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "td",
+      "centroid": [
+        81.09,
+        449.63
+      ]
+    },
+    {
+      "id": "thairoomgrand",
+      "unit": "4",
+      "name": "Thairoomgrand",
+      "category": "restaurants",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": null,
+      "centroid": [
+        1123.79,
+        681.37
+      ]
+    },
+    {
+      "id": "theupperhandgamesandsportscards",
+      "unit": "44",
+      "name": "The Upper Hand Games",
+      "category": "general",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "theupperhandgamesandsportscards",
+      "centroid": [
+        604.34,
+        642.32
+      ]
+    },
+    {
+      "id": "thewineshop",
+      "unit": "39",
+      "name": "The Wine Shop",
+      "category": "general",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "thewineshop",
+      "centroid": [
+        694.83,
+        730.07
+      ]
+    },
+    {
+      "id": "topstitch",
+      "unit": "36",
+      "name": "Top Stitch",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "topstitch",
+      "centroid": [
+        648.31,
+        773.78
+      ]
+    },
+    {
+      "id": "viewcleaners",
+      "unit": "46",
+      "name": "Viewcleaners",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "viewcleaners",
+      "centroid": [
+        578.6,
+        616.57
+      ]
+    },
+    {
+      "id": "walmartsupercentre",
+      "unit": "1",
+      "name": "Walmart Supercentre",
+      "category": "anchor",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "walmartsupercentre",
+      "centroid": [
+        324.04,
+        553.35
+      ]
+    },
+    {
+      "id": "wcgservices",
+      "unit": "48",
+      "name": "WCG Services",
+      "category": "services",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": "wcgservices",
+      "centroid": [
+        571.35,
+        690.87
+      ]
+    },
+    {
+      "id": "unit",
+      "unit": "18",
+      "name": "Available \u2014 Unit 18",
+      "category": "available",
+      "vacant": true,
+      "occupancy": "Available",
+      "subdomain": null,
+      "centroid": [
+        409.32,
+        844.56
+      ]
+    },
+    {
+      "id": "unit",
+      "unit": "19",
+      "name": "Available \u2014 Unit 19",
+      "category": "available",
+      "vacant": true,
+      "occupancy": "Available",
+      "subdomain": null,
+      "centroid": [
+        426.24,
+        830.48
+      ]
+    },
+    {
+      "id": "unit",
+      "unit": "22",
+      "name": "Available \u2014 Unit 22",
+      "category": "available",
+      "vacant": true,
+      "occupancy": "Available",
+      "subdomain": null,
+      "centroid": [
+        477.96,
+        815.26
+      ]
+    },
+    {
+      "id": "unit",
+      "unit": "27",
+      "name": "Available \u2014 Unit 27",
+      "category": "available",
+      "vacant": true,
+      "occupancy": "Available",
+      "subdomain": null,
+      "centroid": [
+        567.28,
+        863.21
+      ]
+    },
+    {
+      "id": "unit",
+      "unit": "32",
+      "name": "Available \u2014 Unit 32",
+      "category": "available",
+      "vacant": true,
+      "occupancy": "Available",
+      "subdomain": null,
+      "centroid": [
+        596.6,
+        773.16
+      ]
+    },
+    {
+      "id": "unit",
+      "unit": "33",
+      "name": "Available \u2014 Unit 33",
+      "category": "available",
+      "vacant": true,
+      "occupancy": "Available",
+      "subdomain": null,
+      "centroid": [
+        610.36,
+        736.78
+      ]
+    },
+    {
+      "id": "unit",
+      "unit": "403",
+      "name": "Available \u2014 Unit 403",
+      "category": "available",
+      "vacant": true,
+      "occupancy": "Occupied",
+      "subdomain": null,
+      "centroid": null
+    },
+    {
+      "id": "unit",
+      "unit": "55",
+      "name": "Available \u2014 Unit 55",
+      "category": "available",
+      "vacant": true,
+      "occupancy": "Available",
+      "subdomain": null,
+      "centroid": [
+        442.65,
+        723.32
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "id": "anchor",
+      "label": "Anchor Stores"
+    },
+    {
+      "id": "restaurants",
+      "label": "Restaurants"
+    },
+    {
+      "id": "food",
+      "label": "Food & Quick Bites"
+    },
+    {
+      "id": "services",
+      "label": "Services"
+    },
+    {
+      "id": "general",
+      "label": "General Merchandise"
+    },
+    {
+      "id": "other",
+      "label": "Other"
+    },
+    {
+      "id": "available",
+      "label": "Available for Lease"
     }
   ],
   "mall_hours": {
-    "mon_fri": "10:00-21:00",
-    "sat": "10:00-18:00",
-    "sun": "11:00-17:00"
+    "mon_fri": "09:00-21:00",
+    "sat": "09:00-19:00",
+    "sun": "10:00-18:00"
   },
-  "categories": [
-    { "id": "anchor",      "label": "Anchor Stores" },
-    { "id": "apparel",     "label": "Apparel" },
-    { "id": "restaurants", "label": "Restaurants" },
-    { "id": "food",        "label": "Food & Quick Bites" },
-    { "id": "services",    "label": "Services" },
-    { "id": "general",     "label": "General Merchandise" }
+  "viewBox": [
+    0,
+    0,
+    1200,
+    1293
   ]
 }

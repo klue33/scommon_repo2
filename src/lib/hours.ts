@@ -13,7 +13,8 @@ function parseWindow(s: string | undefined): Window {
 }
 
 export function windowForDay(store: Store, dow: number): Window {
-  const src = store.hours === "mall" ? MALL_HOURS : store.hours;
+  const h = store.hours ?? "mall";
+  const src = h === "mall" ? MALL_HOURS : h;
   // 0=Sun, 1-5=Mon-Fri, 6=Sat
   if (dow === 0) return parseWindow(src.sun);
   if (dow === 6) return parseWindow(src.sat);
