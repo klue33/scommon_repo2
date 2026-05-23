@@ -9,8 +9,8 @@ listed from most-invasive to least.
 
 1. Build the bundle locally:
    ```bash
-   pnpm install
-   pnpm build
+   npm install
+   npm run build
    ```
 2. Host `dist/wayfinder.js` and `dist/wayfinder.css` somewhere with
    `Access-Control-Allow-Origin: *`. Options:

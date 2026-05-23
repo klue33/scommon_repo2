@@ -14,7 +14,8 @@ graph nodes.
 
 - Vite + Preact + TypeScript → single ES-module bundle
 - Vitest for unit tests
-- pnpm
+- npm (pnpm 11's build-script gating wasn't worth fighting; npm works
+  fine with this dep set)
 
 Output is `dist/wayfinder.js` + `dist/wayfinder.css`, embedded via a
 Squarespace Code Block (see `EMBED.md`). No Next.js, no SSR, no
@@ -53,9 +54,9 @@ iframe.
 ## Dev
 
 - Bind to **loopback only** (`127.0.0.1`). Default port: **3100**.
-- `pnpm dev` serves with the SCC palette stand-in from `index.html`.
-- `pnpm build` outputs to `dist/`. Don't rename the output files —
-  the Squarespace Code Block references them by name.
+- `npm run dev` serves with the SCC palette stand-in from `index.html`.
+- `npm run build` outputs to `dist/`. Don't rename the output files
+  — the Squarespace Code Block references them by name.
 
 ## Tests
 
@@ -63,7 +64,7 @@ iframe.
   route, picks lowest-cost alternative, cross-site route, no-path.
 - Store search ranking (`tests/stores.test.ts`).
 - Hours / open-now with frozen clock (`tests/hours.test.ts`).
-- `pnpm test` green before merge.
+- `npm test` green before merge.
 
 ## Memory
 

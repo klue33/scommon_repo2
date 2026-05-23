@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => ({
     target: "es2020",
     cssCodeSplit: false,
     rollupOptions: {
-      input: resolve(__dirname, "src/embed.ts"),
+      input: resolve(__dirname, "src/embed.tsx"),
       output: {
         // Single, predictably-named files so the Squarespace embed
         // snippet can reference them without a manifest lookup.
@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => ({
   },
   server: { host: "127.0.0.1", port: 3100 },
   test: {
-    environment: "jsdom",
+    environment: "node",
     globals: false,
   },
 }));

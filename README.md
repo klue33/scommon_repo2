@@ -92,10 +92,11 @@ EMBED.md               Squarespace embed recipe
 ## Local dev
 
 ```bash
-pnpm install
-pnpm dev          # http://127.0.0.1:3100
-pnpm test
-pnpm build        # produces dist/wayfinder.js + dist/wayfinder.css
+npm install
+npm run dev       # http://127.0.0.1:3100
+npm test
+npm run build     # produces dist/wayfinder.js + dist/wayfinder.css
+npm run typecheck
 ```
 
 Bound to loopback only. Port 3100. The dev page injects a `<style>`
@@ -105,9 +106,11 @@ right colors before it's embedded into Squarespace.
 ## Status
 
 Scaffold + embed plumbing complete; floor model removed in favour of
-categories. Next moves:
+categories. All 13 tests green, bundle builds clean
+(`dist/wayfinder.js` 16.6 KB / 6.8 KB gz; `dist/wayfinder.css`
+3.2 KB / 1.1 KB gz). Next moves:
 
-1. `pnpm install && pnpm test` to confirm green.
+1. ~~`npm install && npm test`~~ — done, green.
 2. Trace the real SCC site plan into `public/maps/site.svg` with
    `data-store-id="<slug>"` on each store shape.
 3. Author the real node graph against the traced SVG coordinates.
