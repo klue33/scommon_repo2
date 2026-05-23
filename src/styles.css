@@ -91,24 +91,6 @@
   overflow: hidden;
   background: var(--wf-bg);
 }
-.scc-wf__floors {
-  position: absolute; top: 12px; left: 12px;
-  display: flex; gap: 4px; z-index: 10;
-}
-.scc-wf__floor {
-  font: inherit; font-size: 13px; font-weight: 600;
-  padding: 8px 14px;
-  background: var(--wf-bg);
-  color: var(--wf-ink);
-  border: 1px solid var(--wf-rule);
-  cursor: pointer;
-}
-.scc-wf__floor.is-active {
-  background: var(--wf-ink);
-  color: var(--wf-bg);
-  border-color: var(--wf-ink);
-}
-
 .scc-wf__canvas {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;

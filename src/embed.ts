@@ -6,20 +6,19 @@
  *   <link rel="stylesheet" href=".../wayfinder.css" />
  *   <script type="module" src=".../wayfinder.js"></script>
  *
- * The script auto-mounts into #scc-wayfinder. Optional config is read
- * from `window.SCC_WAYFINDER_CONFIG` if present (target element id,
- * initial floor, etc.) — set it on the same page above the <script>
- * tag.
+ * The script auto-mounts into #scc-wayfinder. Optional config via
+ * `window.SCC_WAYFINDER_CONFIG` (target element id, deep-link
+ * defaults).
  */
 import { render } from "preact";
 import { Wayfinder } from "./wayfinder";
 import "./styles.css";
 
 interface EmbedConfig {
-  target?: string;       // element id, default "scc-wayfinder"
-  initialFloor?: 1 | 2 | 3;
-  initialStore?: string; // store slug to deep-link to
-  fromKiosk?: string;    // kiosk node id for "from"
+  target?: string;
+  initialCategory?: string;
+  initialStore?: string;
+  fromKiosk?: string;
 }
 
 declare global {
@@ -35,15 +34,14 @@ function mount() {
     console.warn("[scc-wayfinder] target element not found");
     return;
   }
-  // Also honour URL params so QR / push links work without extra wiring.
   const url = new URL(window.location.href);
   const initialStore = cfg.initialStore ?? url.searchParams.get("to") ?? undefined;
   const fromKiosk = cfg.fromKiosk ?? url.searchParams.get("from") ?? undefined;
-  const initialFloor = cfg.initialFloor ?? (Number(url.searchParams.get("floor")) as 1 | 2 | 3 | undefined);
+  const initialCategory = cfg.initialCategory ?? url.searchParams.get("category") ?? undefined;
 
   render(
     <Wayfinder
-      initialFloor={initialFloor && [1, 2, 3].includes(initialFloor) ? initialFloor : 1}
+      initialCategory={initialCategory}
       initialStore={initialStore}
       fromKiosk={fromKiosk}
     />,

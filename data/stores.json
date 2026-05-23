@@ -3,8 +3,7 @@
     {
       "id": "winners",
       "name": "Winners",
-      "unit": "L1-100",
-      "floor": 1,
+      "unit": "100",
       "category": "apparel",
       "anchor": true,
       "hours": "mall"
@@ -12,33 +11,36 @@
     {
       "id": "dollarama",
       "name": "Dollarama",
-      "unit": "L1-104",
-      "floor": 1,
+      "unit": "104",
       "category": "general",
       "hours": "mall"
     },
     {
       "id": "bmo",
       "name": "BMO",
-      "unit": "L1-110",
-      "floor": 1,
+      "unit": "110",
       "category": "services",
       "hours": { "mon_fri": "09:30-17:00", "sat": "09:30-16:00", "sun": "closed" }
     },
     {
       "id": "rogers",
       "name": "Rogers",
-      "unit": "L2-205",
-      "floor": 2,
+      "unit": "205",
       "category": "services",
       "hours": "mall"
     },
     {
       "id": "cellmax",
       "name": "Cellmax",
-      "unit": "L2-208",
-      "floor": 2,
+      "unit": "208",
       "category": "services",
+      "hours": "mall"
+    },
+    {
+      "id": "five-guys",
+      "name": "Five Guys",
+      "unit": "300",
+      "category": "restaurants",
       "hours": "mall"
     }
   ],
@@ -48,10 +50,11 @@
     "sun": "11:00-17:00"
   },
   "categories": [
-    { "id": "apparel",  "label": "Apparel" },
-    { "id": "food",     "label": "Food & Dining" },
-    { "id": "services", "label": "Services" },
-    { "id": "general",  "label": "General Merch" },
-    { "id": "anchor",   "label": "Anchors" }
+    { "id": "anchor",      "label": "Anchor Stores" },
+    { "id": "apparel",     "label": "Apparel" },
+    { "id": "restaurants", "label": "Restaurants" },
+    { "id": "food",        "label": "Food & Quick Bites" },
+    { "id": "services",    "label": "Services" },
+    { "id": "general",     "label": "General Merchandise" }
   ]
 }

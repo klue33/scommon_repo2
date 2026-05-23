@@ -1,42 +1,52 @@
 import { describe, it, expect } from "vitest";
 import { buildGraph, route } from "@/src/lib/pathfind";
-import l1 from "@/data/graph.l1.json";
-import l2 from "@/data/graph.l2.json";
-
-const floors = [l1 as any, l2 as any];
+import graph from "@/data/graph.json";
 
 describe("pathfind", () => {
-  it("routes within a floor", () => {
-    const g = buildGraph(floors);
-    const r = route(g, "l1-kiosk-a", "l1-bmo");
+  it("routes from a kiosk to a store", () => {
+    const g = buildGraph(graph as any);
+    const r = route(g, "kiosk-a", "bmo");
     expect(r).not.toBeNull();
-    expect(r!.path[0]).toBe("l1-kiosk-a");
-    expect(r!.path.at(-1)).toBe("l1-bmo");
-    expect(r!.segments).toHaveLength(1);
-    expect(r!.segments[0].floor).toBe(1);
+    expect(r!.path[0]).toBe("kiosk-a");
+    expect(r!.path.at(-1)).toBe("bmo");
+    expect(r!.points.length).toBeGreaterThan(1);
   });
 
-  it("routes across floors via escalator", () => {
-    const g = buildGraph(floors);
-    const r = route(g, "l1-kiosk-a", "l2-cellmax");
-    expect(r).not.toBeNull();
-    expect(r!.segments.map((s) => s.floor)).toEqual([1, 2]);
+  it("picks the lower-cost route when alternatives exist", () => {
+    const g = buildGraph({
+      nodes: [
+        { id: "a", x: 0,   y: 0,  type: "kiosk" },
+        { id: "b", x: 100, y: 0,  type: "junction" },
+        { id: "c", x: 200, y: 0,  type: "store", store: "c" },
+        { id: "d", x: 100, y: 50, type: "junction" },
+      ],
+      edges: [
+        { a: "a", b: "b", cost: 100 },
+        { a: "b", b: "c", cost: 100 },
+        { a: "a", b: "d", cost: 500 },
+        { a: "d", b: "c", cost: 500 },
+      ],
+    });
+    const r = route(g, "a", "c");
+    expect(r!.path).toEqual(["a", "b", "c"]);
+    expect(r!.cost).toBe(200);
   });
 
-  it("accessible mode avoids escalators", () => {
-    const g = buildGraph(floors);
-    const r = route(g, "l1-kiosk-a", "l2-cellmax", { accessible: true });
+  it("routes across the whole site", () => {
+    const g = buildGraph(graph as any);
+    const r = route(g, "kiosk-a", "five-guys");
     expect(r).not.toBeNull();
-    // Path must include the elevator pair, not escalator.
-    expect(r!.path).toContain("l1-elev-1");
-    expect(r!.path).toContain("l2-elev-1");
-    expect(r!.path).not.toContain("l1-esc-1");
+    expect(r!.path).toContain("j3");
   });
 
   it("returns null when no path exists", () => {
-    const g = buildGraph([
-      { floor: 1, nodes: [{ id: "a", x: 0, y: 0, type: "junction" }, { id: "b", x: 10, y: 10, type: "junction" }], edges: [] },
-    ]);
+    const g = buildGraph({
+      nodes: [
+        { id: "a", x: 0,  y: 0,  type: "junction" },
+        { id: "b", x: 10, y: 10, type: "junction" },
+      ],
+      edges: [],
+    });
     expect(route(g, "a", "b")).toBeNull();
   });
 });

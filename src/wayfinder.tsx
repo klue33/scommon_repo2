@@ -2,16 +2,15 @@ import { useMemo, useState } from "preact/hooks";
 import { CATEGORIES, STORES, searchStores, type Store } from "./lib/stores";
 
 interface Props {
-  initialFloor?: 1 | 2 | 3;
+  initialCategory?: string;
   initialStore?: string;
   fromKiosk?: string;
 }
 
-export function Wayfinder({ initialFloor = 1, initialStore, fromKiosk }: Props) {
+export function Wayfinder({ initialCategory, initialStore, fromKiosk }: Props) {
   const seeded = initialStore ? STORES.find((s) => s.id === initialStore) ?? null : null;
-  const [floor, setFloor] = useState<1 | 2 | 3>(seeded?.floor ?? initialFloor);
   const [query, setQuery] = useState("");
-  const [category, setCategory] = useState<string | null>(null);
+  const [category, setCategory] = useState<string | null>(seeded?.category ?? initialCategory ?? null);
   const [selected, setSelected] = useState<Store | null>(seeded);
 
   const visible = useMemo(() => {
@@ -31,7 +30,7 @@ export function Wayfinder({ initialFloor = 1, initialStore, fromKiosk }: Props) 
           placeholder="Search stores…"
           aria-label="Search stores"
         />
-        <div class="scc-wf__chips" role="tablist">
+        <div class="scc-wf__chips" role="tablist" aria-label="Category">
           <button
             class={"scc-wf__chip" + (category === null ? " is-active" : "")}
             onClick={() => setCategory(null)}
@@ -55,10 +54,10 @@ export function Wayfinder({ initialFloor = 1, initialStore, fromKiosk }: Props) 
             <li key={s.id}>
               <button
                 class={"scc-wf__item" + (selected?.id === s.id ? " is-active" : "")}
-                onClick={() => { setSelected(s); setFloor(s.floor); }}
+                onClick={() => setSelected(s)}
               >
                 <strong>{s.name}</strong>
-                <span class="scc-wf__unit">{s.unit}</span>
+                <span class="scc-wf__unit">#{s.unit}</span>
               </button>
             </li>
           ))}
@@ -67,30 +66,20 @@ export function Wayfinder({ initialFloor = 1, initialStore, fromKiosk }: Props) 
       </aside>
 
       <section class="scc-wf__map">
-        <div class="scc-wf__floors" role="tablist" aria-label="Floor">
-          {([1, 2, 3] as const).map((f) => (
-            <button
-              key={f}
-              class={"scc-wf__floor" + (floor === f ? " is-active" : "")}
-              onClick={() => setFloor(f)}
-              aria-pressed={floor === f}
-            >
-              L{f}
-            </button>
-          ))}
-        </div>
-
-        <div class="scc-wf__canvas" aria-label={`Map level ${floor}`}>
-          {/* TODO: <MapViewer floor={floor} highlight={selected?.id} fromKiosk={fromKiosk} /> */}
+        <div class="scc-wf__canvas" aria-label="Site map">
+          {/* TODO: <MapViewer highlight={selected?.id} fromKiosk={fromKiosk} /> */}
           <div class="scc-wf__placeholder">
-            Level {floor} — SVG floor plan goes here
+            Site plan — SVG goes here
           </div>
         </div>
 
         {selected && (
           <div class="scc-wf__detail" role="complementary">
             <h2>{selected.name}</h2>
-            <div class="scc-wf__meta">{selected.unit} · Level {selected.floor}</div>
+            <div class="scc-wf__meta">
+              Unit {selected.unit} ·{" "}
+              {CATEGORIES.find((c) => c.id === selected.category)?.label ?? selected.category}
+            </div>
             <button class="scc-wf__cta">
               Directions{fromKiosk ? " from kiosk" : ""}
             </button>

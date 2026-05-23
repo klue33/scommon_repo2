@@ -1,0 +1,25 @@
+{
+  "nodes": [
+    { "id": "kiosk-a",   "x":  120, "y":  240, "type": "kiosk" },
+    { "id": "j1",        "x":  300, "y":  240, "type": "junction" },
+    { "id": "j2",        "x":  520, "y":  240, "type": "junction" },
+    { "id": "j3",        "x":  720, "y":  240, "type": "junction" },
+    { "id": "winners",   "x":  300, "y":  120, "type": "store", "store": "winners" },
+    { "id": "dollarama", "x":  520, "y":  120, "type": "store", "store": "dollarama" },
+    { "id": "bmo",       "x":  520, "y":  360, "type": "store", "store": "bmo" },
+    { "id": "rogers",    "x":  720, "y":  360, "type": "store", "store": "rogers" },
+    { "id": "cellmax",   "x":  720, "y":  120, "type": "store", "store": "cellmax" },
+    { "id": "five-guys", "x":  900, "y":  240, "type": "store", "store": "five-guys" }
+  ],
+  "edges": [
+    { "a": "kiosk-a",   "b": "j1",        "cost": 180 },
+    { "a": "j1",        "b": "j2",        "cost": 220 },
+    { "a": "j2",        "b": "j3",        "cost": 200 },
+    { "a": "j1",        "b": "winners",   "cost": 120 },
+    { "a": "j2",        "b": "dollarama", "cost": 120 },
+    { "a": "j2",        "b": "bmo",       "cost": 120 },
+    { "a": "j3",        "b": "rogers",    "cost": 120 },
+    { "a": "j3",        "b": "cellmax",   "cost": 120 },
+    { "a": "j3",        "b": "five-guys", "cost": 180 }
+  ]
+}

@@ -43,13 +43,15 @@ listed from most-invasive to least.
 ## Deep links
 
 Once embedded, the bundle reads URL params:
-- `?to=<store-slug>` selects a store and switches to its floor.
+- `?to=<store-slug>` selects a store and scrolls it into view.
 - `?from=<kiosk-node-id>` sets the route origin.
-- `?floor=1|2|3` overrides the initial floor.
+- `?category=<slug>` opens the directory pre-filtered (e.g.
+  `?category=restaurants`).
 
 So a QR sticker on Kiosk A can link to
-`southcommoncentre.ca/wayfinder?from=l1-kiosk-a` and a tenant promo
-URL can be `southcommoncentre.ca/wayfinder?to=winners`.
+`southcommoncentre.ca/wayfinder?from=kiosk-a` and a tenant promo URL
+can be `southcommoncentre.ca/wayfinder?to=winners`. SCC is a
+single-level site, so there is no `?floor=` param.
 
 ## Colour scheme
 

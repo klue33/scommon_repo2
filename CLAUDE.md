@@ -1,7 +1,14 @@
 # scc-wayfinder — project rules
 
-Indoor mall wayfinder for South Common Centre, **embedded into the
-existing Squarespace site** at `southcommoncentre.ca/wayfinder`.
+Site directory + wayfinder for South Common Centre (Edmonton),
+**embedded into the existing Squarespace site** at
+`southcommoncentre.ca/wayfinder`.
+
+SCC is a **single-level outdoor power centre**. The existing site's
+"Map Level 1 / 2 / 3" UI is an alias for category groupings, not
+physical floors. This project models the site as one plane with
+category filters — never reintroduce a `floor` field on stores or
+graph nodes.
 
 ## Stack
 
@@ -32,19 +39,16 @@ iframe.
 
 ## Conventions
 
-- All map data is **static JSON** in `data/` — no DB. Mall tenants
-  change a few times a year; ship updates via PR + rebuild +
-  re-upload.
-- Floor plans are SVG in `public/maps/level-<n>.svg`. Store shapes
+- All map data is **static JSON** in `data/` — no DB. Tenants change
+  a few times a year; ship updates via PR + rebuild + re-upload.
+- The site plan is one SVG, `public/maps/site.svg`. Store shapes
   carry `data-store-id="<slug>"` matching `stores.json`.
-- The node graph (`data/graph.l<n>.json`) is `{nodes, edges,
-  vertical?}`. `type` is `kiosk|store|junction|stair|escalator|
-  elevator|exit`. `mode` is `walk|stair|escalator|elevator`;
-  accessibility routing filters edges by mode.
-- Routing lives in `src/lib/pathfind.ts`. Cross-floor edges connect a
-  vertical-transport node on one floor to its twin on the next; the
-  router returns a list of (floor, polyline) segments so the UI can
-  show floor-change callouts.
+- The node graph is one file, `data/graph.json`: `{nodes, edges}`.
+  `type` is `kiosk|store|junction|exit`. No vertical-transport
+  nodes — single level.
+- Routing lives in `src/lib/pathfind.ts`. Straight A* with Euclidean
+  heuristic; returns `{path, cost, points}` for direct polyline
+  render.
 
 ## Dev
 
@@ -55,9 +59,8 @@ iframe.
 
 ## Tests
 
-- Pathfinding with fixture graphs (`tests/pathfind.test.ts`):
-  same-floor, cross-floor via elevator, accessibility mode skipping
-  stairs/escalators, no-path.
+- Pathfinding with fixture graphs (`tests/pathfind.test.ts`): basic
+  route, picks lowest-cost alternative, cross-site route, no-path.
 - Store search ranking (`tests/stores.test.ts`).
 - Hours / open-now with frozen clock (`tests/hours.test.ts`).
 - `pnpm test` green before merge.

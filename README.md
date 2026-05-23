@@ -1,64 +1,68 @@
 # scc-wayfinder
 
-Rebuild of the South Common Centre (Edmonton) mall wayfinder
-(`southcommoncentre.ca/wayfinder`). The existing site serves a static
-SVG floor plan with basic store search across three levels. This
-rebuild keeps the SVG-vector approach but layers on the interactive
-features mall visitors expect, and ships as a single embeddable
-bundle that drops straight into the existing Squarespace site.
+Rebuild of the South Common Centre (Edmonton) site directory and
+wayfinder (`southcommoncentre.ca/wayfinder`). The existing page is
+a static SVG with a basic store search. This rebuild keeps the
+SVG-vector approach but layers on the interactive features visitors
+expect, and ships as a single embeddable bundle that drops straight
+into the existing Squarespace site.
+
+## Site model
+
+South Common Centre is a **single-level** outdoor power centre. The
+existing site labels its directory views "Map Level 1 / 2 / 3" but
+those are aliases for **category groupings** (food / restaurants /
+services / etc.), not physical floors. This rebuild drops the
+pseudo-floor abstraction and exposes categories directly via filter
+chips, with one shared SVG site plan and one shared node graph.
 
 ## Stack
 
 - **Vite + Preact + TypeScript** — outputs a single
-  `dist/wayfinder.js` (~30 KB gzipped) + `dist/wayfinder.css`
+  `dist/wayfinder.js` (~30 KB gzipped) + `dist/wayfinder.css`.
 - **Squarespace embed** via a Code Block on the live `/wayfinder`
-  page; no Next.js / SSR (Squarespace can't host that). See
-  [`EMBED.md`](EMBED.md).
-- **Colour scheme**: inherits SCC's site palette through Squarespace's
+  page; no Next.js / SSR. See [`EMBED.md`](EMBED.md).
+- **Colour scheme**: inherits SCC's site palette via Squarespace's
   `--accent-hsl`, `--black-hsl`, `--white-hsl`,
-  `--lightAccent-hsl`, `--darkAccent-hsl` CSS variables. Hex fallbacks
-  match the live site (warm cream bg, near-black ink, vibrant
-  orange accent, peach light accent, charcoal dark accent) for
-  standalone dev only.
+  `--lightAccent-hsl`, `--darkAccent-hsl` CSS variables. Live hex
+  fallbacks (warm cream bg, near-black ink, vibrant orange accent,
+  peach light accent, charcoal dark accent) only fire in standalone
+  dev.
 - **No external wayfinder vendor** (Mappedin / Jibestream /
   Concept3D).
-- **Data**: stores in `data/stores.json`; node/edge graphs per
-  floor in `data/graph.l<n>.json`. Static JSON — no DB.
-- **Routing**: hand-authored A* over the graph
+- **Data**: stores in `data/stores.json`; nodes/edges in
+  `data/graph.json`. Static JSON — no DB.
+- **Routing**: hand-authored A* on the single-plane graph
   (`src/lib/pathfind.ts`).
-- **SVG floor plans**: in `public/maps/` (placeholders for now; real
-  traces TBD — see `public/maps/README.md`).
+- **SVG site plan**: `public/maps/site.svg` (placeholder until we
+  trace the real plan).
 
 ## Feature plan
 
 ### Parity with current site
-- [x] Three-level SVG floor plans (L1 / L2 / L3)
-- [x] Store directory list
+- [x] Site directory list
 - [x] Store name search
-- [x] Click a store on the map → highlight + detail
+- [x] Click a store on the map → highlight + detail panel
 
 ### New features (the "more" part)
 - [ ] **Pan + pinch-zoom** on the map (touch + mouse)
-- [x] **Category filters** (Food, Apparel, Services, Anchors, etc.)
-- [ ] **"You are here"** — pick a starting kiosk or scan a kiosk QR
-      to set origin
-- [ ] **Turn-by-turn routing** — A\* on the node graph, renders the
-      route polyline, handles inter-floor transitions via escalators
-      / elevators / stairs with floor-change callouts
-- [x] **Accessibility routing** — toggle to prefer elevators over
-      stairs / escalators (pathfinder honors the flag; UI toggle TBD)
+- [x] **Category filters** (Anchors, Apparel, Restaurants, Food &
+      Quick Bites, Services, General Merchandise) — replaces the
+      legacy Level 1/2/3 buckets
+- [ ] **"You are here"** — pick a kiosk or scan a kiosk QR
+- [ ] **Turn-by-turn routing** — A\* on the graph; renders the
+      route polyline; step-by-step text directions for kiosk mode
 - [x] **Open-now indicator** per store using mall hours + per-store
       overrides
-- [x] **Deep links** — `/wayfinder?to=store-slug&from=kiosk-3&floor=2`
-      so a QR code or push notification can drop a visitor onto a
-      live route
-- [x] **Mobile-first layout** — bottom sheet for directory, map
-      fills viewport (CSS done; will refine once map is live)
-- [ ] **Offline-capable** — service worker caches SVGs + store data
-      so the kiosk keeps working if mall WiFi blips
+- [x] **Deep links** — `/wayfinder?to=<slug>&from=<kiosk>&category=<slug>`
+      so QR codes / push notifications drop visitors onto a live
+      route
+- [x] **Mobile-first layout** — directory collapses to bottom sheet
+      (CSS done; refine once map is live)
+- [ ] **Offline-capable** — service worker caches SVG + store data
+      so kiosks keep working if mall WiFi blips
 - [ ] **Admin import** — CSV upload regenerates `stores.json`
-- [ ] **Analytics** — anonymous counts of "directions to X" so the
-      mall can see which stores draw the most queries
+- [ ] **Analytics** — anonymous counts of "directions to X"
 
 ### Stretch
 - [ ] Parking-lot map with section letters and "where did I park"
@@ -70,17 +74,17 @@ bundle that drops straight into the existing Squarespace site.
 
 ```
 index.html             dev shell with palette stand-in for vite serve
-vite.config.ts         single-file bundle config (wayfinder.{js,css})
+vite.config.ts         single-file bundle config
 src/
   embed.ts             entry point; mounts into #scc-wayfinder
   wayfinder.tsx        Preact root component
   styles.css           scoped to .scc-wf, inherits Squarespace vars
   lib/
-    pathfind.ts        A* with accessibility mode + floor segments
+    pathfind.ts        A* on a single-plane graph
     stores.ts          search ranking
     hours.ts           open-now logic
-data/                  stores.json, graph.l<n>.json
-public/maps/           level-<n>.svg (placeholders)
+data/                  stores.json, graph.json
+public/maps/           site.svg (placeholder)
 tests/                 vitest specs for pathfind, search, hours
 EMBED.md               Squarespace embed recipe
 ```
@@ -94,21 +98,21 @@ pnpm test
 pnpm build        # produces dist/wayfinder.js + dist/wayfinder.css
 ```
 
-Bound to loopback only. Port 3100 to stay clear of other local
-services. The dev page injects a `<style>` block with the SCC palette
-HSL vars so the bundle renders with the right colors before it's
-embedded into Squarespace.
+Bound to loopback only. Port 3100. The dev page injects a `<style>`
+block with the SCC palette HSL vars so the bundle renders with the
+right colors before it's embedded into Squarespace.
 
 ## Status
 
-Scaffold + embed plumbing complete. Real SVGs and full node graphs
-for L3 still to author. Next moves in priority order:
+Scaffold + embed plumbing complete; floor model removed in favour of
+categories. Next moves:
 
-1. `pnpm install` and confirm `pnpm test` is green.
-2. Trace L1 / L2 / L3 floor plans into SVG (`public/maps/level-<n>.svg`).
-3. Author the node graph for L3 (`data/graph.l3.json`).
-4. Build the `MapViewer` component (SVG injection, pan/zoom, store
-   highlight, route polyline render).
-5. Wire the routing UI (From / To pickers, accessibility toggle).
-6. Host the built bundle and update the live `/wayfinder` Code Block
+1. `pnpm install && pnpm test` to confirm green.
+2. Trace the real SCC site plan into `public/maps/site.svg` with
+   `data-store-id="<slug>"` on each store shape.
+3. Author the real node graph against the traced SVG coordinates.
+4. Build `MapViewer` (SVG injection, pan/zoom, store highlight,
+   route polyline).
+5. Wire the routing UI (From / To pickers).
+6. Host the built bundle; update the live `/wayfinder` Code Block
    per `EMBED.md`.
