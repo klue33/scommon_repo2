@@ -1,0 +1,4537 @@
+{
+  "nodes": [
+    {
+      "id": "kiosk-a",
+      "x": 220,
+      "y": 600,
+      "type": "kiosk",
+      "label": "West Entrance"
+    },
+    {
+      "id": "kiosk-b",
+      "x": 1100,
+      "y": 350,
+      "type": "kiosk",
+      "label": "East Entrance"
+    },
+    {
+      "id": "w-000",
+      "x": 25,
+      "y": 25,
+      "type": "junction"
+    },
+    {
+      "id": "w-001",
+      "x": 125,
+      "y": 25,
+      "type": "junction"
+    },
+    {
+      "id": "w-002",
+      "x": 275,
+      "y": 25,
+      "type": "junction"
+    },
+    {
+      "id": "w-003",
+      "x": 375,
+      "y": 25,
+      "type": "junction"
+    },
+    {
+      "id": "w-004",
+      "x": 525,
+      "y": 25,
+      "type": "junction"
+    },
+    {
+      "id": "w-005",
+      "x": 625,
+      "y": 25,
+      "type": "junction"
+    },
+    {
+      "id": "w-006",
+      "x": 775,
+      "y": 25,
+      "type": "junction"
+    },
+    {
+      "id": "w-007",
+      "x": 875,
+      "y": 25,
+      "type": "junction"
+    },
+    {
+      "id": "w-008",
+      "x": 1025,
+      "y": 25,
+      "type": "junction"
+    },
+    {
+      "id": "w-009",
+      "x": 1125,
+      "y": 25,
+      "type": "junction"
+    },
+    {
+      "id": "w-010",
+      "x": 75,
+      "y": 75,
+      "type": "junction"
+    },
+    {
+      "id": "w-011",
+      "x": 175,
+      "y": 75,
+      "type": "junction"
+    },
+    {
+      "id": "w-012",
+      "x": 325,
+      "y": 75,
+      "type": "junction"
+    },
+    {
+      "id": "w-013",
+      "x": 425,
+      "y": 75,
+      "type": "junction"
+    },
+    {
+      "id": "w-014",
+      "x": 675,
+      "y": 75,
+      "type": "junction"
+    },
+    {
+      "id": "w-015",
+      "x": 775,
+      "y": 75,
+      "type": "junction"
+    },
+    {
+      "id": "w-016",
+      "x": 925,
+      "y": 75,
+      "type": "junction"
+    },
+    {
+      "id": "w-017",
+      "x": 1025,
+      "y": 75,
+      "type": "junction"
+    },
+    {
+      "id": "w-018",
+      "x": 1175,
+      "y": 75,
+      "type": "junction"
+    },
+    {
+      "id": "w-019",
+      "x": 75,
+      "y": 125,
+      "type": "junction"
+    },
+    {
+      "id": "w-020",
+      "x": 225,
+      "y": 125,
+      "type": "junction"
+    },
+    {
+      "id": "w-021",
+      "x": 325,
+      "y": 125,
+      "type": "junction"
+    },
+    {
+      "id": "w-022",
+      "x": 475,
+      "y": 125,
+      "type": "junction"
+    },
+    {
+      "id": "w-023",
+      "x": 575,
+      "y": 125,
+      "type": "junction"
+    },
+    {
+      "id": "w-024",
+      "x": 725,
+      "y": 125,
+      "type": "junction"
+    },
+    {
+      "id": "w-025",
+      "x": 825,
+      "y": 125,
+      "type": "junction"
+    },
+    {
+      "id": "w-026",
+      "x": 975,
+      "y": 125,
+      "type": "junction"
+    },
+    {
+      "id": "w-027",
+      "x": 1075,
+      "y": 125,
+      "type": "junction"
+    },
+    {
+      "id": "w-028",
+      "x": 25,
+      "y": 175,
+      "type": "junction"
+    },
+    {
+      "id": "w-029",
+      "x": 125,
+      "y": 175,
+      "type": "junction"
+    },
+    {
+      "id": "w-030",
+      "x": 275,
+      "y": 175,
+      "type": "junction"
+    },
+    {
+      "id": "w-031",
+      "x": 375,
+      "y": 175,
+      "type": "junction"
+    },
+    {
+      "id": "w-032",
+      "x": 525,
+      "y": 175,
+      "type": "junction"
+    },
+    {
+      "id": "w-033",
+      "x": 625,
+      "y": 175,
+      "type": "junction"
+    },
+    {
+      "id": "w-034",
+      "x": 775,
+      "y": 175,
+      "type": "junction"
+    },
+    {
+      "id": "w-035",
+      "x": 925,
+      "y": 175,
+      "type": "junction"
+    },
+    {
+      "id": "w-036",
+      "x": 1025,
+      "y": 175,
+      "type": "junction"
+    },
+    {
+      "id": "w-037",
+      "x": 1175,
+      "y": 175,
+      "type": "junction"
+    },
+    {
+      "id": "w-038",
+      "x": 75,
+      "y": 225,
+      "type": "junction"
+    },
+    {
+      "id": "w-039",
+      "x": 225,
+      "y": 225,
+      "type": "junction"
+    },
+    {
+      "id": "w-040",
+      "x": 325,
+      "y": 225,
+      "type": "junction"
+    },
+    {
+      "id": "w-041",
+      "x": 475,
+      "y": 225,
+      "type": "junction"
+    },
+    {
+      "id": "w-042",
+      "x": 575,
+      "y": 225,
+      "type": "junction"
+    },
+    {
+      "id": "w-043",
+      "x": 725,
+      "y": 225,
+      "type": "junction"
+    },
+    {
+      "id": "w-044",
+      "x": 825,
+      "y": 225,
+      "type": "junction"
+    },
+    {
+      "id": "w-045",
+      "x": 975,
+      "y": 225,
+      "type": "junction"
+    },
+    {
+      "id": "w-046",
+      "x": 1075,
+      "y": 225,
+      "type": "junction"
+    },
+    {
+      "id": "w-047",
+      "x": 25,
+      "y": 275,
+      "type": "junction"
+    },
+    {
+      "id": "w-048",
+      "x": 125,
+      "y": 275,
+      "type": "junction"
+    },
+    {
+      "id": "w-049",
+      "x": 275,
+      "y": 275,
+      "type": "junction"
+    },
+    {
+      "id": "w-050",
+      "x": 375,
+      "y": 275,
+      "type": "junction"
+    },
+    {
+      "id": "w-051",
+      "x": 525,
+      "y": 275,
+      "type": "junction"
+    },
+    {
+      "id": "w-052",
+      "x": 625,
+      "y": 275,
+      "type": "junction"
+    },
+    {
+      "id": "w-053",
+      "x": 875,
+      "y": 275,
+      "type": "junction"
+    },
+    {
+      "id": "w-054",
+      "x": 975,
+      "y": 275,
+      "type": "junction"
+    },
+    {
+      "id": "w-055",
+      "x": 1125,
+      "y": 275,
+      "type": "junction"
+    },
+    {
+      "id": "w-056",
+      "x": 25,
+      "y": 325,
+      "type": "junction"
+    },
+    {
+      "id": "w-057",
+      "x": 175,
+      "y": 325,
+      "type": "junction"
+    },
+    {
+      "id": "w-058",
+      "x": 325,
+      "y": 325,
+      "type": "junction"
+    },
+    {
+      "id": "w-059",
+      "x": 475,
+      "y": 325,
+      "type": "junction"
+    },
+    {
+      "id": "w-060",
+      "x": 575,
+      "y": 325,
+      "type": "junction"
+    },
+    {
+      "id": "w-061",
+      "x": 775,
+      "y": 325,
+      "type": "junction"
+    },
+    {
+      "id": "w-062",
+      "x": 875,
+      "y": 325,
+      "type": "junction"
+    },
+    {
+      "id": "w-063",
+      "x": 1025,
+      "y": 325,
+      "type": "junction"
+    },
+    {
+      "id": "w-064",
+      "x": 1125,
+      "y": 325,
+      "type": "junction"
+    },
+    {
+      "id": "w-065",
+      "x": 75,
+      "y": 375,
+      "type": "junction"
+    },
+    {
+      "id": "w-066",
+      "x": 175,
+      "y": 375,
+      "type": "junction"
+    },
+    {
+      "id": "w-067",
+      "x": 475,
+      "y": 375,
+      "type": "junction"
+    },
+    {
+      "id": "w-068",
+      "x": 625,
+      "y": 375,
+      "type": "junction"
+    },
+    {
+      "id": "w-069",
+      "x": 725,
+      "y": 375,
+      "type": "junction"
+    },
+    {
+      "id": "w-070",
+      "x": 975,
+      "y": 375,
+      "type": "junction"
+    },
+    {
+      "id": "w-071",
+      "x": 1075,
+      "y": 375,
+      "type": "junction"
+    },
+    {
+      "id": "w-072",
+      "x": 25,
+      "y": 425,
+      "type": "junction"
+    },
+    {
+      "id": "w-073",
+      "x": 175,
+      "y": 425,
+      "type": "junction"
+    },
+    {
+      "id": "w-074",
+      "x": 475,
+      "y": 425,
+      "type": "junction"
+    },
+    {
+      "id": "w-075",
+      "x": 575,
+      "y": 425,
+      "type": "junction"
+    },
+    {
+      "id": "w-076",
+      "x": 725,
+      "y": 425,
+      "type": "junction"
+    },
+    {
+      "id": "w-077",
+      "x": 975,
+      "y": 425,
+      "type": "junction"
+    },
+    {
+      "id": "w-078",
+      "x": 1125,
+      "y": 425,
+      "type": "junction"
+    },
+    {
+      "id": "w-079",
+      "x": 25,
+      "y": 475,
+      "type": "junction"
+    },
+    {
+      "id": "w-080",
+      "x": 575,
+      "y": 475,
+      "type": "junction"
+    },
+    {
+      "id": "w-081",
+      "x": 675,
+      "y": 475,
+      "type": "junction"
+    },
+    {
+      "id": "w-082",
+      "x": 825,
+      "y": 475,
+      "type": "junction"
+    },
+    {
+      "id": "w-083",
+      "x": 975,
+      "y": 475,
+      "type": "junction"
+    },
+    {
+      "id": "w-084",
+      "x": 1125,
+      "y": 475,
+      "type": "junction"
+    },
+    {
+      "id": "w-085",
+      "x": 25,
+      "y": 525,
+      "type": "junction"
+    },
+    {
+      "id": "w-086",
+      "x": 575,
+      "y": 525,
+      "type": "junction"
+    },
+    {
+      "id": "w-087",
+      "x": 675,
+      "y": 525,
+      "type": "junction"
+    },
+    {
+      "id": "w-088",
+      "x": 825,
+      "y": 525,
+      "type": "junction"
+    },
+    {
+      "id": "w-089",
+      "x": 925,
+      "y": 525,
+      "type": "junction"
+    },
+    {
+      "id": "w-090",
+      "x": 1075,
+      "y": 525,
+      "type": "junction"
+    },
+    {
+      "id": "w-091",
+      "x": 1175,
+      "y": 525,
+      "type": "junction"
+    },
+    {
+      "id": "w-092",
+      "x": 575,
+      "y": 575,
+      "type": "junction"
+    },
+    {
+      "id": "w-093",
+      "x": 675,
+      "y": 575,
+      "type": "junction"
+    },
+    {
+      "id": "w-094",
+      "x": 825,
+      "y": 575,
+      "type": "junction"
+    },
+    {
+      "id": "w-095",
+      "x": 925,
+      "y": 575,
+      "type": "junction"
+    },
+    {
+      "id": "w-096",
+      "x": 1075,
+      "y": 575,
+      "type": "junction"
+    },
+    {
+      "id": "w-097",
+      "x": 1175,
+      "y": 575,
+      "type": "junction"
+    },
+    {
+      "id": "w-098",
+      "x": 125,
+      "y": 625,
+      "type": "junction"
+    },
+    {
+      "id": "w-099",
+      "x": 675,
+      "y": 625,
+      "type": "junction"
+    },
+    {
+      "id": "w-100",
+      "x": 825,
+      "y": 625,
+      "type": "junction"
+    },
+    {
+      "id": "w-101",
+      "x": 975,
+      "y": 625,
+      "type": "junction"
+    },
+    {
+      "id": "w-102",
+      "x": 1175,
+      "y": 625,
+      "type": "junction"
+    },
+    {
+      "id": "w-103",
+      "x": 125,
+      "y": 675,
+      "type": "junction"
+    },
+    {
+      "id": "w-104",
+      "x": 225,
+      "y": 675,
+      "type": "junction"
+    },
+    {
+      "id": "w-105",
+      "x": 825,
+      "y": 675,
+      "type": "junction"
+    },
+    {
+      "id": "w-106",
+      "x": 925,
+      "y": 675,
+      "type": "junction"
+    },
+    {
+      "id": "w-107",
+      "x": 1175,
+      "y": 675,
+      "type": "junction"
+    },
+    {
+      "id": "w-108",
+      "x": 75,
+      "y": 725,
+      "type": "junction"
+    },
+    {
+      "id": "w-109",
+      "x": 225,
+      "y": 725,
+      "type": "junction"
+    },
+    {
+      "id": "w-110",
+      "x": 775,
+      "y": 725,
+      "type": "junction"
+    },
+    {
+      "id": "w-111",
+      "x": 925,
+      "y": 725,
+      "type": "junction"
+    },
+    {
+      "id": "w-112",
+      "x": 1025,
+      "y": 725,
+      "type": "junction"
+    },
+    {
+      "id": "w-113",
+      "x": 1175,
+      "y": 725,
+      "type": "junction"
+    },
+    {
+      "id": "w-114",
+      "x": 75,
+      "y": 775,
+      "type": "junction"
+    },
+    {
+      "id": "w-115",
+      "x": 225,
+      "y": 775,
+      "type": "junction"
+    },
+    {
+      "id": "w-116",
+      "x": 525,
+      "y": 775,
+      "type": "junction"
+    },
+    {
+      "id": "w-117",
+      "x": 925,
+      "y": 775,
+      "type": "junction"
+    },
+    {
+      "id": "w-118",
+      "x": 1025,
+      "y": 775,
+      "type": "junction"
+    },
+    {
+      "id": "w-119",
+      "x": 1175,
+      "y": 775,
+      "type": "junction"
+    },
+    {
+      "id": "w-120",
+      "x": 75,
+      "y": 825,
+      "type": "junction"
+    },
+    {
+      "id": "w-121",
+      "x": 225,
+      "y": 825,
+      "type": "junction"
+    },
+    {
+      "id": "w-122",
+      "x": 875,
+      "y": 825,
+      "type": "junction"
+    },
+    {
+      "id": "w-123",
+      "x": 1025,
+      "y": 825,
+      "type": "junction"
+    },
+    {
+      "id": "w-124",
+      "x": 1125,
+      "y": 825,
+      "type": "junction"
+    },
+    {
+      "id": "w-125",
+      "x": 75,
+      "y": 875,
+      "type": "junction"
+    },
+    {
+      "id": "w-126",
+      "x": 175,
+      "y": 875,
+      "type": "junction"
+    },
+    {
+      "id": "w-127",
+      "x": 325,
+      "y": 875,
+      "type": "junction"
+    },
+    {
+      "id": "w-128",
+      "x": 625,
+      "y": 875,
+      "type": "junction"
+    },
+    {
+      "id": "w-129",
+      "x": 1025,
+      "y": 875,
+      "type": "junction"
+    },
+    {
+      "id": "w-130",
+      "x": 1125,
+      "y": 875,
+      "type": "junction"
+    },
+    {
+      "id": "w-131",
+      "x": 75,
+      "y": 925,
+      "type": "junction"
+    },
+    {
+      "id": "w-132",
+      "x": 175,
+      "y": 925,
+      "type": "junction"
+    },
+    {
+      "id": "w-133",
+      "x": 325,
+      "y": 925,
+      "type": "junction"
+    },
+    {
+      "id": "w-134",
+      "x": 625,
+      "y": 925,
+      "type": "junction"
+    },
+    {
+      "id": "w-135",
+      "x": 925,
+      "y": 925,
+      "type": "junction"
+    },
+    {
+      "id": "w-136",
+      "x": 1075,
+      "y": 925,
+      "type": "junction"
+    },
+    {
+      "id": "w-137",
+      "x": 1175,
+      "y": 925,
+      "type": "junction"
+    },
+    {
+      "id": "w-138",
+      "x": 125,
+      "y": 975,
+      "type": "junction"
+    },
+    {
+      "id": "w-139",
+      "x": 225,
+      "y": 975,
+      "type": "junction"
+    },
+    {
+      "id": "w-140",
+      "x": 375,
+      "y": 975,
+      "type": "junction"
+    },
+    {
+      "id": "w-141",
+      "x": 475,
+      "y": 975,
+      "type": "junction"
+    },
+    {
+      "id": "w-142",
+      "x": 875,
+      "y": 975,
+      "type": "junction"
+    },
+    {
+      "id": "w-143",
+      "x": 975,
+      "y": 975,
+      "type": "junction"
+    },
+    {
+      "id": "w-144",
+      "x": 1125,
+      "y": 975,
+      "type": "junction"
+    },
+    {
+      "id": "w-145",
+      "x": 25,
+      "y": 1025,
+      "type": "junction"
+    },
+    {
+      "id": "w-146",
+      "x": 175,
+      "y": 1025,
+      "type": "junction"
+    },
+    {
+      "id": "w-147",
+      "x": 275,
+      "y": 1025,
+      "type": "junction"
+    },
+    {
+      "id": "w-148",
+      "x": 425,
+      "y": 1025,
+      "type": "junction"
+    },
+    {
+      "id": "w-149",
+      "x": 525,
+      "y": 1025,
+      "type": "junction"
+    },
+    {
+      "id": "w-150",
+      "x": 675,
+      "y": 1025,
+      "type": "junction"
+    },
+    {
+      "id": "w-151",
+      "x": 875,
+      "y": 1025,
+      "type": "junction"
+    },
+    {
+      "id": "w-152",
+      "x": 1025,
+      "y": 1025,
+      "type": "junction"
+    },
+    {
+      "id": "w-153",
+      "x": 1125,
+      "y": 1025,
+      "type": "junction"
+    },
+    {
+      "id": "w-154",
+      "x": 75,
+      "y": 1075,
+      "type": "junction"
+    },
+    {
+      "id": "w-155",
+      "x": 175,
+      "y": 1075,
+      "type": "junction"
+    },
+    {
+      "id": "w-156",
+      "x": 325,
+      "y": 1075,
+      "type": "junction"
+    },
+    {
+      "id": "w-157",
+      "x": 425,
+      "y": 1075,
+      "type": "junction"
+    },
+    {
+      "id": "w-158",
+      "x": 575,
+      "y": 1075,
+      "type": "junction"
+    },
+    {
+      "id": "w-159",
+      "x": 675,
+      "y": 1075,
+      "type": "junction"
+    },
+    {
+      "id": "w-160",
+      "x": 825,
+      "y": 1075,
+      "type": "junction"
+    },
+    {
+      "id": "w-161",
+      "x": 925,
+      "y": 1075,
+      "type": "junction"
+    },
+    {
+      "id": "w-162",
+      "x": 1075,
+      "y": 1075,
+      "type": "junction"
+    },
+    {
+      "id": "w-163",
+      "x": 1175,
+      "y": 1075,
+      "type": "junction"
+    },
+    {
+      "id": "w-164",
+      "x": 125,
+      "y": 1125,
+      "type": "junction"
+    },
+    {
+      "id": "w-165",
+      "x": 225,
+      "y": 1125,
+      "type": "junction"
+    },
+    {
+      "id": "w-166",
+      "x": 375,
+      "y": 1125,
+      "type": "junction"
+    },
+    {
+      "id": "w-167",
+      "x": 525,
+      "y": 1125,
+      "type": "junction"
+    },
+    {
+      "id": "w-168",
+      "x": 625,
+      "y": 1125,
+      "type": "junction"
+    },
+    {
+      "id": "w-169",
+      "x": 775,
+      "y": 1125,
+      "type": "junction"
+    },
+    {
+      "id": "w-170",
+      "x": 875,
+      "y": 1125,
+      "type": "junction"
+    },
+    {
+      "id": "w-171",
+      "x": 1025,
+      "y": 1125,
+      "type": "junction"
+    },
+    {
+      "id": "w-172",
+      "x": 1125,
+      "y": 1125,
+      "type": "junction"
+    },
+    {
+      "id": "w-173",
+      "x": 75,
+      "y": 1175,
+      "type": "junction"
+    },
+    {
+      "id": "w-174",
+      "x": 175,
+      "y": 1175,
+      "type": "junction"
+    },
+    {
+      "id": "w-175",
+      "x": 325,
+      "y": 1175,
+      "type": "junction"
+    },
+    {
+      "id": "w-176",
+      "x": 425,
+      "y": 1175,
+      "type": "junction"
+    },
+    {
+      "id": "w-177",
+      "x": 575,
+      "y": 1175,
+      "type": "junction"
+    },
+    {
+      "id": "w-178",
+      "x": 675,
+      "y": 1175,
+      "type": "junction"
+    },
+    {
+      "id": "w-179",
+      "x": 875,
+      "y": 1175,
+      "type": "junction"
+    },
+    {
+      "id": "w-180",
+      "x": 975,
+      "y": 1175,
+      "type": "junction"
+    },
+    {
+      "id": "w-181",
+      "x": 1125,
+      "y": 1175,
+      "type": "junction"
+    },
+    {
+      "id": "w-182",
+      "x": 25,
+      "y": 1225,
+      "type": "junction"
+    },
+    {
+      "id": "w-183",
+      "x": 175,
+      "y": 1225,
+      "type": "junction"
+    },
+    {
+      "id": "w-184",
+      "x": 275,
+      "y": 1225,
+      "type": "junction"
+    },
+    {
+      "id": "w-185",
+      "x": 425,
+      "y": 1225,
+      "type": "junction"
+    },
+    {
+      "id": "w-186",
+      "x": 525,
+      "y": 1225,
+      "type": "junction"
+    },
+    {
+      "id": "w-187",
+      "x": 775,
+      "y": 1225,
+      "type": "junction"
+    },
+    {
+      "id": "w-188",
+      "x": 875,
+      "y": 1225,
+      "type": "junction"
+    },
+    {
+      "id": "w-189",
+      "x": 1025,
+      "y": 1225,
+      "type": "junction"
+    },
+    {
+      "id": "w-190",
+      "x": 1125,
+      "y": 1225,
+      "type": "junction"
+    },
+    {
+      "id": "w-191",
+      "x": 75,
+      "y": 1275,
+      "type": "junction"
+    },
+    {
+      "id": "w-192",
+      "x": 175,
+      "y": 1275,
+      "type": "junction"
+    },
+    {
+      "id": "w-193",
+      "x": 325,
+      "y": 1275,
+      "type": "junction"
+    },
+    {
+      "id": "w-194",
+      "x": 425,
+      "y": 1275,
+      "type": "junction"
+    },
+    {
+      "id": "w-195",
+      "x": 575,
+      "y": 1275,
+      "type": "junction"
+    },
+    {
+      "id": "w-196",
+      "x": 675,
+      "y": 1275,
+      "type": "junction"
+    },
+    {
+      "id": "w-197",
+      "x": 825,
+      "y": 1275,
+      "type": "junction"
+    },
+    {
+      "id": "w-198",
+      "x": 925,
+      "y": 1275,
+      "type": "junction"
+    },
+    {
+      "id": "w-199",
+      "x": 1075,
+      "y": 1275,
+      "type": "junction"
+    },
+    {
+      "id": "a1donuts",
+      "x": 468.5,
+      "y": 757.4,
+      "type": "store",
+      "store": "a1donuts"
+    },
+    {
+      "id": "asiangourmet",
+      "x": 483.88,
+      "y": 753.04,
+      "type": "store",
+      "store": "asiangourmet"
+    },
+    {
+      "id": "barburrito",
+      "x": 1141.16,
+      "y": 694.74,
+      "type": "store",
+      "store": "barburrito"
+    },
+    {
+      "id": "bmo",
+      "x": 498.04,
+      "y": 70.52,
+      "type": "store",
+      "store": "bmo"
+    },
+    {
+      "id": "cell-max",
+      "x": 553.36,
+      "y": 733.36,
+      "type": "store",
+      "store": "cell-max"
+    },
+    {
+      "id": "crazy-rolls-ice-cream",
+      "x": 630.41,
+      "y": 645.18,
+      "type": "store",
+      "store": "crazy-rolls-ice-cream"
+    },
+    {
+      "id": "dentist",
+      "x": 679.84,
+      "y": 1192.51,
+      "type": "store",
+      "store": "dentist"
+    },
+    {
+      "id": "dollarama",
+      "x": 524.77,
+      "y": 706.91,
+      "type": "store",
+      "store": "dollarama"
+    },
+    {
+      "id": "famousoptic",
+      "x": 432.49,
+      "y": 750.86,
+      "type": "store",
+      "store": "famousoptic"
+    },
+    {
+      "id": "fikacannabis",
+      "x": 762.59,
+      "y": 263.2,
+      "type": "store",
+      "store": "fikacannabis"
+    },
+    {
+      "id": "firstchoicehaircutters",
+      "x": 750.28,
+      "y": 276.6,
+      "type": "store",
+      "store": "firstchoicehaircutters"
+    },
+    {
+      "id": "fit4less",
+      "x": 490.98,
+      "y": 924.88,
+      "type": "store",
+      "store": "fit4less"
+    },
+    {
+      "id": "honey-nails-spa",
+      "x": 532.99,
+      "y": 876.59,
+      "type": "store",
+      "store": "honey-nails-spa"
+    },
+    {
+      "id": "infolottokiosk",
+      "x": 598.87,
+      "y": 716.56,
+      "type": "store",
+      "store": "infolottokiosk"
+    },
+    {
+      "id": "kumon",
+      "x": 645.21,
+      "y": 805.94,
+      "type": "store",
+      "store": "kumon"
+    },
+    {
+      "id": "lacoupla",
+      "x": 590.51,
+      "y": 628.48,
+      "type": "store",
+      "store": "lacoupla"
+    },
+    {
+      "id": "lola-norma-s-karinderya",
+      "x": 451.61,
+      "y": 758.92,
+      "type": "store",
+      "store": "lola-norma-s-karinderya"
+    },
+    {
+      "id": "lynearhairsalon",
+      "x": 515.84,
+      "y": 856.55,
+      "type": "store",
+      "store": "lynearhairsalon"
+    },
+    {
+      "id": "mad-digital-exchange",
+      "x": 509.68,
+      "y": 827.47,
+      "type": "store",
+      "store": "mad-digital-exchange"
+    },
+    {
+      "id": "nailsforyou",
+      "x": 615.57,
+      "y": 662.78,
+      "type": "store",
+      "store": "nailsforyou"
+    },
+    {
+      "id": "nofrills",
+      "x": 720.44,
+      "y": 873.88,
+      "type": "store",
+      "store": "nofrills"
+    },
+    {
+      "id": "onenesswellnesscentre",
+      "x": 694.82,
+      "y": 1207.18,
+      "type": "store",
+      "store": "onenesswellnesscentre"
+    },
+    {
+      "id": "pamirrugsco",
+      "x": 572.67,
+      "y": 815.18,
+      "type": "store",
+      "store": "pamirrugsco"
+    },
+    {
+      "id": "peplosbydesigner",
+      "x": 566.82,
+      "y": 834.16,
+      "type": "store",
+      "store": "peplosbydesigner"
+    },
+    {
+      "id": "pitaland",
+      "x": 655.75,
+      "y": 694.3,
+      "type": "store",
+      "store": "pitaland"
+    },
+    {
+      "id": "popeyes",
+      "x": 676.31,
+      "y": 711.95,
+      "type": "store",
+      "store": "popeyes"
+    },
+    {
+      "id": "rapizza",
+      "x": 444.24,
+      "y": 758.64,
+      "type": "store",
+      "store": "rapizza"
+    },
+    {
+      "id": "realfruitbubbletea",
+      "x": 478.04,
+      "y": 835.23,
+      "type": "store",
+      "store": "realfruitbubbletea"
+    },
+    {
+      "id": "rogers",
+      "x": 1109.47,
+      "y": 630.78,
+      "type": "store",
+      "store": "rogers"
+    },
+    {
+      "id": "samphhealth",
+      "x": 626.37,
+      "y": 753.91,
+      "type": "store",
+      "store": "samphhealth"
+    },
+    {
+      "id": "samrsquosshoesrepair",
+      "x": 547.68,
+      "y": 832.77,
+      "type": "store",
+      "store": "samrsquosshoesrepair"
+    },
+    {
+      "id": "shoppersdrugmart",
+      "x": 901.13,
+      "y": 425.22,
+      "type": "store",
+      "store": "shoppersdrugmart"
+    },
+    {
+      "id": "softrontax",
+      "x": 451.93,
+      "y": 829.35,
+      "type": "store",
+      "store": "softrontax"
+    },
+    {
+      "id": "south-common-library",
+      "x": 581.91,
+      "y": 805.88,
+      "type": "store",
+      "store": "south-common-library"
+    },
+    {
+      "id": "southcommonmedicalcentre",
+      "x": 720.05,
+      "y": 1211.42,
+      "type": "store",
+      "store": "southcommonmedicalcentre"
+    },
+    {
+      "id": "south-common-orthopedic",
+      "x": 639.87,
+      "y": 766.12,
+      "type": "store",
+      "store": "south-common-orthopedic"
+    },
+    {
+      "id": "stackedpancakeampbreakfasthouse",
+      "x": 723.36,
+      "y": 306.02,
+      "type": "store",
+      "store": "stackedpancakeampbreakfasthouse"
+    },
+    {
+      "id": "stanzigelsteinlawyers",
+      "x": 386.88,
+      "y": 847.98,
+      "type": "store",
+      "store": "stanzigelsteinlawyers"
+    },
+    {
+      "id": "subway",
+      "x": 737.09,
+      "y": 290.96,
+      "type": "store",
+      "store": "subway"
+    },
+    {
+      "id": "sunrise-orthotics",
+      "x": 499.11,
+      "y": 814.56,
+      "type": "store",
+      "store": "sunrise-orthotics"
+    },
+    {
+      "id": "sunshine-healthcare",
+      "x": 653.75,
+      "y": 813.84,
+      "type": "store",
+      "store": "sunshine-healthcare"
+    },
+    {
+      "id": "td",
+      "x": 81.09,
+      "y": 449.63,
+      "type": "store",
+      "store": "td"
+    },
+    {
+      "id": "thairoomgrand",
+      "x": 1123.79,
+      "y": 681.37,
+      "type": "store",
+      "store": "thairoomgrand"
+    },
+    {
+      "id": "theupperhandgamesandsportscards",
+      "x": 604.34,
+      "y": 642.32,
+      "type": "store",
+      "store": "theupperhandgamesandsportscards"
+    },
+    {
+      "id": "thewineshop",
+      "x": 694.83,
+      "y": 730.07,
+      "type": "store",
+      "store": "thewineshop"
+    },
+    {
+      "id": "topstitch",
+      "x": 648.31,
+      "y": 773.78,
+      "type": "store",
+      "store": "topstitch"
+    },
+    {
+      "id": "viewcleaners",
+      "x": 578.6,
+      "y": 616.57,
+      "type": "store",
+      "store": "viewcleaners"
+    },
+    {
+      "id": "walmartsupercentre",
+      "x": 324.04,
+      "y": 553.35,
+      "type": "store",
+      "store": "walmartsupercentre"
+    },
+    {
+      "id": "wcgservices",
+      "x": 571.35,
+      "y": 690.87,
+      "type": "store",
+      "store": "wcgservices"
+    },
+    {
+      "id": "unit-18",
+      "x": 409.32,
+      "y": 844.56,
+      "type": "store",
+      "store": "unit-18"
+    },
+    {
+      "id": "unit-19",
+      "x": 426.24,
+      "y": 830.48,
+      "type": "store",
+      "store": "unit-19"
+    },
+    {
+      "id": "unit-22",
+      "x": 477.96,
+      "y": 815.26,
+      "type": "store",
+      "store": "unit-22"
+    },
+    {
+      "id": "unit-27",
+      "x": 567.28,
+      "y": 863.21,
+      "type": "store",
+      "store": "unit-27"
+    },
+    {
+      "id": "unit-32",
+      "x": 596.6,
+      "y": 773.16,
+      "type": "store",
+      "store": "unit-32"
+    },
+    {
+      "id": "unit-33",
+      "x": 610.36,
+      "y": 736.78,
+      "type": "store",
+      "store": "unit-33"
+    },
+    {
+      "id": "unit-55",
+      "x": 442.65,
+      "y": 723.32,
+      "type": "store",
+      "store": "unit-55"
+    }
+  ],
+  "edges": [
+    {
+      "a": "w-000",
+      "b": "w-010",
+      "cost": 71
+    },
+    {
+      "a": "w-000",
+      "b": "w-001",
+      "cost": 100
+    },
+    {
+      "a": "w-000",
+      "b": "w-019",
+      "cost": 112
+    },
+    {
+      "a": "w-001",
+      "b": "w-010",
+      "cost": 71
+    },
+    {
+      "a": "w-001",
+      "b": "w-011",
+      "cost": 71
+    },
+    {
+      "a": "w-001",
+      "b": "w-019",
+      "cost": 112
+    },
+    {
+      "a": "w-002",
+      "b": "w-012",
+      "cost": 71
+    },
+    {
+      "a": "w-002",
+      "b": "w-003",
+      "cost": 100
+    },
+    {
+      "a": "w-002",
+      "b": "w-011",
+      "cost": 112
+    },
+    {
+      "a": "w-002",
+      "b": "w-020",
+      "cost": 112
+    },
+    {
+      "a": "w-002",
+      "b": "w-021",
+      "cost": 112
+    },
+    {
+      "a": "w-003",
+      "b": "w-012",
+      "cost": 71
+    },
+    {
+      "a": "w-003",
+      "b": "w-013",
+      "cost": 71
+    },
+    {
+      "a": "w-003",
+      "b": "w-021",
+      "cost": 112
+    },
+    {
+      "a": "w-004",
+      "b": "w-005",
+      "cost": 100
+    },
+    {
+      "a": "w-005",
+      "b": "w-014",
+      "cost": 71
+    },
+    {
+      "a": "w-005",
+      "b": "w-023",
+      "cost": 112
+    },
+    {
+      "a": "w-006",
+      "b": "w-015",
+      "cost": 50
+    },
+    {
+      "a": "w-006",
+      "b": "w-007",
+      "cost": 100
+    },
+    {
+      "a": "w-006",
+      "b": "w-014",
+      "cost": 112
+    },
+    {
+      "a": "w-006",
+      "b": "w-024",
+      "cost": 112
+    },
+    {
+      "a": "w-006",
+      "b": "w-025",
+      "cost": 112
+    },
+    {
+      "a": "w-007",
+      "b": "w-016",
+      "cost": 71
+    },
+    {
+      "a": "w-007",
+      "b": "w-015",
+      "cost": 112
+    },
+    {
+      "a": "w-007",
+      "b": "w-025",
+      "cost": 112
+    },
+    {
+      "a": "w-008",
+      "b": "w-017",
+      "cost": 50
+    },
+    {
+      "a": "w-008",
+      "b": "w-009",
+      "cost": 100
+    },
+    {
+      "a": "w-008",
+      "b": "w-016",
+      "cost": 112
+    },
+    {
+      "a": "w-008",
+      "b": "w-026",
+      "cost": 112
+    },
+    {
+      "a": "w-008",
+      "b": "w-027",
+      "cost": 112
+    },
+    {
+      "a": "w-009",
+      "b": "w-018",
+      "cost": 71
+    },
+    {
+      "a": "w-009",
+      "b": "w-017",
+      "cost": 112
+    },
+    {
+      "a": "w-009",
+      "b": "w-027",
+      "cost": 112
+    },
+    {
+      "a": "w-010",
+      "b": "w-019",
+      "cost": 50
+    },
+    {
+      "a": "w-010",
+      "b": "w-011",
+      "cost": 100
+    },
+    {
+      "a": "w-010",
+      "b": "w-028",
+      "cost": 112
+    },
+    {
+      "a": "w-011",
+      "b": "w-020",
+      "cost": 71
+    },
+    {
+      "a": "w-011",
+      "b": "w-019",
+      "cost": 112
+    },
+    {
+      "a": "w-012",
+      "b": "w-021",
+      "cost": 50
+    },
+    {
+      "a": "w-012",
+      "b": "w-013",
+      "cost": 100
+    },
+    {
+      "a": "w-012",
+      "b": "w-020",
+      "cost": 112
+    },
+    {
+      "a": "w-013",
+      "b": "w-022",
+      "cost": 71
+    },
+    {
+      "a": "w-013",
+      "b": "w-021",
+      "cost": 112
+    },
+    {
+      "a": "w-014",
+      "b": "w-024",
+      "cost": 71
+    },
+    {
+      "a": "w-014",
+      "b": "w-015",
+      "cost": 100
+    },
+    {
+      "a": "w-014",
+      "b": "w-023",
+      "cost": 112
+    },
+    {
+      "a": "w-015",
+      "b": "w-024",
+      "cost": 71
+    },
+    {
+      "a": "w-015",
+      "b": "w-025",
+      "cost": 71
+    },
+    {
+      "a": "w-015",
+      "b": "w-034",
+      "cost": 100
+    },
+    {
+      "a": "w-016",
+      "b": "w-026",
+      "cost": 71
+    },
+    {
+      "a": "w-016",
+      "b": "w-017",
+      "cost": 100
+    },
+    {
+      "a": "w-016",
+      "b": "w-035",
+      "cost": 100
+    },
+    {
+      "a": "w-017",
+      "b": "w-026",
+      "cost": 71
+    },
+    {
+      "a": "w-017",
+      "b": "w-027",
+      "cost": 71
+    },
+    {
+      "a": "w-017",
+      "b": "w-036",
+      "cost": 100
+    },
+    {
+      "a": "w-018",
+      "b": "w-037",
+      "cost": 100
+    },
+    {
+      "a": "w-018",
+      "b": "w-027",
+      "cost": 112
+    },
+    {
+      "a": "w-019",
+      "b": "w-028",
+      "cost": 71
+    },
+    {
+      "a": "w-019",
+      "b": "w-029",
+      "cost": 71
+    },
+    {
+      "a": "w-019",
+      "b": "w-038",
+      "cost": 100
+    },
+    {
+      "a": "w-020",
+      "b": "w-030",
+      "cost": 71
+    },
+    {
+      "a": "w-020",
+      "b": "w-021",
+      "cost": 100
+    },
+    {
+      "a": "w-020",
+      "b": "w-039",
+      "cost": 100
+    },
+    {
+      "a": "w-021",
+      "b": "w-030",
+      "cost": 71
+    },
+    {
+      "a": "w-021",
+      "b": "w-031",
+      "cost": 71
+    },
+    {
+      "a": "w-021",
+      "b": "w-040",
+      "cost": 100
+    },
+    {
+      "a": "w-022",
+      "b": "w-032",
+      "cost": 71
+    },
+    {
+      "a": "w-022",
+      "b": "w-023",
+      "cost": 100
+    },
+    {
+      "a": "w-022",
+      "b": "w-041",
+      "cost": 100
+    },
+    {
+      "a": "w-023",
+      "b": "w-032",
+      "cost": 71
+    },
+    {
+      "a": "w-023",
+      "b": "w-033",
+      "cost": 71
+    },
+    {
+      "a": "w-023",
+      "b": "w-042",
+      "cost": 100
+    },
+    {
+      "a": "w-024",
+      "b": "w-034",
+      "cost": 71
+    },
+    {
+      "a": "w-024",
+      "b": "w-025",
+      "cost": 100
+    },
+    {
+      "a": "w-024",
+      "b": "w-043",
+      "cost": 100
+    },
+    {
+      "a": "w-025",
+      "b": "w-034",
+      "cost": 71
+    },
+    {
+      "a": "w-025",
+      "b": "w-044",
+      "cost": 100
+    },
+    {
+      "a": "w-026",
+      "b": "w-035",
+      "cost": 71
+    },
+    {
+      "a": "w-026",
+      "b": "w-036",
+      "cost": 71
+    },
+    {
+      "a": "w-026",
+      "b": "w-027",
+      "cost": 100
+    },
+    {
+      "a": "w-027",
+      "b": "w-036",
+      "cost": 71
+    },
+    {
+      "a": "w-027",
+      "b": "w-046",
+      "cost": 100
+    },
+    {
+      "a": "w-028",
+      "b": "w-038",
+      "cost": 71
+    },
+    {
+      "a": "w-028",
+      "b": "w-029",
+      "cost": 100
+    },
+    {
+      "a": "w-028",
+      "b": "w-047",
+      "cost": 100
+    },
+    {
+      "a": "w-029",
+      "b": "w-038",
+      "cost": 71
+    },
+    {
+      "a": "w-029",
+      "b": "w-048",
+      "cost": 100
+    },
+    {
+      "a": "w-029",
+      "b": "w-010",
+      "cost": 112
+    },
+    {
+      "a": "w-030",
+      "b": "w-039",
+      "cost": 71
+    },
+    {
+      "a": "w-030",
+      "b": "w-040",
+      "cost": 71
+    },
+    {
+      "a": "w-030",
+      "b": "w-031",
+      "cost": 100
+    },
+    {
+      "a": "w-031",
+      "b": "w-040",
+      "cost": 71
+    },
+    {
+      "a": "w-031",
+      "b": "w-050",
+      "cost": 100
+    },
+    {
+      "a": "w-031",
+      "b": "w-012",
+      "cost": 112
+    },
+    {
+      "a": "w-032",
+      "b": "w-041",
+      "cost": 71
+    },
+    {
+      "a": "w-032",
+      "b": "w-042",
+      "cost": 71
+    },
+    {
+      "a": "w-032",
+      "b": "w-033",
+      "cost": 100
+    },
+    {
+      "a": "w-033",
+      "b": "w-042",
+      "cost": 71
+    },
+    {
+      "a": "w-033",
+      "b": "w-052",
+      "cost": 100
+    },
+    {
+      "a": "w-033",
+      "b": "w-014",
+      "cost": 112
+    },
+    {
+      "a": "w-034",
+      "b": "w-043",
+      "cost": 71
+    },
+    {
+      "a": "w-034",
+      "b": "w-044",
+      "cost": 71
+    },
+    {
+      "a": "w-035",
+      "b": "w-045",
+      "cost": 71
+    },
+    {
+      "a": "w-035",
+      "b": "w-036",
+      "cost": 100
+    },
+    {
+      "a": "w-035",
+      "b": "w-025",
+      "cost": 112
+    },
+    {
+      "a": "w-036",
+      "b": "w-045",
+      "cost": 71
+    },
+    {
+      "a": "w-036",
+      "b": "w-046",
+      "cost": 71
+    },
+    {
+      "a": "w-037",
+      "b": "w-027",
+      "cost": 112
+    },
+    {
+      "a": "w-037",
+      "b": "w-046",
+      "cost": 112
+    },
+    {
+      "a": "w-037",
+      "b": "w-055",
+      "cost": 112
+    },
+    {
+      "a": "w-038",
+      "b": "w-047",
+      "cost": 71
+    },
+    {
+      "a": "w-038",
+      "b": "w-048",
+      "cost": 71
+    },
+    {
+      "a": "w-039",
+      "b": "w-049",
+      "cost": 71
+    },
+    {
+      "a": "w-039",
+      "b": "w-040",
+      "cost": 100
+    },
+    {
+      "a": "w-039",
+      "b": "w-029",
+      "cost": 112
+    },
+    {
+      "a": "w-040",
+      "b": "w-049",
+      "cost": 71
+    },
+    {
+      "a": "w-040",
+      "b": "w-050",
+      "cost": 71
+    },
+    {
+      "a": "w-041",
+      "b": "w-051",
+      "cost": 71
+    },
+    {
+      "a": "w-041",
+      "b": "w-042",
+      "cost": 100
+    },
+    {
+      "a": "w-041",
+      "b": "w-059",
+      "cost": 100
+    },
+    {
+      "a": "w-042",
+      "b": "w-051",
+      "cost": 71
+    },
+    {
+      "a": "w-042",
+      "b": "w-052",
+      "cost": 71
+    },
+    {
+      "a": "w-043",
+      "b": "w-044",
+      "cost": 100
+    },
+    {
+      "a": "w-043",
+      "b": "w-033",
+      "cost": 112
+    },
+    {
+      "a": "w-043",
+      "b": "w-052",
+      "cost": 112
+    },
+    {
+      "a": "w-044",
+      "b": "w-053",
+      "cost": 71
+    },
+    {
+      "a": "w-044",
+      "b": "w-035",
+      "cost": 112
+    },
+    {
+      "a": "w-045",
+      "b": "w-054",
+      "cost": 50
+    },
+    {
+      "a": "w-045",
+      "b": "w-026",
+      "cost": 100
+    },
+    {
+      "a": "w-045",
+      "b": "w-046",
+      "cost": 100
+    },
+    {
+      "a": "w-046",
+      "b": "w-055",
+      "cost": 71
+    },
+    {
+      "a": "w-047",
+      "b": "w-056",
+      "cost": 50
+    },
+    {
+      "a": "w-047",
+      "b": "w-048",
+      "cost": 100
+    },
+    {
+      "a": "w-047",
+      "b": "w-065",
+      "cost": 112
+    },
+    {
+      "a": "w-048",
+      "b": "w-057",
+      "cost": 71
+    },
+    {
+      "a": "w-048",
+      "b": "w-039",
+      "cost": 112
+    },
+    {
+      "a": "w-049",
+      "b": "w-058",
+      "cost": 71
+    },
+    {
+      "a": "w-049",
+      "b": "w-030",
+      "cost": 100
+    },
+    {
+      "a": "w-049",
+      "b": "w-050",
+      "cost": 100
+    },
+    {
+      "a": "w-050",
+      "b": "w-058",
+      "cost": 71
+    },
+    {
+      "a": "w-050",
+      "b": "w-041",
+      "cost": 112
+    },
+    {
+      "a": "w-051",
+      "b": "w-059",
+      "cost": 71
+    },
+    {
+      "a": "w-051",
+      "b": "w-060",
+      "cost": 71
+    },
+    {
+      "a": "w-051",
+      "b": "w-032",
+      "cost": 100
+    },
+    {
+      "a": "w-052",
+      "b": "w-060",
+      "cost": 71
+    },
+    {
+      "a": "w-052",
+      "b": "w-051",
+      "cost": 100
+    },
+    {
+      "a": "w-052",
+      "b": "w-068",
+      "cost": 100
+    },
+    {
+      "a": "w-053",
+      "b": "w-062",
+      "cost": 50
+    },
+    {
+      "a": "w-053",
+      "b": "w-054",
+      "cost": 100
+    },
+    {
+      "a": "w-053",
+      "b": "w-035",
+      "cost": 112
+    },
+    {
+      "a": "w-053",
+      "b": "w-045",
+      "cost": 112
+    },
+    {
+      "a": "w-054",
+      "b": "w-063",
+      "cost": 71
+    },
+    {
+      "a": "w-054",
+      "b": "w-070",
+      "cost": 100
+    },
+    {
+      "a": "w-054",
+      "b": "w-035",
+      "cost": 112
+    },
+    {
+      "a": "w-055",
+      "b": "w-064",
+      "cost": 50
+    },
+    {
+      "a": "w-055",
+      "b": "w-063",
+      "cost": 112
+    },
+    {
+      "a": "w-055",
+      "b": "w-071",
+      "cost": 112
+    },
+    {
+      "a": "w-056",
+      "b": "w-065",
+      "cost": 71
+    },
+    {
+      "a": "w-056",
+      "b": "w-072",
+      "cost": 100
+    },
+    {
+      "a": "w-056",
+      "b": "w-038",
+      "cost": 112
+    },
+    {
+      "a": "w-056",
+      "b": "w-048",
+      "cost": 112
+    },
+    {
+      "a": "w-057",
+      "b": "w-066",
+      "cost": 50
+    },
+    {
+      "a": "w-057",
+      "b": "w-073",
+      "cost": 100
+    },
+    {
+      "a": "w-057",
+      "b": "w-039",
+      "cost": 112
+    },
+    {
+      "a": "w-057",
+      "b": "w-049",
+      "cost": 112
+    },
+    {
+      "a": "w-058",
+      "b": "w-040",
+      "cost": 100
+    },
+    {
+      "a": "w-059",
+      "b": "w-067",
+      "cost": 50
+    },
+    {
+      "a": "w-059",
+      "b": "w-060",
+      "cost": 100
+    },
+    {
+      "a": "w-059",
+      "b": "w-074",
+      "cost": 100
+    },
+    {
+      "a": "w-060",
+      "b": "w-068",
+      "cost": 71
+    },
+    {
+      "a": "w-060",
+      "b": "w-042",
+      "cost": 100
+    },
+    {
+      "a": "w-061",
+      "b": "w-069",
+      "cost": 71
+    },
+    {
+      "a": "w-061",
+      "b": "w-062",
+      "cost": 100
+    },
+    {
+      "a": "w-061",
+      "b": "w-044",
+      "cost": 112
+    },
+    {
+      "a": "w-061",
+      "b": "w-053",
+      "cost": 112
+    },
+    {
+      "a": "w-062",
+      "b": "w-044",
+      "cost": 112
+    },
+    {
+      "a": "w-062",
+      "b": "w-054",
+      "cost": 112
+    },
+    {
+      "a": "w-062",
+      "b": "w-070",
+      "cost": 112
+    },
+    {
+      "a": "w-063",
+      "b": "w-070",
+      "cost": 71
+    },
+    {
+      "a": "w-063",
+      "b": "w-071",
+      "cost": 71
+    },
+    {
+      "a": "w-063",
+      "b": "w-064",
+      "cost": 100
+    },
+    {
+      "a": "w-063",
+      "b": "w-045",
+      "cost": 112
+    },
+    {
+      "a": "w-064",
+      "b": "w-071",
+      "cost": 71
+    },
+    {
+      "a": "w-064",
+      "b": "w-078",
+      "cost": 100
+    },
+    {
+      "a": "w-064",
+      "b": "w-046",
+      "cost": 112
+    },
+    {
+      "a": "w-065",
+      "b": "w-072",
+      "cost": 71
+    },
+    {
+      "a": "w-065",
+      "b": "w-066",
+      "cost": 100
+    },
+    {
+      "a": "w-065",
+      "b": "w-048",
+      "cost": 112
+    },
+    {
+      "a": "w-066",
+      "b": "w-073",
+      "cost": 50
+    },
+    {
+      "a": "w-066",
+      "b": "w-048",
+      "cost": 112
+    },
+    {
+      "a": "w-067",
+      "b": "w-074",
+      "cost": 50
+    },
+    {
+      "a": "w-067",
+      "b": "w-051",
+      "cost": 112
+    },
+    {
+      "a": "w-067",
+      "b": "w-060",
+      "cost": 112
+    },
+    {
+      "a": "w-067",
+      "b": "w-075",
+      "cost": 112
+    },
+    {
+      "a": "w-068",
+      "b": "w-075",
+      "cost": 71
+    },
+    {
+      "a": "w-068",
+      "b": "w-069",
+      "cost": 100
+    },
+    {
+      "a": "w-068",
+      "b": "w-076",
+      "cost": 112
+    },
+    {
+      "a": "w-069",
+      "b": "w-076",
+      "cost": 50
+    },
+    {
+      "a": "w-069",
+      "b": "w-081",
+      "cost": 112
+    },
+    {
+      "a": "w-070",
+      "b": "w-077",
+      "cost": 50
+    },
+    {
+      "a": "w-070",
+      "b": "w-071",
+      "cost": 100
+    },
+    {
+      "a": "w-070",
+      "b": "w-083",
+      "cost": 100
+    },
+    {
+      "a": "w-071",
+      "b": "w-078",
+      "cost": 71
+    },
+    {
+      "a": "w-072",
+      "b": "w-079",
+      "cost": 50
+    },
+    {
+      "a": "w-072",
+      "b": "w-085",
+      "cost": 100
+    },
+    {
+      "a": "w-073",
+      "b": "w-065",
+      "cost": 112
+    },
+    {
+      "a": "w-074",
+      "b": "w-075",
+      "cost": 100
+    },
+    {
+      "a": "w-074",
+      "b": "w-080",
+      "cost": 112
+    },
+    {
+      "a": "w-075",
+      "b": "w-080",
+      "cost": 50
+    },
+    {
+      "a": "w-075",
+      "b": "w-060",
+      "cost": 100
+    },
+    {
+      "a": "w-075",
+      "b": "w-086",
+      "cost": 100
+    },
+    {
+      "a": "w-076",
+      "b": "w-081",
+      "cost": 71
+    },
+    {
+      "a": "w-076",
+      "b": "w-061",
+      "cost": 112
+    },
+    {
+      "a": "w-076",
+      "b": "w-082",
+      "cost": 112
+    },
+    {
+      "a": "w-077",
+      "b": "w-083",
+      "cost": 50
+    },
+    {
+      "a": "w-077",
+      "b": "w-063",
+      "cost": 112
+    },
+    {
+      "a": "w-077",
+      "b": "w-071",
+      "cost": 112
+    },
+    {
+      "a": "w-078",
+      "b": "w-084",
+      "cost": 50
+    },
+    {
+      "a": "w-078",
+      "b": "w-090",
+      "cost": 112
+    },
+    {
+      "a": "w-078",
+      "b": "w-091",
+      "cost": 112
+    },
+    {
+      "a": "w-079",
+      "b": "w-085",
+      "cost": 50
+    },
+    {
+      "a": "w-079",
+      "b": "w-065",
+      "cost": 112
+    },
+    {
+      "a": "w-080",
+      "b": "w-086",
+      "cost": 50
+    },
+    {
+      "a": "w-080",
+      "b": "w-081",
+      "cost": 100
+    },
+    {
+      "a": "w-080",
+      "b": "w-092",
+      "cost": 100
+    },
+    {
+      "a": "w-080",
+      "b": "w-068",
+      "cost": 112
+    },
+    {
+      "a": "w-081",
+      "b": "w-087",
+      "cost": 50
+    },
+    {
+      "a": "w-081",
+      "b": "w-093",
+      "cost": 100
+    },
+    {
+      "a": "w-081",
+      "b": "w-068",
+      "cost": 112
+    },
+    {
+      "a": "w-082",
+      "b": "w-088",
+      "cost": 50
+    },
+    {
+      "a": "w-082",
+      "b": "w-094",
+      "cost": 100
+    },
+    {
+      "a": "w-082",
+      "b": "w-089",
+      "cost": 112
+    },
+    {
+      "a": "w-083",
+      "b": "w-089",
+      "cost": 71
+    },
+    {
+      "a": "w-083",
+      "b": "w-090",
+      "cost": 112
+    },
+    {
+      "a": "w-083",
+      "b": "w-095",
+      "cost": 112
+    },
+    {
+      "a": "w-084",
+      "b": "w-090",
+      "cost": 71
+    },
+    {
+      "a": "w-084",
+      "b": "w-091",
+      "cost": 71
+    },
+    {
+      "a": "w-084",
+      "b": "w-071",
+      "cost": 112
+    },
+    {
+      "a": "w-084",
+      "b": "w-096",
+      "cost": 112
+    },
+    {
+      "a": "w-086",
+      "b": "w-092",
+      "cost": 50
+    },
+    {
+      "a": "w-086",
+      "b": "w-087",
+      "cost": 100
+    },
+    {
+      "a": "w-086",
+      "b": "w-081",
+      "cost": 112
+    },
+    {
+      "a": "w-087",
+      "b": "w-093",
+      "cost": 50
+    },
+    {
+      "a": "w-087",
+      "b": "w-099",
+      "cost": 100
+    },
+    {
+      "a": "w-087",
+      "b": "w-076",
+      "cost": 112
+    },
+    {
+      "a": "w-088",
+      "b": "w-094",
+      "cost": 50
+    },
+    {
+      "a": "w-088",
+      "b": "w-089",
+      "cost": 100
+    },
+    {
+      "a": "w-088",
+      "b": "w-100",
+      "cost": 100
+    },
+    {
+      "a": "w-088",
+      "b": "w-095",
+      "cost": 112
+    },
+    {
+      "a": "w-089",
+      "b": "w-095",
+      "cost": 50
+    },
+    {
+      "a": "w-090",
+      "b": "w-096",
+      "cost": 50
+    },
+    {
+      "a": "w-090",
+      "b": "w-091",
+      "cost": 100
+    },
+    {
+      "a": "w-091",
+      "b": "w-097",
+      "cost": 50
+    },
+    {
+      "a": "w-091",
+      "b": "w-102",
+      "cost": 100
+    },
+    {
+      "a": "w-092",
+      "b": "w-093",
+      "cost": 100
+    },
+    {
+      "a": "w-092",
+      "b": "w-087",
+      "cost": 112
+    },
+    {
+      "a": "w-092",
+      "b": "w-099",
+      "cost": 112
+    },
+    {
+      "a": "w-093",
+      "b": "w-099",
+      "cost": 50
+    },
+    {
+      "a": "w-093",
+      "b": "w-086",
+      "cost": 112
+    },
+    {
+      "a": "w-094",
+      "b": "w-100",
+      "cost": 50
+    },
+    {
+      "a": "w-094",
+      "b": "w-095",
+      "cost": 100
+    },
+    {
+      "a": "w-094",
+      "b": "w-105",
+      "cost": 100
+    },
+    {
+      "a": "w-095",
+      "b": "w-101",
+      "cost": 71
+    },
+    {
+      "a": "w-095",
+      "b": "w-106",
+      "cost": 100
+    },
+    {
+      "a": "w-096",
+      "b": "w-097",
+      "cost": 100
+    },
+    {
+      "a": "w-096",
+      "b": "w-091",
+      "cost": 112
+    },
+    {
+      "a": "w-096",
+      "b": "w-101",
+      "cost": 112
+    },
+    {
+      "a": "w-097",
+      "b": "w-102",
+      "cost": 50
+    },
+    {
+      "a": "w-097",
+      "b": "w-107",
+      "cost": 100
+    },
+    {
+      "a": "w-097",
+      "b": "w-084",
+      "cost": 112
+    },
+    {
+      "a": "w-098",
+      "b": "w-103",
+      "cost": 50
+    },
+    {
+      "a": "w-098",
+      "b": "w-104",
+      "cost": 112
+    },
+    {
+      "a": "w-098",
+      "b": "w-108",
+      "cost": 112
+    },
+    {
+      "a": "w-100",
+      "b": "w-105",
+      "cost": 50
+    },
+    {
+      "a": "w-100",
+      "b": "w-095",
+      "cost": 112
+    },
+    {
+      "a": "w-100",
+      "b": "w-106",
+      "cost": 112
+    },
+    {
+      "a": "w-101",
+      "b": "w-106",
+      "cost": 71
+    },
+    {
+      "a": "w-101",
+      "b": "w-089",
+      "cost": 112
+    },
+    {
+      "a": "w-101",
+      "b": "w-111",
+      "cost": 112
+    },
+    {
+      "a": "w-102",
+      "b": "w-107",
+      "cost": 50
+    },
+    {
+      "a": "w-102",
+      "b": "w-113",
+      "cost": 100
+    },
+    {
+      "a": "w-103",
+      "b": "w-108",
+      "cost": 71
+    },
+    {
+      "a": "w-103",
+      "b": "w-104",
+      "cost": 100
+    },
+    {
+      "a": "w-103",
+      "b": "w-109",
+      "cost": 112
+    },
+    {
+      "a": "w-103",
+      "b": "w-114",
+      "cost": 112
+    },
+    {
+      "a": "w-104",
+      "b": "w-109",
+      "cost": 50
+    },
+    {
+      "a": "w-104",
+      "b": "w-115",
+      "cost": 100
+    },
+    {
+      "a": "w-105",
+      "b": "w-110",
+      "cost": 71
+    },
+    {
+      "a": "w-105",
+      "b": "w-106",
+      "cost": 100
+    },
+    {
+      "a": "w-105",
+      "b": "w-111",
+      "cost": 112
+    },
+    {
+      "a": "w-106",
+      "b": "w-111",
+      "cost": 50
+    },
+    {
+      "a": "w-106",
+      "b": "w-117",
+      "cost": 100
+    },
+    {
+      "a": "w-107",
+      "b": "w-113",
+      "cost": 50
+    },
+    {
+      "a": "w-107",
+      "b": "w-119",
+      "cost": 100
+    },
+    {
+      "a": "w-108",
+      "b": "w-114",
+      "cost": 50
+    },
+    {
+      "a": "w-108",
+      "b": "w-120",
+      "cost": 100
+    },
+    {
+      "a": "w-109",
+      "b": "w-115",
+      "cost": 50
+    },
+    {
+      "a": "w-109",
+      "b": "w-121",
+      "cost": 100
+    },
+    {
+      "a": "w-110",
+      "b": "w-100",
+      "cost": 112
+    },
+    {
+      "a": "w-111",
+      "b": "w-117",
+      "cost": 50
+    },
+    {
+      "a": "w-111",
+      "b": "w-112",
+      "cost": 100
+    },
+    {
+      "a": "w-112",
+      "b": "w-118",
+      "cost": 50
+    },
+    {
+      "a": "w-112",
+      "b": "w-123",
+      "cost": 100
+    },
+    {
+      "a": "w-112",
+      "b": "w-101",
+      "cost": 112
+    },
+    {
+      "a": "w-112",
+      "b": "w-106",
+      "cost": 112
+    },
+    {
+      "a": "w-113",
+      "b": "w-119",
+      "cost": 50
+    },
+    {
+      "a": "w-113",
+      "b": "w-124",
+      "cost": 112
+    },
+    {
+      "a": "w-114",
+      "b": "w-120",
+      "cost": 50
+    },
+    {
+      "a": "w-114",
+      "b": "w-125",
+      "cost": 100
+    },
+    {
+      "a": "w-115",
+      "b": "w-121",
+      "cost": 50
+    },
+    {
+      "a": "w-115",
+      "b": "w-126",
+      "cost": 112
+    },
+    {
+      "a": "w-117",
+      "b": "w-122",
+      "cost": 71
+    },
+    {
+      "a": "w-117",
+      "b": "w-118",
+      "cost": 100
+    },
+    {
+      "a": "w-117",
+      "b": "w-112",
+      "cost": 112
+    },
+    {
+      "a": "w-118",
+      "b": "w-123",
+      "cost": 50
+    },
+    {
+      "a": "w-118",
+      "b": "w-129",
+      "cost": 100
+    },
+    {
+      "a": "w-118",
+      "b": "w-111",
+      "cost": 112
+    },
+    {
+      "a": "w-119",
+      "b": "w-124",
+      "cost": 71
+    },
+    {
+      "a": "w-119",
+      "b": "w-130",
+      "cost": 112
+    },
+    {
+      "a": "w-120",
+      "b": "w-125",
+      "cost": 50
+    },
+    {
+      "a": "w-120",
+      "b": "w-131",
+      "cost": 100
+    },
+    {
+      "a": "w-120",
+      "b": "w-126",
+      "cost": 112
+    },
+    {
+      "a": "w-121",
+      "b": "w-126",
+      "cost": 71
+    },
+    {
+      "a": "w-121",
+      "b": "w-127",
+      "cost": 112
+    },
+    {
+      "a": "w-121",
+      "b": "w-132",
+      "cost": 112
+    },
+    {
+      "a": "w-122",
+      "b": "w-111",
+      "cost": 112
+    },
+    {
+      "a": "w-122",
+      "b": "w-135",
+      "cost": 112
+    },
+    {
+      "a": "w-123",
+      "b": "w-129",
+      "cost": 50
+    },
+    {
+      "a": "w-123",
+      "b": "w-124",
+      "cost": 100
+    },
+    {
+      "a": "w-123",
+      "b": "w-117",
+      "cost": 112
+    },
+    {
+      "a": "w-124",
+      "b": "w-130",
+      "cost": 50
+    },
+    {
+      "a": "w-124",
+      "b": "w-118",
+      "cost": 112
+    },
+    {
+      "a": "w-125",
+      "b": "w-131",
+      "cost": 50
+    },
+    {
+      "a": "w-125",
+      "b": "w-126",
+      "cost": 100
+    },
+    {
+      "a": "w-125",
+      "b": "w-132",
+      "cost": 112
+    },
+    {
+      "a": "w-126",
+      "b": "w-132",
+      "cost": 50
+    },
+    {
+      "a": "w-127",
+      "b": "w-133",
+      "cost": 50
+    },
+    {
+      "a": "w-127",
+      "b": "w-140",
+      "cost": 112
+    },
+    {
+      "a": "w-128",
+      "b": "w-134",
+      "cost": 50
+    },
+    {
+      "a": "w-129",
+      "b": "w-136",
+      "cost": 71
+    },
+    {
+      "a": "w-129",
+      "b": "w-130",
+      "cost": 100
+    },
+    {
+      "a": "w-129",
+      "b": "w-124",
+      "cost": 112
+    },
+    {
+      "a": "w-130",
+      "b": "w-136",
+      "cost": 71
+    },
+    {
+      "a": "w-130",
+      "b": "w-137",
+      "cost": 71
+    },
+    {
+      "a": "w-130",
+      "b": "w-144",
+      "cost": 100
+    },
+    {
+      "a": "w-131",
+      "b": "w-138",
+      "cost": 71
+    },
+    {
+      "a": "w-131",
+      "b": "w-132",
+      "cost": 100
+    },
+    {
+      "a": "w-131",
+      "b": "w-126",
+      "cost": 112
+    },
+    {
+      "a": "w-132",
+      "b": "w-138",
+      "cost": 71
+    },
+    {
+      "a": "w-132",
+      "b": "w-139",
+      "cost": 71
+    },
+    {
+      "a": "w-132",
+      "b": "w-146",
+      "cost": 100
+    },
+    {
+      "a": "w-133",
+      "b": "w-140",
+      "cost": 71
+    },
+    {
+      "a": "w-133",
+      "b": "w-139",
+      "cost": 112
+    },
+    {
+      "a": "w-133",
+      "b": "w-147",
+      "cost": 112
+    },
+    {
+      "a": "w-134",
+      "b": "w-150",
+      "cost": 112
+    },
+    {
+      "a": "w-135",
+      "b": "w-142",
+      "cost": 71
+    },
+    {
+      "a": "w-135",
+      "b": "w-143",
+      "cost": 71
+    },
+    {
+      "a": "w-135",
+      "b": "w-129",
+      "cost": 112
+    },
+    {
+      "a": "w-135",
+      "b": "w-151",
+      "cost": 112
+    },
+    {
+      "a": "w-136",
+      "b": "w-144",
+      "cost": 71
+    },
+    {
+      "a": "w-136",
+      "b": "w-137",
+      "cost": 100
+    },
+    {
+      "a": "w-136",
+      "b": "w-123",
+      "cost": 112
+    },
+    {
+      "a": "w-137",
+      "b": "w-144",
+      "cost": 71
+    },
+    {
+      "a": "w-137",
+      "b": "w-124",
+      "cost": 112
+    },
+    {
+      "a": "w-137",
+      "b": "w-153",
+      "cost": 112
+    },
+    {
+      "a": "w-138",
+      "b": "w-146",
+      "cost": 71
+    },
+    {
+      "a": "w-138",
+      "b": "w-139",
+      "cost": 100
+    },
+    {
+      "a": "w-138",
+      "b": "w-125",
+      "cost": 112
+    },
+    {
+      "a": "w-139",
+      "b": "w-146",
+      "cost": 71
+    },
+    {
+      "a": "w-139",
+      "b": "w-147",
+      "cost": 71
+    },
+    {
+      "a": "w-139",
+      "b": "w-126",
+      "cost": 112
+    },
+    {
+      "a": "w-140",
+      "b": "w-148",
+      "cost": 71
+    },
+    {
+      "a": "w-140",
+      "b": "w-141",
+      "cost": 100
+    },
+    {
+      "a": "w-140",
+      "b": "w-147",
+      "cost": 112
+    },
+    {
+      "a": "w-141",
+      "b": "w-148",
+      "cost": 71
+    },
+    {
+      "a": "w-141",
+      "b": "w-149",
+      "cost": 71
+    },
+    {
+      "a": "w-141",
+      "b": "w-157",
+      "cost": 112
+    },
+    {
+      "a": "w-142",
+      "b": "w-151",
+      "cost": 50
+    },
+    {
+      "a": "w-142",
+      "b": "w-143",
+      "cost": 100
+    },
+    {
+      "a": "w-142",
+      "b": "w-160",
+      "cost": 112
+    },
+    {
+      "a": "w-142",
+      "b": "w-161",
+      "cost": 112
+    },
+    {
+      "a": "w-143",
+      "b": "w-152",
+      "cost": 71
+    },
+    {
+      "a": "w-143",
+      "b": "w-129",
+      "cost": 112
+    },
+    {
+      "a": "w-143",
+      "b": "w-136",
+      "cost": 112
+    },
+    {
+      "a": "w-144",
+      "b": "w-153",
+      "cost": 50
+    },
+    {
+      "a": "w-144",
+      "b": "w-152",
+      "cost": 112
+    },
+    {
+      "a": "w-145",
+      "b": "w-154",
+      "cost": 71
+    },
+    {
+      "a": "w-145",
+      "b": "w-131",
+      "cost": 112
+    },
+    {
+      "a": "w-145",
+      "b": "w-138",
+      "cost": 112
+    },
+    {
+      "a": "w-146",
+      "b": "w-155",
+      "cost": 50
+    },
+    {
+      "a": "w-146",
+      "b": "w-147",
+      "cost": 100
+    },
+    {
+      "a": "w-147",
+      "b": "w-156",
+      "cost": 71
+    },
+    {
+      "a": "w-148",
+      "b": "w-157",
+      "cost": 50
+    },
+    {
+      "a": "w-148",
+      "b": "w-149",
+      "cost": 100
+    },
+    {
+      "a": "w-148",
+      "b": "w-156",
+      "cost": 112
+    },
+    {
+      "a": "w-149",
+      "b": "w-158",
+      "cost": 71
+    },
+    {
+      "a": "w-149",
+      "b": "w-167",
+      "cost": 100
+    },
+    {
+      "a": "w-149",
+      "b": "w-157",
+      "cost": 112
+    },
+    {
+      "a": "w-150",
+      "b": "w-159",
+      "cost": 50
+    },
+    {
+      "a": "w-150",
+      "b": "w-158",
+      "cost": 112
+    },
+    {
+      "a": "w-150",
+      "b": "w-168",
+      "cost": 112
+    },
+    {
+      "a": "w-151",
+      "b": "w-160",
+      "cost": 71
+    },
+    {
+      "a": "w-151",
+      "b": "w-161",
+      "cost": 71
+    },
+    {
+      "a": "w-151",
+      "b": "w-170",
+      "cost": 100
+    },
+    {
+      "a": "w-152",
+      "b": "w-162",
+      "cost": 71
+    },
+    {
+      "a": "w-152",
+      "b": "w-153",
+      "cost": 100
+    },
+    {
+      "a": "w-152",
+      "b": "w-171",
+      "cost": 100
+    },
+    {
+      "a": "w-152",
+      "b": "w-136",
+      "cost": 112
+    },
+    {
+      "a": "w-153",
+      "b": "w-162",
+      "cost": 71
+    },
+    {
+      "a": "w-153",
+      "b": "w-163",
+      "cost": 71
+    },
+    {
+      "a": "w-153",
+      "b": "w-172",
+      "cost": 100
+    },
+    {
+      "a": "w-154",
+      "b": "w-164",
+      "cost": 71
+    },
+    {
+      "a": "w-154",
+      "b": "w-155",
+      "cost": 100
+    },
+    {
+      "a": "w-154",
+      "b": "w-173",
+      "cost": 100
+    },
+    {
+      "a": "w-154",
+      "b": "w-138",
+      "cost": 112
+    },
+    {
+      "a": "w-155",
+      "b": "w-164",
+      "cost": 71
+    },
+    {
+      "a": "w-155",
+      "b": "w-165",
+      "cost": 71
+    },
+    {
+      "a": "w-155",
+      "b": "w-174",
+      "cost": 100
+    },
+    {
+      "a": "w-156",
+      "b": "w-166",
+      "cost": 71
+    },
+    {
+      "a": "w-156",
+      "b": "w-157",
+      "cost": 100
+    },
+    {
+      "a": "w-156",
+      "b": "w-175",
+      "cost": 100
+    },
+    {
+      "a": "w-156",
+      "b": "w-140",
+      "cost": 112
+    },
+    {
+      "a": "w-157",
+      "b": "w-166",
+      "cost": 71
+    },
+    {
+      "a": "w-157",
+      "b": "w-176",
+      "cost": 100
+    },
+    {
+      "a": "w-157",
+      "b": "w-140",
+      "cost": 112
+    },
+    {
+      "a": "w-158",
+      "b": "w-167",
+      "cost": 71
+    },
+    {
+      "a": "w-158",
+      "b": "w-168",
+      "cost": 71
+    },
+    {
+      "a": "w-158",
+      "b": "w-159",
+      "cost": 100
+    },
+    {
+      "a": "w-158",
+      "b": "w-177",
+      "cost": 100
+    },
+    {
+      "a": "w-159",
+      "b": "w-168",
+      "cost": 71
+    },
+    {
+      "a": "w-159",
+      "b": "w-178",
+      "cost": 100
+    },
+    {
+      "a": "w-159",
+      "b": "w-169",
+      "cost": 112
+    },
+    {
+      "a": "w-160",
+      "b": "w-169",
+      "cost": 71
+    },
+    {
+      "a": "w-160",
+      "b": "w-170",
+      "cost": 71
+    },
+    {
+      "a": "w-160",
+      "b": "w-161",
+      "cost": 100
+    },
+    {
+      "a": "w-161",
+      "b": "w-170",
+      "cost": 71
+    },
+    {
+      "a": "w-161",
+      "b": "w-143",
+      "cost": 112
+    },
+    {
+      "a": "w-162",
+      "b": "w-171",
+      "cost": 71
+    },
+    {
+      "a": "w-162",
+      "b": "w-172",
+      "cost": 71
+    },
+    {
+      "a": "w-162",
+      "b": "w-163",
+      "cost": 100
+    },
+    {
+      "a": "w-163",
+      "b": "w-172",
+      "cost": 71
+    },
+    {
+      "a": "w-163",
+      "b": "w-144",
+      "cost": 112
+    },
+    {
+      "a": "w-163",
+      "b": "w-181",
+      "cost": 112
+    },
+    {
+      "a": "w-164",
+      "b": "w-173",
+      "cost": 71
+    },
+    {
+      "a": "w-164",
+      "b": "w-174",
+      "cost": 71
+    },
+    {
+      "a": "w-164",
+      "b": "w-165",
+      "cost": 100
+    },
+    {
+      "a": "w-165",
+      "b": "w-174",
+      "cost": 71
+    },
+    {
+      "a": "w-165",
+      "b": "w-146",
+      "cost": 112
+    },
+    {
+      "a": "w-165",
+      "b": "w-147",
+      "cost": 112
+    },
+    {
+      "a": "w-166",
+      "b": "w-175",
+      "cost": 71
+    },
+    {
+      "a": "w-166",
+      "b": "w-176",
+      "cost": 71
+    },
+    {
+      "a": "w-166",
+      "b": "w-148",
+      "cost": 112
+    },
+    {
+      "a": "w-167",
+      "b": "w-177",
+      "cost": 71
+    },
+    {
+      "a": "w-167",
+      "b": "w-168",
+      "cost": 100
+    },
+    {
+      "a": "w-167",
+      "b": "w-186",
+      "cost": 100
+    },
+    {
+      "a": "w-168",
+      "b": "w-177",
+      "cost": 71
+    },
+    {
+      "a": "w-168",
+      "b": "w-178",
+      "cost": 71
+    },
+    {
+      "a": "w-169",
+      "b": "w-170",
+      "cost": 100
+    },
+    {
+      "a": "w-169",
+      "b": "w-187",
+      "cost": 100
+    },
+    {
+      "a": "w-170",
+      "b": "w-179",
+      "cost": 50
+    },
+    {
+      "a": "w-171",
+      "b": "w-180",
+      "cost": 71
+    },
+    {
+      "a": "w-171",
+      "b": "w-172",
+      "cost": 100
+    },
+    {
+      "a": "w-171",
+      "b": "w-189",
+      "cost": 100
+    },
+    {
+      "a": "w-172",
+      "b": "w-181",
+      "cost": 50
+    },
+    {
+      "a": "w-173",
+      "b": "w-182",
+      "cost": 71
+    },
+    {
+      "a": "w-173",
+      "b": "w-174",
+      "cost": 100
+    },
+    {
+      "a": "w-173",
+      "b": "w-191",
+      "cost": 100
+    },
+    {
+      "a": "w-174",
+      "b": "w-183",
+      "cost": 50
+    },
+    {
+      "a": "w-175",
+      "b": "w-184",
+      "cost": 71
+    },
+    {
+      "a": "w-175",
+      "b": "w-176",
+      "cost": 100
+    },
+    {
+      "a": "w-175",
+      "b": "w-193",
+      "cost": 100
+    },
+    {
+      "a": "w-176",
+      "b": "w-185",
+      "cost": 50
+    },
+    {
+      "a": "w-176",
+      "b": "w-194",
+      "cost": 100
+    },
+    {
+      "a": "w-177",
+      "b": "w-186",
+      "cost": 71
+    },
+    {
+      "a": "w-177",
+      "b": "w-178",
+      "cost": 100
+    },
+    {
+      "a": "w-179",
+      "b": "w-188",
+      "cost": 50
+    },
+    {
+      "a": "w-179",
+      "b": "w-180",
+      "cost": 100
+    },
+    {
+      "a": "w-179",
+      "b": "w-160",
+      "cost": 112
+    },
+    {
+      "a": "w-179",
+      "b": "w-161",
+      "cost": 112
+    },
+    {
+      "a": "w-180",
+      "b": "w-189",
+      "cost": 71
+    },
+    {
+      "a": "w-180",
+      "b": "w-161",
+      "cost": 112
+    },
+    {
+      "a": "w-180",
+      "b": "w-170",
+      "cost": 112
+    },
+    {
+      "a": "w-181",
+      "b": "w-190",
+      "cost": 50
+    },
+    {
+      "a": "w-181",
+      "b": "w-162",
+      "cost": 112
+    },
+    {
+      "a": "w-181",
+      "b": "w-171",
+      "cost": 112
+    },
+    {
+      "a": "w-182",
+      "b": "w-191",
+      "cost": 71
+    },
+    {
+      "a": "w-183",
+      "b": "w-192",
+      "cost": 50
+    },
+    {
+      "a": "w-183",
+      "b": "w-184",
+      "cost": 100
+    },
+    {
+      "a": "w-183",
+      "b": "w-164",
+      "cost": 112
+    },
+    {
+      "a": "w-183",
+      "b": "w-165",
+      "cost": 112
+    },
+    {
+      "a": "w-184",
+      "b": "w-193",
+      "cost": 71
+    },
+    {
+      "a": "w-184",
+      "b": "w-165",
+      "cost": 112
+    },
+    {
+      "a": "w-184",
+      "b": "w-174",
+      "cost": 112
+    },
+    {
+      "a": "w-185",
+      "b": "w-194",
+      "cost": 50
+    },
+    {
+      "a": "w-185",
+      "b": "w-186",
+      "cost": 100
+    },
+    {
+      "a": "w-185",
+      "b": "w-166",
+      "cost": 112
+    },
+    {
+      "a": "w-185",
+      "b": "w-175",
+      "cost": 112
+    },
+    {
+      "a": "w-186",
+      "b": "w-195",
+      "cost": 71
+    },
+    {
+      "a": "w-186",
+      "b": "w-176",
+      "cost": 112
+    },
+    {
+      "a": "w-187",
+      "b": "w-197",
+      "cost": 71
+    },
+    {
+      "a": "w-187",
+      "b": "w-188",
+      "cost": 100
+    },
+    {
+      "a": "w-187",
+      "b": "w-179",
+      "cost": 112
+    },
+    {
+      "a": "w-188",
+      "b": "w-197",
+      "cost": 71
+    },
+    {
+      "a": "w-188",
+      "b": "w-198",
+      "cost": 71
+    },
+    {
+      "a": "w-188",
+      "b": "w-170",
+      "cost": 100
+    },
+    {
+      "a": "w-189",
+      "b": "w-199",
+      "cost": 71
+    },
+    {
+      "a": "w-189",
+      "b": "w-190",
+      "cost": 100
+    },
+    {
+      "a": "w-189",
+      "b": "w-181",
+      "cost": 112
+    },
+    {
+      "a": "w-190",
+      "b": "w-199",
+      "cost": 71
+    },
+    {
+      "a": "w-190",
+      "b": "w-172",
+      "cost": 100
+    },
+    {
+      "a": "w-191",
+      "b": "w-192",
+      "cost": 100
+    },
+    {
+      "a": "w-191",
+      "b": "w-183",
+      "cost": 112
+    },
+    {
+      "a": "w-192",
+      "b": "w-174",
+      "cost": 100
+    },
+    {
+      "a": "w-192",
+      "b": "w-184",
+      "cost": 112
+    },
+    {
+      "a": "w-193",
+      "b": "w-194",
+      "cost": 100
+    },
+    {
+      "a": "w-193",
+      "b": "w-185",
+      "cost": 112
+    },
+    {
+      "a": "w-194",
+      "b": "w-186",
+      "cost": 112
+    },
+    {
+      "a": "w-195",
+      "b": "w-177",
+      "cost": 100
+    },
+    {
+      "a": "w-195",
+      "b": "w-196",
+      "cost": 100
+    },
+    {
+      "a": "w-196",
+      "b": "w-187",
+      "cost": 112
+    },
+    {
+      "a": "w-197",
+      "b": "w-198",
+      "cost": 100
+    },
+    {
+      "a": "w-197",
+      "b": "w-179",
+      "cost": 112
+    },
+    {
+      "a": "w-198",
+      "b": "w-179",
+      "cost": 112
+    },
+    {
+      "a": "w-198",
+      "b": "w-180",
+      "cost": 112
+    },
+    {
+      "a": "w-198",
+      "b": "w-189",
+      "cost": 112
+    },
+    {
+      "a": "w-199",
+      "b": "w-181",
+      "cost": 112
+    },
+    {
+      "a": "w-128",
+      "b": "w-116",
+      "cost": 141
+    },
+    {
+      "a": "kiosk-a",
+      "b": "w-104",
+      "cost": 75
+    },
+    {
+      "a": "kiosk-b",
+      "b": "w-064",
+      "cost": 35
+    },
+    {
+      "a": "w-116",
+      "b": "a1donuts",
+      "cost": 59
+    },
+    {
+      "a": "w-116",
+      "b": "asiangourmet",
+      "cost": 47
+    },
+    {
+      "a": "w-107",
+      "b": "barburrito",
+      "cost": 39
+    },
+    {
+      "a": "w-004",
+      "b": "bmo",
+      "cost": 53
+    },
+    {
+      "a": "w-116",
+      "b": "cell-max",
+      "cost": 50
+    },
+    {
+      "a": "w-099",
+      "b": "crazy-rolls-ice-cream",
+      "cost": 49
+    },
+    {
+      "a": "w-178",
+      "b": "dentist",
+      "cost": 18
+    },
+    {
+      "a": "w-116",
+      "b": "dollarama",
+      "cost": 68
+    },
+    {
+      "a": "w-116",
+      "b": "famousoptic",
+      "cost": 96
+    },
+    {
+      "a": "w-043",
+      "b": "fikacannabis",
+      "cost": 54
+    },
+    {
+      "a": "w-061",
+      "b": "firstchoicehaircutters",
+      "cost": 54
+    },
+    {
+      "a": "w-141",
+      "b": "fit4less",
+      "cost": 53
+    },
+    {
+      "a": "w-128",
+      "b": "honey-nails-spa",
+      "cost": 92
+    },
+    {
+      "a": "w-116",
+      "b": "infolottokiosk",
+      "cost": 94
+    },
+    {
+      "a": "w-128",
+      "b": "kumon",
+      "cost": 72
+    },
+    {
+      "a": "w-092",
+      "b": "lacoupla",
+      "cost": 56
+    },
+    {
+      "a": "w-116",
+      "b": "lola-norma-s-karinderya",
+      "cost": 75
+    },
+    {
+      "a": "w-116",
+      "b": "lynearhairsalon",
+      "cost": 82
+    },
+    {
+      "a": "w-116",
+      "b": "mad-digital-exchange",
+      "cost": 55
+    },
+    {
+      "a": "w-099",
+      "b": "nailsforyou",
+      "cost": 70
+    },
+    {
+      "a": "w-128",
+      "b": "nofrills",
+      "cost": 95
+    },
+    {
+      "a": "w-178",
+      "b": "onenesswellnesscentre",
+      "cost": 38
+    },
+    {
+      "a": "w-116",
+      "b": "pamirrugsco",
+      "cost": 62
+    },
+    {
+      "a": "w-128",
+      "b": "peplosbydesigner",
+      "cost": 71
+    },
+    {
+      "a": "w-099",
+      "b": "pitaland",
+      "cost": 72
+    },
+    {
+      "a": "w-099",
+      "b": "popeyes",
+      "cost": 87
+    },
+    {
+      "a": "w-116",
+      "b": "rapizza",
+      "cost": 82
+    },
+    {
+      "a": "w-116",
+      "b": "realfruitbubbletea",
+      "cost": 76
+    },
+    {
+      "a": "w-096",
+      "b": "rogers",
+      "cost": 66
+    },
+    {
+      "a": "w-116",
+      "b": "samphhealth",
+      "cost": 104
+    },
+    {
+      "a": "w-116",
+      "b": "samrsquosshoesrepair",
+      "cost": 62
+    },
+    {
+      "a": "w-077",
+      "b": "shoppersdrugmart",
+      "cost": 74
+    },
+    {
+      "a": "w-116",
+      "b": "softrontax",
+      "cost": 91
+    },
+    {
+      "a": "w-116",
+      "b": "south-common-library",
+      "cost": 65
+    },
+    {
+      "a": "w-187",
+      "b": "southcommonmedicalcentre",
+      "cost": 57
+    },
+    {
+      "a": "w-128",
+      "b": "south-common-orthopedic",
+      "cost": 110
+    },
+    {
+      "a": "w-061",
+      "b": "stackedpancakeampbreakfasthouse",
+      "cost": 55
+    },
+    {
+      "a": "w-127",
+      "b": "stanzigelsteinlawyers",
+      "cost": 68
+    },
+    {
+      "a": "w-061",
+      "b": "subway",
+      "cost": 51
+    },
+    {
+      "a": "w-116",
+      "b": "sunrise-orthotics",
+      "cost": 47
+    },
+    {
+      "a": "w-128",
+      "b": "sunshine-healthcare",
+      "cost": 68
+    },
+    {
+      "a": "w-072",
+      "b": "td",
+      "cost": 61
+    },
+    {
+      "a": "w-107",
+      "b": "thairoomgrand",
+      "cost": 52
+    },
+    {
+      "a": "w-099",
+      "b": "theupperhandgamesandsportscards",
+      "cost": 73
+    },
+    {
+      "a": "w-110",
+      "b": "thewineshop",
+      "cost": 80
+    },
+    {
+      "a": "w-128",
+      "b": "topstitch",
+      "cost": 104
+    },
+    {
+      "a": "w-092",
+      "b": "viewcleaners",
+      "cost": 42
+    },
+    {
+      "a": "w-104",
+      "b": "walmartsupercentre",
+      "cost": 157
+    },
+    {
+      "a": "w-116",
+      "b": "wcgservices",
+      "cost": 96
+    },
+    {
+      "a": "w-127",
+      "b": "unit-18",
+      "cost": 90
+    },
+    {
+      "a": "w-127",
+      "b": "unit-19",
+      "cost": 111
+    },
+    {
+      "a": "w-116",
+      "b": "unit-22",
+      "cost": 62
+    },
+    {
+      "a": "w-128",
+      "b": "unit-27",
+      "cost": 59
+    },
+    {
+      "a": "w-116",
+      "b": "unit-32",
+      "cost": 72
+    },
+    {
+      "a": "w-116",
+      "b": "unit-33",
+      "cost": 94
+    },
+    {
+      "a": "w-116",
+      "b": "unit-55",
+      "cost": 97
+    }
+  ]
+}
