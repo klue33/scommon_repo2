@@ -90,12 +90,19 @@ describe("graph-health", () => {
       return !adj;
     });
     const kiosks = nodes.filter((n) => n.type === "kiosk");
-    const kioskReach = kiosks.map((k) => ({
-      id: k.id,
-      label: (k as any).label ?? "(unlabeled)",
-      reachable:
-        (comps.find((c) => c.includes(k.id))?.length ?? 0),
-    }));
+    // Per-kiosk reach — Kiosk 2 is intentionally ignored (no
+    // edges); the operative kiosk is the one with the most
+    // connections. We report all kiosks but mark Kiosk 2 as
+    // ignored so its zero-reach doesn't read as a bug.
+    const kioskReach = kiosks.map((k) => {
+      const adj = edges.filter((e) => e.a === k.id || e.b === k.id).length;
+      return {
+        id: k.id,
+        label: (k as any).label ?? "(unlabeled)",
+        reachable: comps.find((c) => c.includes(k.id))?.length ?? 0,
+        ignored: adj === 0,
+      };
+    });
 
     // eslint-disable-next-line no-console
     console.log(
