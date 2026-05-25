@@ -1,10 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
 import graphData from "@/data/graph.json";
-import { type GraphNode } from "../lib/pathfind";
+import { buildGraph, route, type GraphNode } from "../lib/pathfind";
 import { storeById, STORES, type Store, VIEW_BOX } from "../lib/stores";
 
 interface Props {
-  selectedStore?: Store | null;
+  /** The destination tenant. */
+  toStore?: Store | null;
+  /** The origin tenant. When both `fromStore` and `toStore` are set,
+   *  a polyline is rendered along the graph edges between them. */
+  fromStore?: Store | null;
   onSelectStore?: (s: Store) => void;
   /** When true, MapViewer renders the path-editor overlay + toolbar. */
   editMode?: boolean;
@@ -35,8 +39,13 @@ const PEN_RAW_STEP = 4;                 // min screen-px between raw points samp
 const SNAP_RADIUS = 22;                 // px in viewBox space for snapping stroke endpoints to existing nodes
 
 export function MapViewer({
-  selectedStore, onSelectStore, editMode = false,
+  toStore, fromStore, onSelectStore, editMode = false,
 }: Props) {
+  // `selectedStore` is preserved as an alias for code below that still
+  // talks about "the highlighted polygon". The destination IS the
+  // highlighted store — `fromStore` is the route origin, drawn but
+  // not "selected" in the detail-panel sense.
+  const selectedStore = toStore;
   const [collection, setCollection] = useState<SiteFeatureCollection | null>(null);
 
   useEffect(() => {
@@ -330,10 +339,25 @@ export function MapViewer({
 
   // --- render -----------------------------------------------------
   const reset = () => { setZoom(1); setPan({ x: 0, y: 0 }); };
-  // Kiosks (main entrances) still render as informational markers on
-  // the map, but are no longer click-to-route — routing has been
-  // removed from the UI.
+
+  // Kiosks (main entrances) render as informational markers.
   const kiosks = (graphData.nodes as Array<GraphNode>).filter((n) => n.type === "kiosk");
+
+  // Tenant-to-tenant route: built from the static graph data only.
+  // We use the store node whose `id` matches the tenant id (store
+  // nodes carry both — see CLAUDE.md). The polyline follows the A*
+  // path's node-by-node points, so it strictly traces graph edges.
+  // Returns null on disconnected components — no off-graph fallback.
+  const builtGraph = useMemo(() => buildGraph(graphData as any), []);
+  const routePath = useMemo(() => {
+    if (!fromStore?.id || !toStore?.id || fromStore.id === toStore.id) return null;
+    return route(builtGraph, fromStore.id, toStore.id);
+  }, [builtGraph, fromStore?.id, toStore?.id]);
+  const routePoints = routePath?.points
+    ? routePath.points.map(([x, y]) => `${x},${y}`).join(" ")
+    : null;
+
+
   const cx = vx0 + VW / 2;
   const cy = vy0 + VH / 2;
   const rotateTransform = `rotate(${ROTATION_DEG} ${cx} ${cy})`;
@@ -452,6 +476,31 @@ export function MapViewer({
               </g>
             );
           })}
+
+          {/* Tenant→tenant route polyline. Renders the A* path's
+              node points directly — no straight-line shortcuts;
+              every segment is a graph edge. Null when origin and
+              destination are in different components. */}
+          {!editMode && routePoints && (
+            <polyline
+              key={`route-${fromStore?.id}-${toStore?.id}`}
+              class="scc-wf__route"
+              points={routePoints}
+              fill="none"
+            />
+          )}
+          {!editMode && fromStore && (() => {
+            const node = (graphData.nodes as Array<GraphNode>).find(
+              (n) => n.id === fromStore.id,
+            );
+            if (!node) return null;
+            return (
+              <g class="scc-wf__here" data-store-id={fromStore.id}>
+                <circle cx={node.x} cy={node.y} r={10} class="scc-wf__here-ring" />
+                <circle cx={node.x} cy={node.y} r={5} class="scc-wf__here-dot" />
+              </g>
+            );
+          })()}
         </g>
       </svg>
 

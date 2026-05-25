@@ -624,3 +624,143 @@
   .scc-wf__map { order: 1; }
   .scc-wf__detail { right: 8px; left: 8px; width: auto; }
 }
+
+/* ── tenant→tenant routing UI ──────────────────────────────── */
+
+/* "From" pulse at the route origin. Re-uses scc-wf-pulse keyframes
+   defined elsewhere in this file. */
+.scc-wf__here-ring {
+  fill: hsla(var(--accent-hsl, 22, 56%, 51%), 0.30);
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: scc-wf-pulse 1.4s ease-out infinite;
+}
+.scc-wf__here-dot {
+  fill: var(--wf-accent);
+  stroke: var(--wf-bg);
+  stroke-width: 1.5;
+}
+
+/* The two-slot picker that appears once any endpoint is set. */
+.scc-wf__route-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  gap: 8px;
+  padding: 10px;
+  margin-bottom: 12px;
+  background: var(--wf-soft);
+  border: 1px solid var(--wf-rule);
+  border-radius: 8px;
+  font-size: 13px;
+}
+.scc-wf__route-bar label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--wf-dark);
+  opacity: 0.7;
+  margin-bottom: 3px;
+}
+.scc-wf__route-leg {
+  display: flex; flex-direction: column;
+  min-width: 0;
+}
+.scc-wf__route-arrow {
+  align-self: end;
+  padding: 0 0 6px;
+  color: var(--wf-dark);
+  opacity: 0.5;
+  font-size: 18px;
+}
+.scc-wf__route-slot {
+  flex: 1 1 auto;
+  text-align: left;
+  padding: 6px 8px;
+  background: var(--wf-bg);
+  border: 1px solid var(--wf-rule);
+  border-radius: 6px;
+  font: inherit;
+  color: var(--wf-ink);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.scc-wf__route-slot.is-active {
+  outline: 2px solid var(--wf-accent);
+  outline-offset: 1px;
+}
+.scc-wf__route-slot em {
+  color: var(--wf-dark); opacity: 0.5;
+  font-style: italic;
+  font-weight: 400;
+}
+.scc-wf__route-x {
+  position: absolute;
+  margin-left: -22px;
+  margin-top: 4px;
+  width: 18px; height: 18px;
+  border: 0; background: transparent;
+  color: var(--wf-dark); opacity: 0.55;
+  font-size: 14px; line-height: 1;
+  cursor: pointer;
+}
+.scc-wf__route-x:hover { opacity: 1; }
+.scc-wf__route-clear {
+  grid-column: 1 / -1;
+  border: 0; background: transparent;
+  padding: 4px 0 0;
+  color: var(--wf-dark); opacity: 0.6;
+  font: inherit;
+  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  cursor: pointer;
+  text-align: right;
+}
+.scc-wf__route-clear:hover { opacity: 1; }
+
+/* Per-row state badges in the store list. */
+.scc-wf__item.is-from { box-shadow: inset 3px 0 0 var(--wf-dark); }
+.scc-wf__item.is-to   { box-shadow: inset 3px 0 0 var(--wf-accent); }
+.scc-wf__item.is-from.is-to { box-shadow: inset 3px 0 0 var(--wf-accent); }
+.scc-wf__tag {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--wf-accent);
+  color: var(--wf-bg);
+  vertical-align: middle;
+}
+.scc-wf__item.is-from .scc-wf__tag {
+  background: var(--wf-dark);
+  color: var(--wf-bg);
+}
+
+/* Detail-panel "Directions from another store" button + summary. */
+.scc-wf__detail-actions {
+  margin-top: 10px;
+  display: flex; flex-wrap: wrap;
+  align-items: center; gap: 10px;
+}
+.scc-wf__btn {
+  padding: 6px 12px;
+  border: 1px solid var(--wf-rule);
+  background: var(--wf-bg);
+  border-radius: 999px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--wf-ink);
+  cursor: pointer;
+}
+.scc-wf__btn:hover { background: var(--wf-hover); }
+.scc-wf__route-summary {
+  font-size: 12px;
+  color: var(--wf-dark); opacity: 0.8;
+}
+.scc-wf__route-summary strong { color: var(--wf-ink); }

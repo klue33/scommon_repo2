@@ -31,6 +31,56 @@ describe("pathfind", () => {
     expect(r!.points.length).toBeGreaterThan(1);
   });
 
+  it("routes tenant → tenant strictly along graph edges", () => {
+    // Fixture: two stores at opposite ends of a spine of junctions.
+    // The only way from store-1 to store-2 is along the spine —
+    // there's no straight-line shortcut even though the stores are
+    // 200 units apart on the same y. This pins down the
+    // "no off-graph traversal" contract: the route MUST visit each
+    // junction in order.
+    const g = buildGraph({
+      nodes: [
+        { id: "store-1", x: 0,   y: 0,  type: "store", store: "store-1" },
+        { id: "j-1",     x: 50,  y: 0,  type: "junction" },
+        { id: "j-2",     x: 100, y: 0,  type: "junction" },
+        { id: "j-3",     x: 150, y: 0,  type: "junction" },
+        { id: "store-2", x: 200, y: 0,  type: "store", store: "store-2" },
+      ],
+      edges: [
+        { a: "store-1", b: "j-1",     cost: 50 },
+        { a: "j-1",     b: "j-2",     cost: 50 },
+        { a: "j-2",     b: "j-3",     cost: 50 },
+        { a: "j-3",     b: "store-2", cost: 50 },
+      ],
+    });
+    const r = route(g, "store-1", "store-2");
+    expect(r).not.toBeNull();
+    expect(r!.path).toEqual(["store-1", "j-1", "j-2", "j-3", "store-2"]);
+    expect(r!.cost).toBe(200);
+    // Polyline points follow every node in order — never skip a
+    // node — so the rendered route IS the graph edges.
+    expect(r!.points).toEqual([
+      [0, 0], [50, 0], [100, 0], [150, 0], [200, 0],
+    ]);
+  });
+
+  it("refuses to route between tenants in different components", () => {
+    // Two disconnected sub-graphs. No straight-line fallback allowed.
+    const g = buildGraph({
+      nodes: [
+        { id: "store-a", x: 0,   y: 0, type: "store", store: "store-a" },
+        { id: "j-a",     x: 10,  y: 0, type: "junction" },
+        { id: "store-b", x: 500, y: 0, type: "store", store: "store-b" },
+        { id: "j-b",     x: 510, y: 0, type: "junction" },
+      ],
+      edges: [
+        { a: "store-a", b: "j-a",     cost: 10 },
+        { a: "j-b",     b: "store-b", cost: 10 },
+      ],
+    });
+    expect(route(g, "store-a", "store-b")).toBeNull();
+  });
+
   it("picks the lower-cost route when alternatives exist", () => {
     const g = buildGraph({
       nodes: [
