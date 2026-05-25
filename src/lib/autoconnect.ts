@@ -40,6 +40,20 @@ export interface AutoGraph {
   edges: AutoEdge[];
 }
 
+/** A tenant footprint polygon. `rings` follows GeoJSON Polygon
+ *  coordinates: [outer-ring, holes...] where each ring is a closed
+ *  loop of [x, y] points. `store_id` lets autoconnect know which
+ *  polygon belongs to a store-centroid endpoint (so the
+ *  centroid→entrance bridge can legitimately cross it). */
+export interface AutoPolygon {
+  store_id: string;
+  rings: number[][][];
+}
+
+export interface AutoconnectOpts {
+  polygons?: AutoPolygon[];
+}
+
 function adjacency(g: AutoGraph): Map<string, string[]> {
   const adj = new Map<string, string[]>();
   for (const n of g.nodes) adj.set(n.id, []);
@@ -78,33 +92,123 @@ function dist(a: AutoNode, b: AutoNode): number {
   return Math.hypot(dx, dy);
 }
 
+// ── Polygon-vs-segment geometry ─────────────────────────────────────
+
+/** True if open segment p1-p2 crosses open segment p3-p4 (proper
+ *  intersection — touching endpoints doesn't count). Standard
+ *  orient-test approach. */
+function segmentsCross(
+  p1: [number, number], p2: [number, number],
+  p3: [number, number], p4: [number, number],
+): boolean {
+  const o = (a: [number, number], b: [number, number], c: [number, number]) =>
+    Math.sign((b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]));
+  const o1 = o(p1, p2, p3);
+  const o2 = o(p1, p2, p4);
+  const o3 = o(p3, p4, p1);
+  const o4 = o(p3, p4, p2);
+  return o1 !== 0 && o2 !== 0 && o3 !== 0 && o4 !== 0 && o1 !== o2 && o3 !== o4;
+}
+
+/** True if point p is strictly inside the polygon (ray-cast). Ignores
+ *  holes for simplicity — the SCC polygons are simple. */
+function pointInPolygon(p: [number, number], rings: number[][][]): boolean {
+  if (rings.length === 0) return false;
+  const ring = rings[0];
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const xi = ring[i][0], yi = ring[i][1];
+    const xj = ring[j][0], yj = ring[j][1];
+    const intersect = ((yi > p[1]) !== (yj > p[1])) &&
+      (p[0] < ((xj - xi) * (p[1] - yi)) / (yj - yi + 1e-12) + xi);
+    if (intersect) inside = !inside;
+  }
+  return inside;
+}
+
+/** True if the segment a-b enters the polygon's interior. Either
+ *  the segment crosses any edge of the outer ring, or the midpoint
+ *  is inside (covers fully-contained segments). */
+function segmentEntersPolygon(
+  a: [number, number], b: [number, number],
+  poly: AutoPolygon,
+): boolean {
+  if (poly.rings.length === 0) return false;
+  const ring = poly.rings[0];
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const p1: [number, number] = [ring[i][0], ring[i][1]];
+    const p2: [number, number] = [ring[j][0], ring[j][1]];
+    if (segmentsCross(a, b, p1, p2)) return true;
+  }
+  // Fully contained — no boundary crossing but interior hit.
+  const mid: [number, number] = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+  return pointInPolygon(mid, poly.rings);
+}
+
+/**
+ * True iff the segment a-b crosses the interior of ANY polygon that
+ * is not "owned" by either endpoint (i.e. crossing a store's own
+ * polygon is allowed for the centroid→entrance leg).
+ */
+function bridgeIsClean(
+  a: AutoNode, b: AutoNode, polygons: AutoPolygon[],
+): boolean {
+  const own = new Set<string>();
+  if (a.type === "store" && a.store) own.add(a.store);
+  if (b.type === "store" && b.store) own.add(b.store);
+  const ap: [number, number] = [a.x, a.y];
+  const bp: [number, number] = [b.x, b.y];
+  for (const poly of polygons) {
+    if (own.has(poly.store_id)) continue;
+    if (segmentEntersPolygon(ap, bp, poly)) return false;
+  }
+  return true;
+}
+
 /**
  * For the given source set of node IDs (the component being
  * bridged in), find the closest (source, target) pair against
- * `targetIds`. Returns null if either set is empty.
+ * `targetIds`. With polygons provided, candidates whose segment
+ * crosses an unrelated polygon are skipped; the next-nearest
+ * clean pair wins. If no clean pair exists, fall back to the
+ * absolute nearest so the graph still becomes connected (and
+ * mark `crossesPolygon: true` on the returned candidate).
  */
 function nearestPair(
   byId: Map<string, AutoNode>,
   sourceIds: string[],
   targetIds: string[],
-): { source: string; target: string; distance: number } | null {
+  polygons: AutoPolygon[],
+): { source: string; target: string; distance: number; crossesPolygon: boolean } | null {
   if (sourceIds.length === 0 || targetIds.length === 0) return null;
-  let best = { source: "", target: "", distance: Infinity };
+  type Cand = { source: string; target: string; distance: number };
+  const cands: Cand[] = [];
   for (const s of sourceIds) {
     const sn = byId.get(s)!;
     for (const t of targetIds) {
       const tn = byId.get(t)!;
-      const d = dist(sn, tn);
-      if (d < best.distance) best = { source: s, target: t, distance: d };
+      cands.push({ source: s, target: t, distance: dist(sn, tn) });
     }
   }
-  return best.distance === Infinity ? null : best;
+  cands.sort((a, b) => a.distance - b.distance);
+  for (const c of cands) {
+    const sn = byId.get(c.source)!;
+    const tn = byId.get(c.target)!;
+    if (bridgeIsClean(sn, tn, polygons)) return { ...c, crossesPolygon: false };
+  }
+  // No clean bridge — fall back to the absolute nearest so the
+  // graph still becomes a single component. Caller decides what to
+  // do about the visual.
+  const fallback = cands[0];
+  return fallback ? { ...fallback, crossesPolygon: true } : null;
 }
 
-export function autoconnect(graph: AutoGraph): AutoGraph {
+export function autoconnect(graph: AutoGraph, opts?: AutoconnectOpts): AutoGraph {
   // Already connected (or empty / single node)? Return as-is.
   const comps = findComponents(graph);
   if (comps.length <= 1) return { nodes: [...graph.nodes], edges: [...graph.edges] };
+
+  const polygons = opts?.polygons ?? [];
 
   const byId = new Map<string, AutoNode>();
   for (const n of graph.nodes) byId.set(n.id, n);
@@ -115,15 +219,22 @@ export function autoconnect(graph: AutoGraph): AutoGraph {
 
   for (let i = 1; i < comps.length; i++) {
     const comp = comps[i];
-    const best = nearestPair(byId, comp, Array.from(spine));
+    const best = nearestPair(byId, comp, Array.from(spine), polygons);
     if (!best) continue; // shouldn't happen
     if (best.source === best.target) continue;
-    newEdges.push({
+    const edge: AutoEdge = {
       a: best.source,
       b: best.target,
       cost: Math.max(1, Math.round(best.distance)),
       auto: true,
-    });
+    };
+    if (best.crossesPolygon) {
+      // Flag visually so the operator can rewire it manually if it
+      // looks bad. (Extra field — tolerated by the data schema; the
+      // editor can choose to surface it.)
+      (edge as any).crossesPolygon = true;
+    }
+    newEdges.push(edge);
     // Fold this component into the spine.
     for (const id of comp) spine.add(id);
   }

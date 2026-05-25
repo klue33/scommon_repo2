@@ -1,8 +1,16 @@
+export type GraphNodeType =
+  | "kiosk"
+  | "store"
+  | "junction"
+  | "exit"
+  | "entrance-main"
+  | "entrance-tenant";
+
 export interface GraphNode {
   id: string;
   x: number;
   y: number;
-  type: "kiosk" | "store" | "junction" | "exit";
+  type: GraphNodeType;
   /** For type==="store", links back to stores.json by store id. */
   store?: string;
   /** For type==="kiosk", a human label shown in the From picker. */
@@ -81,6 +89,52 @@ export function route(graph: Graph, start: string, goal: string): RouteResult | 
     }
   }
   return null;
+}
+
+/**
+ * Tenant→tenant routing: same A* result as `route`, but trims any
+ * store-centroid nodes off the start and end of the path. Store
+ * centroids sit INSIDE the tenant polygon — they're selection
+ * anchors, not waypoints. The rendered polyline should terminate
+ * at the entrance-tenant adjacent to each store, not inside the
+ * unit. See tests/pathfind.test.ts.
+ *
+ * Returns null if the trimmed path is shorter than 2 nodes (i.e.
+ * after trimming there's no real route to draw).
+ */
+export function routeBetweenStores(
+  graph: Graph, start: string, goal: string,
+): RouteResult | null {
+  if (start === goal) return null;
+  const r = route(graph, start, goal);
+  if (!r) return null;
+  return trimStoreEndpoints(graph, r);
+}
+
+function trimStoreEndpoints(graph: Graph, r: RouteResult): RouteResult | null {
+  const path = [...r.path];
+  const points: Array<[number, number]> = [...r.points];
+  while (path.length > 0 && graph.nodes.get(path[0])?.type === "store") {
+    path.shift();
+    points.shift();
+  }
+  while (
+    path.length > 0 &&
+    graph.nodes.get(path[path.length - 1])?.type === "store"
+  ) {
+    path.pop();
+    points.pop();
+  }
+  if (path.length < 2) return null;
+  // Re-compute cost from the trimmed adjacency walk.
+  let cost = 0;
+  for (let i = 1; i < path.length; i++) {
+    const prev = graph.nodes.get(path[i - 1])!;
+    const n = graph.nodes.get(path[i])!;
+    const edge = (graph.adj.get(prev.id) ?? []).find((e) => e.b === n.id);
+    if (edge) cost += edge.cost;
+  }
+  return { path, cost, points };
 }
 
 function reconstruct(graph: Graph, came: Map<string, string>, end: string): RouteResult {

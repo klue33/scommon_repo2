@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { buildGraph, route } from "@/src/lib/pathfind";
+import { buildGraph, route, routeBetweenStores } from "@/src/lib/pathfind";
 import graph from "@/data/graph.json";
 
 // Resolve kiosk IDs from the production graph at runtime so the
@@ -99,6 +99,43 @@ describe("pathfind", () => {
     const r = route(g, "a", "c");
     expect(r!.path).toEqual(["a", "b", "c"]);
     expect(r!.cost).toBe(200);
+  });
+
+  it("routeBetweenStores trims store-centroid endpoints (route ends at entrance)", () => {
+    // Pattern: store-a-centroid ─ entrance-a ─ junction ─ entrance-b ─ store-b-centroid
+    // The polyline rendered should not enter the store polygon — i.e.
+    // the trimmed path should start at entrance-a and end at entrance-b,
+    // never touching the centroid nodes.
+    const g = buildGraph({
+      nodes: [
+        { id: "store-a",    x: 0,   y: 10, type: "store", store: "store-a" },
+        { id: "entrance-a", x: 10,  y: 0,  type: "entrance-tenant" },
+        { id: "j-1",        x: 100, y: 0,  type: "junction" },
+        { id: "entrance-b", x: 190, y: 0,  type: "entrance-tenant" },
+        { id: "store-b",    x: 200, y: 10, type: "store", store: "store-b" },
+      ],
+      edges: [
+        { a: "store-a",    b: "entrance-a", cost: 14 },
+        { a: "entrance-a", b: "j-1",        cost: 90 },
+        { a: "j-1",        b: "entrance-b", cost: 90 },
+        { a: "entrance-b", b: "store-b",    cost: 14 },
+      ],
+    });
+    const r = routeBetweenStores(g, "store-a", "store-b");
+    expect(r).not.toBeNull();
+    // Centroid endpoints dropped from BOTH path and points.
+    expect(r!.path).toEqual(["entrance-a", "j-1", "entrance-b"]);
+    expect(r!.points).toEqual([[10, 0], [100, 0], [190, 0]]);
+  });
+
+  it("routeBetweenStores doesn't trim if the centroid is the only node (single-store edge)", () => {
+    // Degenerate: a store with only one edge — to itself? trivial graph.
+    // routeBetweenStores from store-a to store-a → null (no real route).
+    const g = buildGraph({
+      nodes: [{ id: "store-a", x: 0, y: 0, type: "store", store: "store-a" }],
+      edges: [],
+    });
+    expect(routeBetweenStores(g, "store-a", "store-a")).toBeNull();
   });
 
   it("returns null when no path exists", () => {

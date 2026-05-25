@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { autoconnect } from "@/src/lib/autoconnect";
+import { squarePolygon } from "./_fixtures/polygons";
 
 /**
  * Contract for `autoconnect`.
@@ -49,6 +50,10 @@ function components(g: { nodes: Node[]; edges: Edge[] }): string[][] {
     out.push(comp);
   }
   return out;
+}
+
+function adjConnected(g: { nodes: Node[]; edges: Edge[] }): boolean {
+  return components(g).length === 1;
 }
 
 describe("autoconnect", () => {
@@ -142,6 +147,66 @@ describe("autoconnect", () => {
     expect(added.length).toBe(1);
     const e = added[0];
     expect(new Set([e.a, e.b])).toEqual(new Set(["store-x", "spine-b"]));
+  });
+
+  it("rejects a bridge that would cross a foreign polygon's interior", () => {
+    // Layout (top-down view):
+    //   spine: L1(0,50) ─ L2(50,50) ─ N(150,-30)   [N is a detour
+    //          junction north of the polygon, already connected to L2]
+    //   floating component: R1(250,50) ─ R2(300,50)
+    //   polygon: [100,0]-[200,0]-[200,100]-[100,100] sits between.
+    //
+    // The naive nearest pair to bridge R1-R2 into the spine is
+    // L2 ↔ R1 (distance 200), but that segment crosses straight
+    // through the polygon. Polygon-aware autoconnect must reject
+    // that and take the next-clean candidate: R2 ↔ N (~170),
+    // which routes ABOVE the polygon without entering it.
+    const g = {
+      nodes: [
+        { id: "L1", x: 0,   y: 50,  type: "junction" as const },
+        { id: "L2", x: 50,  y: 50,  type: "junction" as const },
+        { id: "N",  x: 150, y: -30, type: "junction" as const },
+        { id: "R1", x: 250, y: 50,  type: "junction" as const },
+        { id: "R2", x: 300, y: 50,  type: "junction" as const },
+      ],
+      edges: [
+        { a: "L1", b: "L2", cost: 50 },
+        { a: "L2", b: "N",  cost: 130 },
+        { a: "R1", b: "R2", cost: 50 },
+      ],
+    };
+    const out = autoconnect(g, { polygons: [squarePolygon] });
+    expect(adjConnected(out)).toBe(true);
+    // The polygon-crossing direct edge must NOT be added.
+    const direct = out.edges.find(
+      (e) => (e.a === "L2" && e.b === "R1") || (e.a === "R1" && e.b === "L2"),
+    );
+    expect(direct).toBeUndefined();
+  });
+
+  it("allows a bridge whose endpoint IS the polygon's own store-centroid", () => {
+    // Edge case: a bridge from a store-centroid INSIDE its own polygon
+    // out to an adjacent entrance must be allowed (the route from
+    // centroid to entrance crosses the polygon boundary by design).
+    const g = {
+      nodes: [
+        // The polygon is squarePolygon (id 'x'). The store-centroid
+        // 'x' lives at the centre of that polygon.
+        { id: "x",      x: 150, y: 50,  type: "store" as const, store: "x" },
+        // A nearby entrance just outside the polygon.
+        { id: "ent",    x: 150, y: 110, type: "entrance-tenant" as const },
+        // Another component to force autoconnect to bridge.
+        { id: "spine",  x: 150, y: 200, type: "junction" as const },
+      ],
+      // No edges yet — autoconnect must propose bridges that get
+      // every node into one component.
+      edges: [],
+    };
+    const out = autoconnect(g, { polygons: [squarePolygon] });
+    expect(adjConnected(out)).toBe(true);
+    // x → ent crosses the polygon X but X is x's own polygon, so it's
+    // allowed. The bridge to spine must not cross any unrelated polygon
+    // (there isn't one here so trivially fine).
   });
 
   it("never produces a self-loop or duplicate edge", () => {

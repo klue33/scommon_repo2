@@ -22,6 +22,7 @@ const __filename = url.fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, "..");
 const GRAPH = path.join(ROOT, "data", "graph.json");
+const SITE_GEOJSON = path.join(ROOT, "public", "maps", "site.geojson");
 
 const dryRun = process.argv.includes("--dry-run");
 
@@ -60,7 +61,46 @@ function components(g) {
 }
 function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
 
-function autoconnect(graph) {
+// ── polygon geometry (mirrors src/lib/autoconnect.ts) ─────────────
+function orient(a, b, c) {
+  return Math.sign((b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0]));
+}
+function segmentsCross(p1, p2, p3, p4) {
+  const o1 = orient(p1, p2, p3), o2 = orient(p1, p2, p4);
+  const o3 = orient(p3, p4, p1), o4 = orient(p3, p4, p2);
+  return o1 !== 0 && o2 !== 0 && o3 !== 0 && o4 !== 0 && o1 !== o2 && o3 !== o4;
+}
+function pointInRing(p, ring) {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const xi = ring[i][0], yi = ring[i][1];
+    const xj = ring[j][0], yj = ring[j][1];
+    const intersect = ((yi > p[1]) !== (yj > p[1])) &&
+      (p[0] < ((xj - xi) * (p[1] - yi)) / (yj - yi + 1e-12) + xi);
+    if (intersect) inside = !inside;
+  }
+  return inside;
+}
+function segmentEntersPolygon(a, b, ring) {
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    if (segmentsCross(a, b, ring[i], ring[j])) return true;
+  }
+  const mid = [(a[0]+b[0])/2, (a[1]+b[1])/2];
+  return pointInRing(mid, ring);
+}
+function bridgeIsClean(a, b, polygons) {
+  const own = new Set();
+  if (a.type === "store" && a.store) own.add(a.store);
+  if (b.type === "store" && b.store) own.add(b.store);
+  const ap = [a.x, a.y], bp = [b.x, b.y];
+  for (const poly of polygons) {
+    if (own.has(poly.store_id)) continue;
+    if (segmentEntersPolygon(ap, bp, poly.ring)) return false;
+  }
+  return true;
+}
+
+function autoconnect(graph, polygons) {
   const comps = components(graph);
   if (comps.length <= 1) return { nodes: [...graph.nodes], edges: [...graph.edges] };
   const byId = new Map(graph.nodes.map((n) => [n.id, n]));
@@ -68,37 +108,64 @@ function autoconnect(graph) {
   const newEdges = [];
   for (let i = 1; i < comps.length; i++) {
     const comp = comps[i];
-    let best = null;
+    // Build candidates sorted by distance; pick the first that
+    // doesn't cross a foreign polygon. Fall back to nearest with
+    // a crossesPolygon flag if no clean bridge exists.
+    const cands = [];
     for (const s of comp) {
       const sn = byId.get(s);
       for (const t of spine) {
         const tn = byId.get(t);
-        const d = dist(sn, tn);
-        if (best === null || d < best.distance) best = { source: s, target: t, distance: d };
+        cands.push({ source: s, target: t, distance: dist(sn, tn) });
       }
     }
-    if (!best || best.source === best.target) continue;
-    newEdges.push({
-      a: best.source, b: best.target,
-      cost: Math.max(1, Math.round(best.distance)),
+    cands.sort((a, b) => a.distance - b.distance);
+    let chosen = null;
+    for (const c of cands) {
+      if (bridgeIsClean(byId.get(c.source), byId.get(c.target), polygons)) {
+        chosen = { ...c, crossesPolygon: false }; break;
+      }
+    }
+    if (!chosen && cands.length) chosen = { ...cands[0], crossesPolygon: true };
+    if (!chosen || chosen.source === chosen.target) continue;
+    const e = {
+      a: chosen.source, b: chosen.target,
+      cost: Math.max(1, Math.round(chosen.distance)),
       auto: true,
-    });
+    };
+    if (chosen.crossesPolygon) e.crossesPolygon = true;
+    newEdges.push(e);
     for (const id of comp) spine.add(id);
   }
   return { nodes: [...graph.nodes], edges: [...graph.edges, ...newEdges] };
+}
+
+function loadPolygons() {
+  if (!fs.existsSync(SITE_GEOJSON)) return [];
+  const geo = JSON.parse(fs.readFileSync(SITE_GEOJSON, "utf8"));
+  const out = [];
+  for (const f of geo.features ?? []) {
+    if (f.geometry?.type !== "Polygon") continue;
+    const rings = f.geometry.coordinates ?? [];
+    if (!rings[0]) continue;
+    out.push({ store_id: f.properties?.store_id ?? "?", ring: rings[0] });
+  }
+  return out;
 }
 
 // ---- main ----------------------------------------------------------
 
 const before = JSON.parse(fs.readFileSync(GRAPH, "utf8"));
 const beforeComps = components(before);
+const polygons = loadPolygons();
 console.log(`Before:`);
 console.log(`  nodes:       ${before.nodes.length}`);
 console.log(`  edges:       ${before.edges.length}`);
 console.log(`  components:  ${beforeComps.length}`);
 console.log(`  spine size:  ${beforeComps[0]?.length ?? 0}`);
+console.log(`  polygons:    ${polygons.length}  (from public/maps/site.geojson)`);
 
-const after = autoconnect(before);
+const after = autoconnect(before, polygons);
 const afterComps = components(after);
 const added = after.edges.length - before.edges.length;
 
@@ -109,13 +176,21 @@ console.log(`  components:  ${afterComps.length}`);
 console.log(`  spine size:  ${afterComps[0]?.length ?? 0}`);
 
 if (added > 0) {
+  const crossing = after.edges.slice(before.edges.length).filter((e) => e.crossesPolygon);
   console.log(`\nNew bridging edges (cost = Euclidean distance):`);
   for (const e of after.edges.slice(before.edges.length)) {
     const a = before.nodes.find((n) => n.id === e.a);
     const b = before.nodes.find((n) => n.id === e.b);
+    const flag = e.crossesPolygon ? "  ⚠ crosses polygon" : "";
     console.log(
       `  ${e.a}  ↔  ${e.b}   cost=${e.cost}` +
-      `   (${a?.type ?? "?"} ↔ ${b?.type ?? "?"})`,
+      `   (${a?.type ?? "?"} ↔ ${b?.type ?? "?"})${flag}`,
+    );
+  }
+  if (crossing.length) {
+    console.log(
+      `\n${crossing.length} bridge${crossing.length === 1 ? "" : "s"} could not avoid a polygon; ` +
+      `flagged with crossesPolygon: true. Review in the editor and re-route by hand if needed.`,
     );
   }
 }

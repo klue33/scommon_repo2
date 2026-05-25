@@ -386,8 +386,8 @@
     },
     {
       "id": "n-mplltgzd-ed",
-      "x": 1065.3,
-      "y": 673.6,
+      "x": 1055.6,
+      "y": 674.3,
       "type": "junction"
     },
     {
@@ -830,8 +830,8 @@
     },
     {
       "id": "n-mpllvdbo-g3",
-      "x": 582.3,
-      "y": 570.8,
+      "x": 597.6,
+      "y": 558.7,
       "type": "junction"
     },
     {
@@ -2145,12 +2145,12 @@
     {
       "a": "n-mplltgzd-39m",
       "b": "n-mplltgzd-ed",
-      "cost": 38
+      "cost": 33
     },
     {
       "a": "n-mplltgzd-ed",
       "b": "n-mplltgzd-og",
-      "cost": 50
+      "cost": 57
     },
     {
       "a": "n-mplltgzd-og",
@@ -2540,12 +2540,12 @@
     {
       "a": "n-mpllvdbo-2gl",
       "b": "n-mpllvdbo-g3",
-      "cost": 40
+      "cost": 42
     },
     {
       "a": "n-mpllvdbo-g3",
       "b": "n-mpllt3uy-6ne",
-      "cost": 39
+      "cost": 44
     },
     {
       "a": "n-mpllvdbo-5m9",
@@ -2580,7 +2580,7 @@
     {
       "a": "n-mpllvjrf-67q",
       "b": "n-mpllvdbo-g3",
-      "cost": 33
+      "cost": 53
     },
     {
       "a": "n-mpllsrmq-1p2",
@@ -2935,9 +2935,9 @@
       "auto": true
     },
     {
-      "a": "lola-norma-s-karinderya",
+      "a": "n-mplm132h-56s",
       "b": "n-mpllub9c-7m9",
-      "cost": 25,
+      "cost": 21,
       "auto": true
     },
     {
@@ -2959,9 +2959,9 @@
       "auto": true
     },
     {
-      "a": "cell-max",
+      "a": "n-mpllz15s-17d",
       "b": "n-mpllv6pd-2pt",
-      "cost": 23,
+      "cost": 16,
       "auto": true
     },
     {
@@ -2977,9 +2977,9 @@
       "auto": true
     },
     {
-      "a": "wcgservices",
-      "b": "n-mpllvjrf-6f1",
-      "cost": 30,
+      "a": "n-mpllxj3m-3tl",
+      "b": "n-mpllx7e0-2eg",
+      "cost": 22,
       "auto": true
     },
     {
@@ -3007,9 +3007,9 @@
       "auto": true
     },
     {
-      "a": "sunrise-orthotics",
-      "b": "unit-22",
-      "cost": 21,
+      "a": "n-mpllyah4-64u",
+      "b": "n-mpllub9c-35r",
+      "cost": 17,
       "auto": true
     },
     {
@@ -3043,9 +3043,9 @@
       "auto": true
     },
     {
-      "a": "unit-32",
+      "a": "n-mpllyva1-40s",
       "b": "n-mpllv6pd-2pt",
-      "cost": 36,
+      "cost": 14,
       "auto": true
     },
     {
@@ -3097,21 +3097,21 @@
       "auto": true
     },
     {
-      "a": "nailsforyou",
-      "b": "n-mpllvjrf-6f1",
-      "cost": 24,
-      "auto": true
-    },
-    {
-      "a": "crazy-rolls-ice-cream",
-      "b": "n-mpllvdbo-6uu",
+      "a": "n-mpllzt16-4pk",
+      "b": "n-mpllvh9m-bb",
       "cost": 20,
       "auto": true
     },
     {
-      "a": "theupperhandgamesandsportscards",
-      "b": "nailsforyou",
-      "cost": 23,
+      "a": "n-mpllzwuv-66j",
+      "b": "n-mpllvdbo-6uu",
+      "cost": 19,
+      "auto": true
+    },
+    {
+      "a": "n-mpllzxxu-75c",
+      "b": "n-mpllvjrf-6f1",
+      "cost": 17,
       "auto": true
     },
     {
@@ -3133,15 +3133,15 @@
       "auto": true
     },
     {
-      "a": "thairoomgrand",
-      "b": "barburrito",
-      "cost": 22,
+      "a": "n-mplm06t3-3ed",
+      "b": "n-mplltgzd-og",
+      "cost": 13,
       "auto": true
     },
     {
-      "a": "rogers",
-      "b": "thairoomgrand",
-      "cost": 53,
+      "a": "n-mplm07mf-7ip",
+      "b": "n-mplltgzd-ed",
+      "cost": 23,
       "auto": true
     },
     {
@@ -3169,27 +3169,27 @@
       "auto": true
     },
     {
-      "a": "bmo",
-      "b": "n-mpllsqey-2c8",
-      "cost": 36,
-      "auto": true
-    },
-    {
-      "a": "southcommonmedicalcentre",
-      "b": "n-mplltqbj-2i2",
-      "cost": 45,
-      "auto": true
-    },
-    {
-      "a": "onenesswellnesscentre",
-      "b": "southcommonmedicalcentre",
+      "a": "n-mplm0n5s-6f1",
+      "b": "n-mpllsrmq-1p2",
       "cost": 26,
       "auto": true
     },
     {
-      "a": "dentist",
-      "b": "onenesswellnesscentre",
-      "cost": 21,
+      "a": "n-mplm0tl3-36f",
+      "b": "n-mplltqbj-2i2",
+      "cost": 20,
+      "auto": true
+    },
+    {
+      "a": "n-mplm0ugq-69v",
+      "b": "n-mplltqbj-4cr",
+      "cost": 18,
+      "auto": true
+    },
+    {
+      "a": "n-mplm0w4e-62v",
+      "b": "n-mplltqbj-6pq",
+      "cost": 13,
       "auto": true
     },
     {
@@ -3199,21 +3199,21 @@
       "auto": true
     },
     {
-      "a": "asiangourmet",
-      "b": "a1donuts",
-      "cost": 16,
+      "a": "n-mplm14re-5cj",
+      "b": "n-mplluwax-6up",
+      "cost": 13,
       "auto": true
     },
     {
       "a": "n-mpllwfik-3we",
-      "b": "n-mpllvdbo-g3",
-      "cost": 17,
+      "b": "n-mpllvjrf-67q",
+      "cost": 27,
       "auto": true
     },
     {
       "a": "n-mpllwgdr-1kx",
-      "b": "n-mpllvdbo-g3",
-      "cost": 14,
+      "b": "n-mpllwfik-3we",
+      "cost": 22,
       "auto": true
     },
     {
@@ -3290,14 +3290,14 @@
     },
     {
       "a": "n-mpllxhoz-1t1",
-      "b": "dollarama",
-      "cost": 66,
+      "b": "n-mpllvjrf-3ym",
+      "cost": 20,
       "auto": true
     },
     {
       "a": "n-mpllxl9f-5ro",
-      "b": "walmartsupercentre",
-      "cost": 227,
+      "b": "n-mpllwfik-3we",
+      "cost": 17,
       "auto": true
     },
     {
@@ -3320,8 +3320,8 @@
     },
     {
       "a": "n-mpllyi4s-6on",
-      "b": "fit4less",
-      "cost": 100,
+      "b": "n-mplltxvf-6zs",
+      "cost": 33,
       "auto": true
     },
     {
@@ -3350,8 +3350,8 @@
     },
     {
       "a": "n-mpllzkrh-2f4",
-      "b": "nofrills",
-      "cost": 162,
+      "b": "n-mpllva55-3rd",
+      "cost": 23,
       "auto": true
     },
     {
@@ -3362,8 +3362,8 @@
     },
     {
       "a": "n-mpllzonq-7cg",
-      "b": "popeyes",
-      "cost": 26,
+      "b": "n-mpllvdbo-x3",
+      "cost": 8,
       "auto": true
     },
     {
@@ -3374,38 +3374,38 @@
     },
     {
       "a": "n-mpllzz0r-1t1",
-      "b": "theupperhandgamesandsportscards",
-      "cost": 25,
+      "b": "n-mpllvdbo-6uu",
+      "cost": 14,
       "auto": true
     },
     {
       "a": "n-mpllzzry-68s",
-      "b": "lacoupla",
-      "cost": 24,
+      "b": "n-mpllvdbo-2gl",
+      "cost": 13,
       "auto": true
     },
     {
       "a": "n-mplm028p-77v",
-      "b": "viewcleaners",
-      "cost": 24,
+      "b": "n-mpllvdbo-2gl",
+      "cost": 17,
       "auto": true
     },
     {
       "a": "n-mplm0epj-50d",
-      "b": "shoppersdrugmart",
-      "cost": 76,
+      "b": "n-mplltgzd-4vx",
+      "cost": 13,
       "auto": true
     },
     {
       "a": "n-mplm0hxv-2f4",
-      "b": "n-mplm0ila-138",
+      "b": "n-mpllstux-4ws",
       "cost": 21,
       "auto": true
     },
     {
       "a": "n-mplm0pnc-30d",
-      "b": "td",
-      "cost": 31,
+      "b": "n-mpllt9aq-42t",
+      "cost": 17,
       "auto": true
     },
     {
@@ -3416,8 +3416,8 @@
     },
     {
       "a": "n-mplm127q-3n5",
-      "b": "rapizza",
-      "cost": 18,
+      "b": "n-mpllub9c-7md",
+      "cost": 13,
       "auto": true
     },
     {

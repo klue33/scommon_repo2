@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
 import graphData from "@/data/graph.json";
-import { buildGraph, route, type GraphNode } from "../lib/pathfind";
+import { buildGraph, routeBetweenStores, type GraphNode } from "../lib/pathfind";
 import { storeById, STORES, type Store, VIEW_BOX } from "../lib/stores";
 
 interface Props {
@@ -351,10 +351,12 @@ export function MapViewer({
   const builtGraph = useMemo(() => buildGraph(graphData as any), []);
   const routePath = useMemo(() => {
     if (!fromStore?.id || !toStore?.id || fromStore.id === toStore.id) return null;
-    return route(builtGraph, fromStore.id, toStore.id);
+    // Trims store-centroid endpoints — polyline terminates at each
+    // store's entrance-tenant, never inside the unit's polygon.
+    return routeBetweenStores(builtGraph, fromStore.id, toStore.id);
   }, [builtGraph, fromStore?.id, toStore?.id]);
   const routePoints = routePath?.points
-    ? routePath.points.map(([x, y]) => `${x},${y}`).join(" ")
+    ? routePath.points.map(([x, y]: [number, number]) => `${x},${y}`).join(" ")
     : null;
 
 
