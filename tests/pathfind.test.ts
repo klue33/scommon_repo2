@@ -11,18 +11,18 @@ const kiosks = (graph.nodes as any[]).filter((n) => n.type === "kiosk");
 const KIOSK_A = kiosks[0]?.id;
 
 // Graph is hand-traced in the live editor at
-// http://127.0.0.1:3100/?edit=1 — these integration tests
-// assume kiosks are connected to the store network. They are
-// skipped while the graph is still being authored. Un-skip
-// (s/it.skip/it/) once `tests/graph-health.test.ts` reports a
-// single connected component.
+// http://127.0.0.1:3100/?edit=1, then post-processed by
+// `scripts/autoconnect.mjs` to bridge disconnected components
+// with short edges marked `auto:true`. As long as the editor
+// always exports a graph that autoconnect can resolve, these
+// integration tests stay green.
 
 describe("pathfind", () => {
   it("the production graph has at least one kiosk", () => {
     expect(KIOSK_A).toBeDefined();
   });
 
-  it.skip("routes from a kiosk to a real tenant", () => {
+  it("routes from a kiosk to a real tenant", () => {
     const g = buildGraph(graph as any);
     const r = route(g, KIOSK_A, "bmo");
     expect(r).not.toBeNull();
