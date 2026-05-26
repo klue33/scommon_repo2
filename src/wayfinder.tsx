@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "preact/hooks";
-import { CATEGORIES, STORES, searchStores, storeById, type Store } from "./lib/stores";
+import { CATEGORIES, STORES, pickerStores, storeById, type Store } from "./lib/stores";
 import { MapViewer } from "./components/MapViewer";
 
 interface Props {
@@ -34,11 +34,14 @@ export function Wayfinder({
   const [from, setFrom] = useState<Store | null>(seededFrom);
   const [pickMode, setPickMode] = useState<"to" | "from">("to");
 
-  const visible = useMemo(() => {
-    let xs = searchStores(query, STORES);
-    if (category) xs = xs.filter((s) => s.category === category);
-    return xs;
-  }, [query, category]);
+  // Picker visibility: once a slot is filled, the category filter is
+  // bypassed so the operator can pick a non-matching counterpart.
+  // Search query always applies. See tests/stores.test.ts.
+  const anySlotPicked = !!(from || to);
+  const visible = useMemo(
+    () => pickerStores(query, category, STORES, anySlotPicked),
+    [query, category, anySlotPicked],
+  );
 
   // Keep the URL in sync so the route is shareable / QR-codable.
   useEffect(() => {
@@ -66,38 +69,38 @@ export function Wayfinder({
       <aside class="scc-wf__sidebar">
         <h1 class="scc-wf__title">South Common Centre</h1>
 
-        {(from || to) && (
-          <div class="scc-wf__route-bar" role="status">
-            <div class="scc-wf__route-leg">
-              <label>From</label>
-              <button
-                class={"scc-wf__route-slot" + (pickMode === "from" ? " is-active" : "")}
-                onClick={() => setPickMode("from")}
-                aria-label={from ? `Change starting point. Currently ${from.name}.` : "Set starting point"}
-              >
-                {from ? from.name : <em>tap a store to set</em>}
-              </button>
-              {from && (
-                <button class="scc-wf__route-x" onClick={() => setFrom(null)} aria-label="Clear starting point">×</button>
-              )}
-            </div>
-            <div class="scc-wf__route-arrow" aria-hidden="true">→</div>
-            <div class="scc-wf__route-leg">
-              <label>To</label>
-              <button
-                class={"scc-wf__route-slot" + (pickMode === "to" ? " is-active" : "")}
-                onClick={() => setPickMode("to")}
-                aria-label={to ? `Change destination. Currently ${to.name}.` : "Set destination"}
-              >
-                {to ? to.name : <em>tap a store to set</em>}
-              </button>
-              {to && (
-                <button class="scc-wf__route-x" onClick={() => setTo(null)} aria-label="Clear destination">×</button>
-              )}
-            </div>
-            <button class="scc-wf__route-clear" onClick={clearAll}>Clear</button>
+        <div class="scc-wf__route-bar" role="status">
+          <div class="scc-wf__route-leg">
+            <label>From</label>
+            <button
+              class={"scc-wf__route-slot" + (pickMode === "from" ? " is-active" : "")}
+              onClick={() => setPickMode("from")}
+              aria-label={from ? `Change starting point. Currently ${from.name}.` : "Set starting point"}
+            >
+              {from ? from.name : <em>{pickMode === "from" ? "tap a store…" : "tap to set"}</em>}
+            </button>
+            {from && (
+              <button class="scc-wf__route-x" onClick={() => setFrom(null)} aria-label="Clear starting point">×</button>
+            )}
           </div>
-        )}
+          <div class="scc-wf__route-arrow" aria-hidden="true">→</div>
+          <div class="scc-wf__route-leg">
+            <label>To</label>
+            <button
+              class={"scc-wf__route-slot" + (pickMode === "to" ? " is-active" : "")}
+              onClick={() => setPickMode("to")}
+              aria-label={to ? `Change destination. Currently ${to.name}.` : "Set destination"}
+            >
+              {to ? to.name : <em>{pickMode === "to" ? "tap a store…" : "tap to set"}</em>}
+            </button>
+            {to && (
+              <button class="scc-wf__route-x" onClick={() => setTo(null)} aria-label="Clear destination">×</button>
+            )}
+          </div>
+          {(from || to) && (
+            <button class="scc-wf__route-clear" onClick={clearAll}>Clear</button>
+          )}
+        </div>
 
         <input
           class="scc-wf__search"

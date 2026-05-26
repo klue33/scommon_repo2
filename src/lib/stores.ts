@@ -59,6 +59,25 @@ export function searchStores(query: string, all: Store[] = STORES): Store[] {
     .map((x) => x.store);
 }
 
+/**
+ * Visible tenants in the From/To picker. With no slot filled we
+ * respect both the category chip and the search query. Once either
+ * slot is picked we drop the category filter so the operator can
+ * choose a non-matching origin or destination — a destination's
+ * category shouldn't constrain the origin. The search query always
+ * applies (search is how you scan a long list).
+ */
+export function pickerStores(
+  query: string,
+  category: string | null,
+  all: Store[] = STORES,
+  anySlotPicked = false,
+): Store[] {
+  let xs = searchStores(query, all);
+  if (category && !anySlotPicked) xs = xs.filter((s) => s.category === category);
+  return xs;
+}
+
 export function storeById(id: string): Store | undefined {
   return STORES.find((s) => s.id === id);
 }

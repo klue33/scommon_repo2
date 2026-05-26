@@ -8,3 +8,6 @@ coverage/
 
 # stray local copies of the live SCC HTML (not project code)
 index1.html
+
+# autoconnect writes a timestamped backup of graph.json on every run
+data/graph.json.bak-*

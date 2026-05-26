@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks"
 import graphData from "@/data/graph.json";
 import { buildGraph, routeBetweenStores, type GraphNode } from "../lib/pathfind";
 import { storeById, STORES, type Store, VIEW_BOX } from "../lib/stores";
+import { parseGraphJson, addStraightLine, editNodeRadius, addBarrier } from "../lib/editor";
 
 interface Props {
   /** The destination tenant. */
@@ -25,9 +26,12 @@ interface SiteFeature {
 interface SiteFeatureCollection { type: "FeatureCollection"; features: SiteFeature[]; }
 
 type EditNodeType = "junction" | "kiosk" | "entrance-main" | "entrance-tenant";
-type ToolMode = "pen" | EditNodeType;
+type ToolMode = "pen" | "line" | "barrier" | EditNodeType;
+const HISTORY_LIMIT = 50;
 interface EditNode { id: string; x: number; y: number; type: EditNodeType; label?: string; }
 interface EditEdge { a: string; b: string; cost: number; }
+interface EditBarrier { id: string; a: [number, number]; b: [number, number]; }
+type EditGraph = { nodes: EditNode[]; edges: EditEdge[]; barriers: EditBarrier[] };
 
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 8;
@@ -82,18 +86,86 @@ export function MapViewer({
   }, [selectedStore?.id]);
 
   // --- editor state ----------------------------------------------
-  const [editGraph, setEditGraph] = useState<{ nodes: EditNode[]; edges: EditEdge[] }>(
+  const [editGraph, setEditGraphRaw] = useState<EditGraph>(
     () => loadInitialEditGraph(),
   );
   const [tool, setTool] = useState<ToolMode>("pen");
   const [selectedEditId, setSelectedEditId] = useState<string | null>(null);
   const [stroke, setStroke] = useState<Array<[number, number]>>([]);
+  // Hides the editable nodes+edges overlay so the operator can see
+  // the live route on a clean background while correcting the path.
+  const [showEditLayer, setShowEditLayer] = useState(true);
+
+  // First click of the line tool sets the pending start point. Second
+  // click commits a straight edge and clears it. Stored in viewBox
+  // coords so it works regardless of pan/zoom.
+  const [lineStart, setLineStart] = useState<[number, number] | null>(null);
+  const [cursorPt, setCursorPt] = useState<[number, number] | null>(null);
+
+  // Undo history. Each `mutate(fn)` pushes the previous editGraph
+  // snapshot before applying the update. Capped at HISTORY_LIMIT so
+  // memory doesn't grow unbounded during long tracing sessions.
+  const historyRef = useRef<Array<EditGraph>>([]);
+  const [canUndo, setCanUndo] = useState(false);
+  const mutate = useCallback(
+    (fn: (g: EditGraph) => EditGraph) => {
+      setEditGraphRaw((g) => {
+        historyRef.current.push(g);
+        if (historyRef.current.length > HISTORY_LIMIT) historyRef.current.shift();
+        setCanUndo(true);
+        return fn(g);
+      });
+    },
+    [],
+  );
+  const undo = useCallback(() => {
+    const prev = historyRef.current.pop();
+    if (!prev) return;
+    setEditGraphRaw(prev);
+    setCanUndo(historyRef.current.length > 0);
+    setSelectedEditId(null);
+    setLineStart(null);
+  }, []);
+
+  // For mutations that don't go through `mutate` (load-from-disk
+  // replacements where pushing then setting would still be 2 ops).
+  const replaceGraph = useCallback(
+    (next: EditGraph) => {
+      setEditGraphRaw((g) => {
+        historyRef.current.push(g);
+        if (historyRef.current.length > HISTORY_LIMIT) historyRef.current.shift();
+        setCanUndo(true);
+        return next;
+      });
+    },
+    [],
+  );
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // Persist edits so a refresh doesn't blow away a tracing session.
   useEffect(() => {
     if (!editMode) return;
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(editGraph)); } catch {}
   }, [editGraph, editMode]);
+
+  // Reset transient line/cursor state when tool changes or edit mode toggles.
+  useEffect(() => {
+    setLineStart(null);
+    setCursorPt(null);
+  }, [tool, editMode]);
+
+  // Escape cancels an in-progress line.
+  useEffect(() => {
+    if (!editMode) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setLineStart(null);
+      setCursorPt(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [editMode]);
 
   // Backspace / Delete with a selected node removes it + adjacent edges.
   useEffect(() => {
@@ -104,7 +176,8 @@ export function MapViewer({
       const tag = (e.target as HTMLElement | null)?.tagName?.toLowerCase();
       if (tag === "input" || tag === "select" || tag === "textarea") return;
       e.preventDefault();
-      setEditGraph((g) => ({
+      mutate((g) => ({
+        ...g,
         nodes: g.nodes.filter((n) => n.id !== selectedEditId),
         edges: g.edges.filter((e2) => e2.a !== selectedEditId && e2.b !== selectedEditId),
       }));
@@ -112,7 +185,23 @@ export function MapViewer({
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [editMode, selectedEditId]);
+  }, [editMode, selectedEditId, mutate]);
+
+  // Ctrl/Cmd+Z → undo. Skipped while focus is in a form field so the
+  // browser's native undo still works inside text inputs.
+  useEffect(() => {
+    if (!editMode) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (!(e.key === "z" || e.key === "Z")) return;
+      if (!(e.ctrlKey || e.metaKey)) return;
+      const tag = (e.target as HTMLElement | null)?.tagName?.toLowerCase();
+      if (tag === "input" || tag === "select" || tag === "textarea") return;
+      e.preventDefault();
+      undo();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [editMode, undo]);
 
   // Convert a screen-space pointer event into a coordinate in the
   // rotated `<g>`'s local space, which is the same coord system the
@@ -148,6 +237,10 @@ export function MapViewer({
         x: e.clientX, y: e.clientY, pid: e.pointerId, moved: 0,
         type: "drag-node", nodeId: editNodeEl.dataset.editNodeId!,
       };
+      // One history snapshot per drag (not per move tick).
+      historyRef.current.push(editGraph);
+      if (historyRef.current.length > HISTORY_LIMIT) historyRef.current.shift();
+      setCanUndo(true);
       svgRef.current?.setPointerCapture(e.pointerId);
       return;
     }
@@ -171,6 +264,12 @@ export function MapViewer({
   };
 
   const onPointerMove = (e: PointerEvent) => {
+    // Track cursor while the line tool is active so we can render
+    // the rubber-band preview from `lineStart` → cursor.
+    if (editMode && (tool === "line" || tool === "barrier") && lineStart) {
+      const sp = svgPoint(e.clientX, e.clientY);
+      setCursorPt([sp.x, sp.y]);
+    }
     const d = dragRef.current;
     if (!d) return;
     const dxs = e.clientX - d.x;
@@ -187,7 +286,8 @@ export function MapViewer({
     } else if (d.type === "drag-node" && d.nodeId) {
       const { x, y } = svgPoint(e.clientX, e.clientY);
       const id = d.nodeId;
-      setEditGraph((g) => ({
+      // Bypass history here — history was snapshotted at drag-start.
+      setEditGraphRaw((g) => ({
         ...g,
         nodes: g.nodes.map((n) => n.id === id ? { ...n, x: round1(x), y: round1(y) } : n),
         edges: g.edges.map((edge) => {
@@ -236,6 +336,43 @@ export function MapViewer({
     const onUnit = target.closest("[data-store-id]");
     const onKiosk = target.closest("[data-kiosk-id]");
 
+    // Line tool: clicks set start, then commit a straight edge.
+    // Clicks on an existing edit-node snap to its coords; clicks on
+    // empty space use the cursor's viewBox position. The second
+    // click of a chain commits and immediately becomes the start of
+    // the next segment, so chained line-drawing feels continuous.
+    if (wasClick && tool === "line" && !onUnit && !onKiosk) {
+      const p: [number, number] = onEditNode
+        ? (() => {
+            const id = (onEditNode as HTMLElement).dataset.editNodeId!;
+            const n = editGraph.nodes.find((nn) => nn.id === id)!;
+            return [n.x, n.y] as [number, number];
+          })()
+        : (() => { const sp = svgPoint(e.clientX, e.clientY); return [sp.x, sp.y]; })();
+      if (!lineStart) {
+        setLineStart(p);
+      } else {
+        commitLine(lineStart, p);
+        setLineStart(p);
+      }
+      return;
+    }
+
+    // Barrier tool: same click-click pattern as line, but commits a
+    // barrier segment (not an edge). Wayfinder routes can't cross
+    // barriers — `buildGraph` drops any edge that intersects one.
+    if (wasClick && tool === "barrier" && !onUnit && !onKiosk) {
+      const sp = svgPoint(e.clientX, e.clientY);
+      const p: [number, number] = [sp.x, sp.y];
+      if (!lineStart) {
+        setLineStart(p);
+      } else {
+        commitBarrier(lineStart, p);
+        setLineStart(p);
+      }
+      return;
+    }
+
     if (wasClick && onEditNode) {
       const clickedId = (onEditNode as HTMLElement).dataset.editNodeId!;
       if (selectedEditId && selectedEditId !== clickedId) {
@@ -249,7 +386,7 @@ export function MapViewer({
       return;
     }
     // Click on background with a point tool active → drop that kind of node.
-    if (wasClick && d.type === "pan" && !onUnit && !onKiosk && tool !== "pen") {
+    if (wasClick && d.type === "pan" && !onUnit && !onKiosk && tool !== "pen" && tool !== "line" && tool !== "barrier") {
       const { x, y } = svgPoint(e.clientX, e.clientY);
       addNodeAt(x, y, tool as EditNodeType);
     }
@@ -258,7 +395,7 @@ export function MapViewer({
   const commitStroke = (raw: Array<[number, number]>) => {
     const pts = downsample(raw, PEN_DOWNSAMPLE);
     if (pts.length < 2) return;
-    setEditGraph((g) => {
+    mutate((g) => {
       const newNodes: EditNode[] = [...g.nodes];
       const newEdges: EditEdge[] = [...g.edges];
       const ids: string[] = [];
@@ -286,12 +423,12 @@ export function MapViewer({
         const nb = newNodes.find((n) => n.id === b)!;
         newEdges.push({ a, b, cost: Math.round(Math.hypot(na.x - nb.x, na.y - nb.y)) });
       }
-      return { nodes: newNodes, edges: newEdges };
+      return { ...g, nodes: newNodes, edges: newEdges };
     });
   };
 
   const toggleEdge = (a: string, b: string) => {
-    setEditGraph((g) => {
+    mutate((g) => {
       const idx = g.edges.findIndex(
         (e) => (e.a === a && e.b === b) || (e.a === b && e.b === a),
       );
@@ -311,8 +448,23 @@ export function MapViewer({
            : type === "entrance-tenant" ? undefined
            : undefined,
     };
-    setEditGraph((g) => ({ ...g, nodes: [...g.nodes, node] }));
+    mutate((g) => ({ ...g, nodes: [...g.nodes, node] }));
     setSelectedEditId(id);
+  };
+
+  /** Commit a straight line between two viewBox-space points using
+   *  `addStraightLine` from the editor lib. `step` subdivides the
+   *  segment into intermediate junctions ~PEN_DOWNSAMPLE px apart so
+   *  a line drawn with the line tool produces the same node density
+   *  as the pen tool — routing has snap points along the path. */
+  const commitLine = (pa: [number, number], pb: [number, number]) => {
+    mutate((g) => addStraightLine(g, pa, pb, {
+      snapRadius: SNAP_RADIUS, newId, step: PEN_DOWNSAMPLE,
+    }));
+  };
+
+  const commitBarrier = (pa: [number, number], pb: [number, number]) => {
+    mutate((g) => addBarrier(g, pa, pb, { newId }) as EditGraph);
   };
 
   const downloadGraph = () => {
@@ -327,14 +479,50 @@ export function MapViewer({
 
   const resetGraph = () => {
     if (!confirm("Discard your edits and reload graph.json from disk?")) return;
-    setEditGraph(loadInitialEditGraph(true));
+    replaceGraph(loadInitialEditGraph(true));
     setSelectedEditId(null);
   };
 
   const clearAll = () => {
     if (!confirm("Wipe ALL junctions, kiosks, entrances and their edges? (Store nodes are kept.)")) return;
-    setEditGraph({ nodes: [], edges: [] });
+    replaceGraph({ nodes: [], edges: [], barriers: [] });
     setSelectedEditId(null);
+  };
+
+  /** Load JSON button handler. Opens a file picker; the chosen file
+   *  is validated with `parseGraphJson`. On success we extract the
+   *  editor-tracked node types (junction/kiosk/entrance-*) and edges
+   *  between them — store-centroid nodes are derived at save time so
+   *  they're stripped on import. The replacement is pushed through
+   *  `replaceGraph` so a misclick is undoable. */
+  const onLoadJsonClicked = () => fileInputRef.current?.click();
+  const onLoadJsonFile = async (e: Event) => {
+    const input = e.target as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = ""; // allow re-selecting the same file
+    if (!file) return;
+    const text = await file.text();
+    const parsed = parseGraphJson(text);
+    if (!parsed.ok) {
+      alert(`Couldn't load that file:\n\n${parsed.error}`);
+      return;
+    }
+    const editable: EditNode[] = parsed.graph.nodes
+      .filter((n: any) => n.type === "junction" || n.type === "kiosk" || n.type === "entrance-main" || n.type === "entrance-tenant")
+      .map((n: any) => ({ id: n.id, x: n.x, y: n.y, type: n.type, label: n.label }));
+    const ids = new Set(editable.map((n) => n.id));
+    const edges: EditEdge[] = parsed.graph.edges
+      .filter((e: any) => ids.has(e.a) && ids.has(e.b))
+      .map((e: any) => ({ a: e.a, b: e.b, cost: e.cost ?? Math.round(Math.hypot(
+        (editable.find((n) => n.id === e.a)!.x - editable.find((n) => n.id === e.b)!.x),
+        (editable.find((n) => n.id === e.a)!.y - editable.find((n) => n.id === e.b)!.y),
+      )) }));
+    const barriers: EditBarrier[] = ((parsed.graph as any).barriers ?? [])
+      .filter((b: any) => b && typeof b.id === "string" && Array.isArray(b.a) && Array.isArray(b.b))
+      .map((b: any) => ({ id: b.id, a: [b.a[0], b.a[1]], b: [b.b[0], b.b[1]] }));
+    replaceGraph({ nodes: editable, edges, barriers });
+    setSelectedEditId(null);
+    setLineStart(null);
   };
 
   // --- render -----------------------------------------------------
@@ -343,12 +531,20 @@ export function MapViewer({
   // Kiosks (main entrances) render as informational markers.
   const kiosks = (graphData.nodes as Array<GraphNode>).filter((n) => n.type === "kiosk");
 
-  // Tenant-to-tenant route: built from the static graph data only.
-  // We use the store node whose `id` matches the tenant id (store
-  // nodes carry both — see CLAUDE.md). The polyline follows the A*
-  // path's node-by-node points, so it strictly traces graph edges.
-  // Returns null on disconnected components — no off-graph fallback.
-  const builtGraph = useMemo(() => buildGraph(graphData as any), []);
+  // Tenant-to-tenant route. We always route against the on-disk
+  // graph (which is autoconnected + fully connected) — including in
+  // edit mode. The operator wants to see the route visitors actually
+  // see so they can find the wrong segment and fix it; the live
+  // edit graph is partial until autoconnect is re-run on save.
+  const builtGraph = useMemo(() => {
+    const polygons = (collection?.features ?? [])
+      .filter((f) => f.geometry?.type === "Polygon")
+      .map((f) => ({
+        store_id: f.properties.store_id,
+        ring: f.geometry.coordinates[0],
+      }));
+    return buildGraph({ ...(graphData as any), polygons });
+  }, [collection]);
   const routePath = useMemo(() => {
     if (!fromStore?.id || !toStore?.id || fromStore.id === toStore.id) return null;
     // Trims store-centroid endpoints — polyline terminates at each
@@ -410,14 +606,14 @@ export function MapViewer({
                 key={isSelected ? `${p.store_id}-pulse-${pulseKey}` : p.store_id}
                 class={classes} d={d}
                 data-store-id={p.store_id}
-                onClick={() => !editMode && store && onSelectStore?.(store)}
+                onClick={() => store && onSelectStore?.(store)}
               >
                 <title>{p.name} · #{p.unit}</title>
               </path>
             );
           })}
 
-          {editMode && (
+          {editMode && showEditLayer && (
             <g class="scc-wf__edit-layer">
               {editGraph.edges.map((e, i) => {
                 const a = editGraph.nodes.find((n) => n.id === e.a);
@@ -433,13 +629,35 @@ export function MapViewer({
                 <polyline class="scc-wf__edit-stroke"
                           points={stroke.map(([x, y]) => `${x},${y}`).join(" ")} />
               )}
+              {/* live line-tool rubber-band preview */}
+              {tool === "line" && lineStart && cursorPt && (
+                <line class="scc-wf__edit-line-preview"
+                      x1={lineStart[0]} y1={lineStart[1]}
+                      x2={cursorPt[0]}  y2={cursorPt[1]} />
+              )}
+              {/* line-tool start marker */}
+              {tool === "line" && lineStart && (
+                <circle class="scc-wf__edit-line-anchor"
+                        cx={lineStart[0]} cy={lineStart[1]} r={6} />
+              )}
+              {/* saved barrier segments — routes can't cross these */}
+              {editGraph.barriers.map((bar) => (
+                <line key={`bar-${bar.id}`} class="scc-wf__edit-barrier"
+                      x1={bar.a[0]} y1={bar.a[1]} x2={bar.b[0]} y2={bar.b[1]} />
+              ))}
+              {/* live barrier rubber-band preview */}
+              {tool === "barrier" && lineStart && cursorPt && (
+                <line class="scc-wf__edit-barrier-preview"
+                      x1={lineStart[0]} y1={lineStart[1]}
+                      x2={cursorPt[0]}  y2={cursorPt[1]} />
+              )}
+              {tool === "barrier" && lineStart && (
+                <circle class="scc-wf__edit-barrier-anchor"
+                        cx={lineStart[0]} cy={lineStart[1]} r={6} />
+              )}
               {editGraph.nodes.map((n) => {
                 const isSel = selectedEditId === n.id;
-                const r =
-                  n.type === "kiosk" ? 16 :
-                  n.type === "entrance-main" ? 14 :
-                  n.type === "entrance-tenant" ? 7 :
-                  10;
+                const r = editNodeRadius(n.type);
                 return (
                   <g
                     key={n.id}
@@ -481,9 +699,11 @@ export function MapViewer({
 
           {/* Tenant→tenant route polyline. Renders the A* path's
               node points directly — no straight-line shortcuts;
-              every segment is a graph edge. Null when origin and
-              destination are in different components. */}
-          {!editMode && routePoints && (
+              every segment is a graph edge. In edit mode the route
+              is built from the LIVE edited graph so corrections show
+              up immediately. Null when origin and destination are in
+              different components. */}
+          {routePoints && (
             <polyline
               key={`route-${fromStore?.id}-${toStore?.id}`}
               class="scc-wf__route"
@@ -491,7 +711,10 @@ export function MapViewer({
               fill="none"
             />
           )}
-          {!editMode && fromStore && (() => {
+          {fromStore && (() => {
+            // The "you are here" pulse anchors to the origin's node
+            // in the on-disk graph (same graph the route is computed
+            // against, so they stay co-located).
             const node = (graphData.nodes as Array<GraphNode>).find(
               (n) => n.id === fromStore.id,
             );
@@ -518,6 +741,8 @@ export function MapViewer({
           <div class="scc-wf__editor-row scc-wf__editor-tools">
             {([
               { id: "pen",              label: "✎ Pen (stroke)" },
+              { id: "line",             label: "／ Line (straight)" },
+              { id: "barrier",          label: "✕ Barrier (no-cross)" },
               { id: "junction",         label: "○ Junction" },
               { id: "kiosk",            label: "● Kiosk" },
               { id: "entrance-main",    label: "▲ Main entrance" },
@@ -535,17 +760,45 @@ export function MapViewer({
           <p class="scc-wf__editor-hint">
             {tool === "pen"
               ? "Drag with a stylus or mouse to trace a walkway. Each stroke is sampled into nodes spaced ~30 px apart and joined as edges. Endpoints near existing nodes snap to them."
+              : tool === "line"
+              ? "Click to set the start point, click again to drop a straight edge. Endpoints near existing nodes snap to them. Each subsequent click chains another segment. Esc cancels."
+              : tool === "barrier"
+              ? "Click to set the start point, click again to drop a barrier segment. Any walking edge crossing this line is removed at build time, forcing a detour. Chained clicks continue the wall. Esc cancels."
               : `Click empty space to drop a ${tool.replace("entrance-", "").replace("-", " ")}. Click a node to select it; click another node to toggle an edge. Drag to move; Backspace to delete.`}
           </p>
           <div class="scc-wf__editor-stats">
             {editGraph.nodes.length} node{editGraph.nodes.length === 1 ? "" : "s"} ·{" "}
-            {editGraph.edges.length} edge{editGraph.edges.length === 1 ? "" : "s"}
+            {editGraph.edges.length} edge{editGraph.edges.length === 1 ? "" : "s"} ·{" "}
+            {editGraph.barriers.length} barrier{editGraph.barriers.length === 1 ? "" : "s"}
             {selectedEditId && <> · sel <code>{selectedEditId.slice(0, 10)}</code></>}
           </div>
           <div class="scc-wf__editor-actions">
             <button onClick={downloadGraph} class="scc-wf__cta">Save graph.json</button>
+            <button onClick={onLoadJsonClicked} class="scc-wf__cta scc-wf__cta--ghost">Load…</button>
+            <button
+              onClick={() => setShowEditLayer((v) => !v)}
+              class="scc-wf__cta scc-wf__cta--ghost"
+              title="Toggle the editable nodes/edges overlay so the live route stands out"
+            >
+              {showEditLayer ? "Hide graph" : "Show graph"}
+            </button>
+            <button
+              onClick={undo}
+              disabled={!canUndo}
+              class="scc-wf__cta scc-wf__cta--ghost"
+              title="Undo last edit (Ctrl/⌘+Z)"
+            >
+              ↶ Undo
+            </button>
             <button onClick={clearAll} class="scc-wf__cta scc-wf__cta--ghost">Clear</button>
             <button onClick={resetGraph} class="scc-wf__cta scc-wf__cta--ghost">Reset</button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="application/json,.json"
+              style="display:none"
+              onChange={onLoadJsonFile}
+            />
           </div>
         </div>
       )}
@@ -600,13 +853,15 @@ function downsample(points: Array<[number, number]>, minDist: number): Array<[nu
   return out;
 }
 
-function loadInitialEditGraph(forceDisk = false): { nodes: EditNode[]; edges: EditEdge[] } {
+function loadInitialEditGraph(forceDisk = false): EditGraph {
   if (!forceDisk && typeof localStorage !== "undefined") {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        if (parsed?.nodes && parsed?.edges) return parsed;
+        if (parsed?.nodes && parsed?.edges) {
+          return { ...parsed, barriers: parsed.barriers ?? [] };
+        }
       }
     } catch {}
   }
@@ -617,10 +872,11 @@ function loadInitialEditGraph(forceDisk = false): { nodes: EditNode[]; edges: Ed
   const edges: EditEdge[] = (graphData.edges as any[])
     .filter((e) => ids.has(e.a) && ids.has(e.b))
     .map((e) => ({ a: e.a, b: e.b, cost: e.cost }));
-  return { nodes: editable, edges };
+  const barriers: EditBarrier[] = ((graphData as any).barriers ?? []) as EditBarrier[];
+  return { nodes: editable, edges, barriers };
 }
 
-function composeGraph(edit: { nodes: EditNode[]; edges: EditEdge[] }) {
+function composeGraph(edit: EditGraph) {
   const storeNodes = STORES
     .filter((s) => s.centroid)
     .map((s) => ({
@@ -639,5 +895,6 @@ function composeGraph(edit: { nodes: EditNode[]; edges: EditEdge[] }) {
   return {
     nodes: [...edit.nodes, ...storeNodes],
     edges: [...edit.edges, ...snapEdges],
+    barriers: edit.barriers,
   };
 }

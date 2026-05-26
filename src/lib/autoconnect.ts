@@ -50,8 +50,17 @@ export interface AutoPolygon {
   rings: number[][][];
 }
 
+export interface AutoBarrier {
+  a: [number, number];
+  b: [number, number];
+}
+
 export interface AutoconnectOpts {
   polygons?: AutoPolygon[];
+  /** Operator-drawn line segments. Any candidate bridge that crosses
+   *  a barrier is treated the same as a foreign-polygon crossing —
+   *  skipped if a clean alternative exists, flagged otherwise. */
+  barriers?: AutoBarrier[];
 }
 
 function adjacency(g: AutoGraph): Map<string, string[]> {
@@ -148,21 +157,36 @@ function segmentEntersPolygon(
 /**
  * True iff the segment a-b crosses the interior of ANY polygon that
  * is not "owned" by either endpoint (i.e. crossing a store's own
- * polygon is allowed for the centroid→entrance leg).
+ * polygon is allowed for the centroid→entrance leg). Returns the
+ * reason it failed so callers can flag the candidate accordingly.
  */
-function bridgeIsClean(
-  a: AutoNode, b: AutoNode, polygons: AutoPolygon[],
-): boolean {
-  const own = new Set<string>();
-  if (a.type === "store" && a.store) own.add(a.store);
-  if (b.type === "store" && b.store) own.add(b.store);
+function bridgeBlockage(
+  a: AutoNode, b: AutoNode, polygons: AutoPolygon[], barriers: AutoBarrier[],
+): "clean" | "polygon" | "barrier" | "wall" {
+  // From a store node, the only legitimate bridge is to an
+  // entrance-tenant / entrance-main. A store ↔ junction bridge
+  // cuts across the tenant's wall — pathfind drops it anyway, so
+  // autoconnect shouldn't pick it as a "clean" option.
+  if (
+    (a.type === "store" && b.type !== "entrance-tenant" && b.type !== "entrance-main" && b.type !== "kiosk") ||
+    (b.type === "store" && a.type !== "entrance-tenant" && a.type !== "entrance-main" && a.type !== "kiosk")
+  ) return "wall";
   const ap: [number, number] = [a.x, a.y];
   const bp: [number, number] = [b.x, b.y];
   for (const poly of polygons) {
-    if (own.has(poly.store_id)) continue;
-    if (segmentEntersPolygon(ap, bp, poly)) return false;
+    // Ownership: store-centroid with matching id, OR endpoint sits
+    // inside the polygon (e.g. an entrance-tenant at the door).
+    const aOwns = (a.type === "store" && a.store === poly.store_id) ||
+      pointInPolygon(ap, poly.rings);
+    const bOwns = (b.type === "store" && b.store === poly.store_id) ||
+      pointInPolygon(bp, poly.rings);
+    if (aOwns || bOwns) continue;
+    if (segmentEntersPolygon(ap, bp, poly)) return "polygon";
   }
-  return true;
+  for (const bar of barriers) {
+    if (segmentsCross(ap, bp, bar.a, bar.b)) return "barrier";
+  }
+  return "clean";
 }
 
 /**
@@ -179,14 +203,18 @@ function nearestPair(
   sourceIds: string[],
   targetIds: string[],
   polygons: AutoPolygon[],
-): { source: string; target: string; distance: number; crossesPolygon: boolean } | null {
+  barriers: AutoBarrier[],
+): { source: string; target: string; distance: number; crossesPolygon: boolean; crossesBarrier: boolean } | null {
   if (sourceIds.length === 0 || targetIds.length === 0) return null;
   type Cand = { source: string; target: string; distance: number };
+  // Drop wall-crossing candidates upfront (store ↔ non-entrance):
+  // they're hard-illegal, never an acceptable fallback.
   const cands: Cand[] = [];
   for (const s of sourceIds) {
     const sn = byId.get(s)!;
     for (const t of targetIds) {
       const tn = byId.get(t)!;
+      if (bridgeBlockage(sn, tn, polygons, barriers) === "wall") continue;
       cands.push({ source: s, target: t, distance: dist(sn, tn) });
     }
   }
@@ -194,13 +222,23 @@ function nearestPair(
   for (const c of cands) {
     const sn = byId.get(c.source)!;
     const tn = byId.get(c.target)!;
-    if (bridgeIsClean(sn, tn, polygons)) return { ...c, crossesPolygon: false };
+    if (bridgeBlockage(sn, tn, polygons, barriers) === "clean") {
+      return { ...c, crossesPolygon: false, crossesBarrier: false };
+    }
   }
-  // No clean bridge — fall back to the absolute nearest so the
-  // graph still becomes a single component. Caller decides what to
-  // do about the visual.
+  // No clean bridge — fall back to the absolute nearest (excluding
+  // wall-crossings, which were filtered above). Flag the reason so
+  // the operator can see and re-route.
   const fallback = cands[0];
-  return fallback ? { ...fallback, crossesPolygon: true } : null;
+  if (!fallback) return null;
+  const sn = byId.get(fallback.source)!;
+  const tn = byId.get(fallback.target)!;
+  const reason = bridgeBlockage(sn, tn, polygons, barriers);
+  return {
+    ...fallback,
+    crossesPolygon: reason === "polygon",
+    crossesBarrier: reason === "barrier",
+  };
 }
 
 export function autoconnect(graph: AutoGraph, opts?: AutoconnectOpts): AutoGraph {
@@ -209,6 +247,7 @@ export function autoconnect(graph: AutoGraph, opts?: AutoconnectOpts): AutoGraph
   if (comps.length <= 1) return { nodes: [...graph.nodes], edges: [...graph.edges] };
 
   const polygons = opts?.polygons ?? [];
+  const barriers = opts?.barriers ?? [];
 
   const byId = new Map<string, AutoNode>();
   for (const n of graph.nodes) byId.set(n.id, n);
@@ -219,7 +258,7 @@ export function autoconnect(graph: AutoGraph, opts?: AutoconnectOpts): AutoGraph
 
   for (let i = 1; i < comps.length; i++) {
     const comp = comps[i];
-    const best = nearestPair(byId, comp, Array.from(spine), polygons);
+    const best = nearestPair(byId, comp, Array.from(spine), polygons, barriers);
     if (!best) continue; // shouldn't happen
     if (best.source === best.target) continue;
     const edge: AutoEdge = {
@@ -229,10 +268,11 @@ export function autoconnect(graph: AutoGraph, opts?: AutoconnectOpts): AutoGraph
       auto: true,
     };
     if (best.crossesPolygon) {
-      // Flag visually so the operator can rewire it manually if it
-      // looks bad. (Extra field — tolerated by the data schema; the
-      // editor can choose to surface it.)
       (edge as any).crossesPolygon = true;
+    }
+    if (best.crossesBarrier) {
+      // Flag visually so the operator can rewire it manually.
+      (edge as any).crossesBarrier = true;
     }
     newEdges.push(edge);
     // Fold this component into the spine.

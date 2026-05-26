@@ -24,7 +24,16 @@
  * the integration tests in `pathfind.test.ts`.
  */
 import { describe, it, expect } from "vitest";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import graph from "@/data/graph.json";
+
+const geo = JSON.parse(
+  readFileSync(
+    fileURLToPath(new URL("../public/maps/site.geojson", import.meta.url)),
+    "utf8",
+  ),
+) as { features: Array<{ geometry?: { type: string; coordinates: number[][][] }; properties?: any }> };
 
 type Node = { id: string; x: number; y: number; type: string; store?: string };
 type Edge = { a: string; b: string; cost: number };
@@ -73,6 +82,131 @@ describe("graph-health", () => {
     const ids = new Set(nodes.map((n) => n.id));
     const orphans = edges.filter((e) => !ids.has(e.a) || !ids.has(e.b));
     expect(orphans, JSON.stringify(orphans.slice(0, 5))).toEqual([]);
+  });
+
+  it("no edge cuts through a foreign tenant polygon", () => {
+    // Tenants (occupied AND vacant) are physical units on the floor —
+    // walking-route edges may not slice through them. The exception
+    // is a store-centroid → its OWN entrance, which by design crosses
+    // the polygon's boundary from inside out.
+    const polys = geo.features
+      .filter((f) => f.geometry?.type === "Polygon")
+      .map((f) => ({
+        store_id: f.properties?.store_id ?? "?",
+        ring: f.geometry!.coordinates[0] as number[][],
+      }));
+    const nodeById = new Map(nodes.map((n) => [n.id, n]));
+    const offenders: Array<{ a: string; b: string; through: string }> = [];
+    const orient = (a: number[], b: number[], c: number[]) =>
+      Math.sign((b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]));
+    const segCross = (p1: number[], p2: number[], p3: number[], p4: number[]) => {
+      const o1 = orient(p1, p2, p3), o2 = orient(p1, p2, p4);
+      const o3 = orient(p3, p4, p1), o4 = orient(p3, p4, p2);
+      return o1 !== 0 && o2 !== 0 && o3 !== 0 && o4 !== 0 && o1 !== o2 && o3 !== o4;
+    };
+    const inRing = (p: number[], ring: number[][]) => {
+      let inside = false;
+      for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        const xi = ring[i][0], yi = ring[i][1];
+        const xj = ring[j][0], yj = ring[j][1];
+        const ix = ((yi > p[1]) !== (yj > p[1])) &&
+          (p[0] < ((xj - xi) * (p[1] - yi)) / (yj - yi + 1e-12) + xi);
+        if (ix) inside = !inside;
+      }
+      return inside;
+    };
+    const enters = (a: number[], b: number[], ring: number[][]) => {
+      for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        if (segCross(a, b, ring[i], ring[j])) return true;
+      }
+      return inRing([(a[0] + b[0]) / 2, (a[1] + b[1]) / 2], ring);
+    };
+    for (const e of edges) {
+      // Autoconnect-fallback bridges that own up to crossing a polygon
+      // are operator-visible; pathfind already lets the route through
+      // by edge cost. Don't double-fail them here.
+      if ((e as any).crossesPolygon) continue;
+      const na = nodeById.get(e.a), nb = nodeById.get(e.b);
+      if (!na || !nb) continue;
+      for (const p of polys) {
+        // A polygon is "owned" by either endpoint if that endpoint
+        // is the store centroid for the polygon OR the endpoint
+        // sits inside the polygon (e.g. an entrance-tenant node
+        // placed at the door). Mirrors pathfind's filter.
+        const aOwns = (na.type === "store" && na.store === p.store_id) ||
+          inRing([na.x, na.y], p.ring);
+        const bOwns = (nb.type === "store" && nb.store === p.store_id) ||
+          inRing([nb.x, nb.y], p.ring);
+        if (aOwns || bOwns) continue;
+        if (enters([na.x, na.y], [nb.x, nb.y], p.ring)) {
+          offenders.push({ a: e.a, b: e.b, through: p.store_id });
+          break;
+        }
+      }
+    }
+    expect(
+      offenders.length,
+      `${offenders.length} unflagged edges cross foreign polygons. First 5: ${JSON.stringify(offenders.slice(0, 5))}`,
+    ).toBe(0);
+  });
+
+  it("Sunshine Healthcare's tenant entrance is on the NE face of its polygon", () => {
+    // On-site confirmation (2026-05-25): Sunshine's real entrance
+    // is on the NE face, near (682.7, 783.8) — closer to the
+    // No Frills north entrance than the NW face midpoint (654, 804)
+    // the previous version asserted. This supersedes the earlier
+    // NW-face claim.
+    const sunshineId = "sunshine-healthcare";
+    const adjEdges = edges.filter((e) => e.a === sunshineId || e.b === sunshineId);
+    const entranceIds = adjEdges
+      .map((e) => (e.a === sunshineId ? e.b : e.a))
+      .map((id) => nodes.find((n) => n.id === id))
+      .filter((n): n is Node => !!n && n.type === "entrance-tenant");
+    expect(entranceIds.length).toBeGreaterThan(0);
+    // At least one tenant entrance for Sunshine must sit on the
+    // NE face — within ~25 px of (682.7, 783.8).
+    const onNeFace = entranceIds.some(
+      (n) => Math.hypot(n.x - 682.7, n.y - 783.8) <= 25,
+    );
+    expect(onNeFace, `entrance positions: ${JSON.stringify(entranceIds.map((n) => [n.x, n.y]))}`).toBe(true);
+  });
+
+  it("no walking edge crosses an operator-drawn barrier", () => {
+    // Barriers are operator-defined lines that the wayfinder can't
+    // cross. The on-disk graph is what visitors actually use — any
+    // edge intersecting a barrier means autoconnect (or a stale save)
+    // bridged through a wall and visitors would be misrouted.
+    const barriers = ((graph as any).barriers ?? []) as Array<{
+      id: string; a: [number, number]; b: [number, number];
+    }>;
+    if (barriers.length === 0) return; // no barriers, nothing to enforce
+    const nodeById = new Map(nodes.map((n) => [n.id, n]));
+    const orient = (a: number[], b: number[], c: number[]) =>
+      Math.sign((b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]));
+    const cross = (p1: number[], p2: number[], p3: number[], p4: number[]) => {
+      const o1 = orient(p1, p2, p3), o2 = orient(p1, p2, p4);
+      const o3 = orient(p3, p4, p1), o4 = orient(p3, p4, p2);
+      return o1 !== 0 && o2 !== 0 && o3 !== 0 && o4 !== 0 && o1 !== o2 && o3 !== o4;
+    };
+    const offenders: Array<{ a: string; b: string; barrier: string }> = [];
+    for (const e of edges) {
+      // Autoconnect-fallback bridges that admit they cross a barrier
+      // are operator-visible. They're flagged here for a reason and
+      // pathfind drops them at build time anyway.
+      if ((e as any).crossesBarrier) continue;
+      const na = nodeById.get(e.a), nb = nodeById.get(e.b);
+      if (!na || !nb) continue;
+      for (const bar of barriers) {
+        if (cross([na.x, na.y], [nb.x, nb.y], bar.a, bar.b)) {
+          offenders.push({ a: e.a, b: e.b, barrier: bar.id });
+          break;
+        }
+      }
+    }
+    expect(
+      offenders.length,
+      `${offenders.length} unflagged edges cross a barrier. First 5: ${JSON.stringify(offenders.slice(0, 5))}`,
+    ).toBe(0);
   });
 
   it("every store-typed node has a `store` field equal to its id", () => {

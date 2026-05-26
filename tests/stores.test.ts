@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { searchStores, STORES } from "@/src/lib/stores";
+import { searchStores, STORES, pickerStores } from "@/src/lib/stores";
 
 // Local fixture so the unit-search ranking is exercised against a
 // known small set. Names mirror real SCC tenants but kept small.
@@ -34,6 +34,40 @@ describe("searchStores (fixture)", () => {
   it("matches on word-start across multi-word names", () => {
     const r = searchStores("bank", fixture);
     expect(r[0].id).toBe("td");
+  });
+});
+
+describe("pickerStores", () => {
+  /**
+   * pickerStores controls the tenant list visible in the From/To
+   * picker. Contract:
+   *   - With no slot filled: filter by category chip + search query.
+   *   - Once any slot is picked (anySlotPicked === true): show every
+   *     tenant (category filter dropped) so the operator can pick a
+   *     non-matching origin or destination. The search query still
+   *     applies because it's the user's intent to narrow.
+   * Rationale: a destination's category should not constrain the
+   * choice of origin.
+   */
+  it("applies category + query when no slot is picked", () => {
+    const r = pickerStores("", "services", fixture, false);
+    expect(r.map((s) => s.id).sort()).toEqual(["bmo", "rogers", "td"].sort());
+  });
+
+  it("drops the category filter once any slot is picked", () => {
+    const r = pickerStores("", "services", fixture, true);
+    // All 5 stores visible; category chip ignored.
+    expect(r.length).toBe(fixture.length);
+  });
+
+  it("still respects the search query when a slot is picked", () => {
+    const r = pickerStores("rogers", "services", fixture, true);
+    expect(r[0].id).toBe("rogers");
+  });
+
+  it("with no slot picked, no category, no query, returns every store", () => {
+    const r = pickerStores("", null, fixture, false);
+    expect(r.length).toBe(fixture.length);
   });
 });
 

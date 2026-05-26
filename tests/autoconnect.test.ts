@@ -127,18 +127,20 @@ describe("autoconnect", () => {
     expect(added.every((e) => e.auto === true)).toBe(true);
   });
 
-  it("attaches an orphan store to the nearest node on the spine", () => {
+  it("attaches an orphan store via its entrance, not via the centroid", () => {
     const g = {
       nodes: [
         { id: "spine-a", x: 0,   y: 0,  type: "junction" },
         { id: "spine-b", x: 50,  y: 0,  type: "junction" },
         { id: "spine-c", x: 100, y: 0,  type: "junction" },
-        // Orphan store, geometrically nearest to spine-b.
-        { id: "store-x", x: 55,  y: 30, type: "store", store: "store-x" },
+        // Orphan store + its entrance; entrance is closer to spine.
+        { id: "store-x", x: 55,  y: 40, type: "store", store: "store-x" },
+        { id: "ent-x",   x: 55,  y: 20, type: "entrance-tenant" },
       ] as Node[],
       edges: [
         { a: "spine-a", b: "spine-b", cost: 50 },
         { a: "spine-b", b: "spine-c", cost: 50 },
+        { a: "store-x", b: "ent-x",   cost: 20 },
       ] as Edge[],
     };
     const out = autoconnect(g);
@@ -146,7 +148,26 @@ describe("autoconnect", () => {
     const added = out.edges.filter((e) => e.auto);
     expect(added.length).toBe(1);
     const e = added[0];
-    expect(new Set([e.a, e.b])).toEqual(new Set(["store-x", "spine-b"]));
+    // The bridge must connect ent-x ↔ spine-*, never store-x.
+    expect(new Set([e.a, e.b])).toEqual(new Set(["ent-x", "spine-b"]));
+  });
+
+  it("refuses to bridge a store with no entrance (operator must add one)", () => {
+    // Without an entrance-tenant, autoconnect has nowhere safe to
+    // anchor the bridge — a store↔junction edge is a wall-crossing.
+    // The graph stays multi-component until the operator adds an
+    // entrance.
+    const g = {
+      nodes: [
+        { id: "j-1",     x: 0,   y: 0, type: "junction" },
+        { id: "j-2",     x: 100, y: 0, type: "junction" },
+        { id: "store-x", x: 50,  y: 50, type: "store", store: "store-x" },
+      ] as Node[],
+      edges: [{ a: "j-1", b: "j-2", cost: 100 } as Edge],
+    };
+    const out = autoconnect(g);
+    expect(out.edges.length).toBe(1); // no new bridges
+    expect(components(out).length).toBe(2);
   });
 
   it("rejects a bridge that would cross a foreign polygon's interior", () => {
@@ -220,5 +241,80 @@ describe("autoconnect", () => {
     const out = autoconnect(g);
     expect(out.edges.length).toBe(1);
     expect(out.edges).toEqual(g.edges);
+  });
+
+  it("avoids candidate bridges that cross a barrier; falls back to a detour", () => {
+    // Two components — left (a) and right (b,c).
+    //   a at (0,0)    — its own component
+    //   b at (100,0)  — direct line a→b is the SHORT bridge (dist=100)
+    //                   but it crosses the barrier on the way.
+    //   c at (100,200)— a→c is LONGER (~223) but goes around the
+    //                   barrier (clears its y-range).
+    // Autoconnect should prefer a→c despite the larger distance.
+    const g = {
+      nodes: [
+        { id: "a", x: 0,   y: 0,   type: "junction" },
+        { id: "b", x: 100, y: 0,   type: "junction" },
+        { id: "c", x: 100, y: 200, type: "junction" },
+      ] as Node[],
+      edges: [{ a: "b", b: "c", cost: 200 } as Edge],
+    };
+    const out = autoconnect(g, {
+      barriers: [{ a: [50, -20], b: [50, 20] }],
+    } as any);
+    expect(out.edges.length).toBe(2);
+    const added = out.edges[1];
+    expect(new Set([added.a, added.b])).toEqual(new Set(["a", "c"]));
+    expect(added.auto).toBe(true);
+    expect((added as any).crossesBarrier).not.toBe(true);
+  });
+
+  it("bridges an island via its entrance-tenant, not via the store centroid", () => {
+    // An "island" tenant — store + its own entrance, disconnected
+    // from the spine. Autoconnect must pick the entrance as the
+    // bridge source, never the store centroid (a store→junction
+    // bridge would slice across the tenant's wall).
+    //
+    //   store  ── ent   (the island, both inside polygon)
+    //                  ▼ should bridge from ent, not store
+    //          ── junction (spine)
+    const g = {
+      nodes: [
+        { id: "store",    x: 100, y: 100, type: "store", store: "store" },
+        { id: "ent",      x: 120, y: 100, type: "entrance-tenant" },
+        { id: "junction", x: 200, y: 100, type: "junction" },
+        { id: "spine",    x: 210, y: 100, type: "junction" },
+      ] as Node[],
+      edges: [
+        { a: "store",    b: "ent",   cost: 20 },
+        { a: "junction", b: "spine", cost: 10 },
+      ] as Edge[],
+    };
+    const out = autoconnect(g);
+    expect(components(out).length).toBe(1);
+    // The newly-added bridge must connect ent ↔ junction, never
+    // store ↔ junction.
+    const added = out.edges.slice(g.edges.length);
+    expect(added.length).toBe(1);
+    const pair = new Set([added[0].a, added[0].b]);
+    expect(pair).toEqual(new Set(["ent", "junction"]));
+  });
+
+  it("flags the bridge with crossesBarrier when no clean alternative exists", () => {
+    // Only one possible bridge (a→b), and a barrier crosses it.
+    // Autoconnect must still produce a connected graph but flag the
+    // forced crossing so the operator sees it.
+    const g = {
+      nodes: [
+        { id: "a", x: 0,   y: 0, type: "junction" },
+        { id: "b", x: 100, y: 0, type: "junction" },
+      ] as Node[],
+      edges: [] as Edge[],
+    };
+    const out = autoconnect(g, {
+      barriers: [{ a: [50, -20], b: [50, 20] }],
+    } as any);
+    expect(out.edges.length).toBe(1);
+    expect((out.edges[0] as any).crossesBarrier).toBe(true);
   });
 });

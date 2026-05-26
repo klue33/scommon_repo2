@@ -88,45 +88,59 @@ function segmentEntersPolygon(a, b, ring) {
   const mid = [(a[0]+b[0])/2, (a[1]+b[1])/2];
   return pointInRing(mid, ring);
 }
-function bridgeIsClean(a, b, polygons) {
-  const own = new Set();
-  if (a.type === "store" && a.store) own.add(a.store);
-  if (b.type === "store" && b.store) own.add(b.store);
+function bridgeBlockage(a, b, polygons, barriers) {
+  if (
+    (a.type === "store" && b.type !== "entrance-tenant" && b.type !== "entrance-main" && b.type !== "kiosk") ||
+    (b.type === "store" && a.type !== "entrance-tenant" && a.type !== "entrance-main" && a.type !== "kiosk")
+  ) return "wall";
   const ap = [a.x, a.y], bp = [b.x, b.y];
   for (const poly of polygons) {
-    if (own.has(poly.store_id)) continue;
-    if (segmentEntersPolygon(ap, bp, poly.ring)) return false;
+    const aOwns = (a.type === "store" && a.store === poly.store_id) || pointInRing(ap, poly.ring);
+    const bOwns = (b.type === "store" && b.store === poly.store_id) || pointInRing(bp, poly.ring);
+    if (aOwns || bOwns) continue;
+    if (segmentEntersPolygon(ap, bp, poly.ring)) return "polygon";
   }
-  return true;
+  for (const bar of barriers) {
+    if (segmentsCross(ap, bp, bar.a, bar.b)) return "barrier";
+  }
+  return "clean";
 }
 
-function autoconnect(graph, polygons) {
+function autoconnect(graph, polygons, barriers) {
   const comps = components(graph);
-  if (comps.length <= 1) return { nodes: [...graph.nodes], edges: [...graph.edges] };
+  const passthrough = graph.barriers ? { barriers: graph.barriers } : {};
+  if (comps.length <= 1) return { nodes: [...graph.nodes], edges: [...graph.edges], ...passthrough };
   const byId = new Map(graph.nodes.map((n) => [n.id, n]));
   const spine = new Set(comps[0]);
   const newEdges = [];
   for (let i = 1; i < comps.length; i++) {
     const comp = comps[i];
-    // Build candidates sorted by distance; pick the first that
-    // doesn't cross a foreign polygon. Fall back to nearest with
-    // a crossesPolygon flag if no clean bridge exists.
+    // Build candidates sorted by distance; pick the first whose
+    // bridge doesn't cross a foreign polygon or a barrier. Fall
+    // back to the absolute nearest with a flag if no clean bridge
+    // exists.
     const cands = [];
     for (const s of comp) {
       const sn = byId.get(s);
       for (const t of spine) {
         const tn = byId.get(t);
+        if (bridgeBlockage(sn, tn, polygons, barriers) === "wall") continue;
         cands.push({ source: s, target: t, distance: dist(sn, tn) });
       }
     }
     cands.sort((a, b) => a.distance - b.distance);
     let chosen = null;
     for (const c of cands) {
-      if (bridgeIsClean(byId.get(c.source), byId.get(c.target), polygons)) {
-        chosen = { ...c, crossesPolygon: false }; break;
+      const r = bridgeBlockage(byId.get(c.source), byId.get(c.target), polygons, barriers);
+      if (r === "clean") {
+        chosen = { ...c, crossesPolygon: false, crossesBarrier: false }; break;
       }
     }
-    if (!chosen && cands.length) chosen = { ...cands[0], crossesPolygon: true };
+    if (!chosen && cands.length) {
+      const fb = cands[0];
+      const r = bridgeBlockage(byId.get(fb.source), byId.get(fb.target), polygons, barriers);
+      chosen = { ...fb, crossesPolygon: r === "polygon", crossesBarrier: r === "barrier" };
+    }
     if (!chosen || chosen.source === chosen.target) continue;
     const e = {
       a: chosen.source, b: chosen.target,
@@ -134,10 +148,11 @@ function autoconnect(graph, polygons) {
       auto: true,
     };
     if (chosen.crossesPolygon) e.crossesPolygon = true;
+    if (chosen.crossesBarrier) e.crossesBarrier = true;
     newEdges.push(e);
     for (const id of comp) spine.add(id);
   }
-  return { nodes: [...graph.nodes], edges: [...graph.edges, ...newEdges] };
+  return { nodes: [...graph.nodes], edges: [...graph.edges, ...newEdges], ...passthrough };
 }
 
 function loadPolygons() {
@@ -158,14 +173,16 @@ function loadPolygons() {
 const before = JSON.parse(fs.readFileSync(GRAPH, "utf8"));
 const beforeComps = components(before);
 const polygons = loadPolygons();
+const barriers = Array.isArray(before.barriers) ? before.barriers : [];
 console.log(`Before:`);
 console.log(`  nodes:       ${before.nodes.length}`);
 console.log(`  edges:       ${before.edges.length}`);
 console.log(`  components:  ${beforeComps.length}`);
 console.log(`  spine size:  ${beforeComps[0]?.length ?? 0}`);
 console.log(`  polygons:    ${polygons.length}  (from public/maps/site.geojson)`);
+console.log(`  barriers:    ${barriers.length}  (from data/graph.json)`);
 
-const after = autoconnect(before, polygons);
+const after = autoconnect(before, polygons, barriers);
 const afterComps = components(after);
 const added = after.edges.length - before.edges.length;
 
