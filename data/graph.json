@@ -2186,6 +2186,32 @@
       "x": 555.0,
       "y": 660.0,
       "type": "entrance-tenant"
+    },
+    {
+      "id": "n-mpm4nxw2-5zm",
+      "x": 459.4,
+      "y": 765.2,
+      "type": "amenity-washroom"
+    },
+    {
+      "id": "n-mpm4ohio-4iu",
+      "x": 425.4,
+      "y": 813.4,
+      "type": "amenity-security"
+    },
+    {
+      "id": "washroom",
+      "x": 696,
+      "y": 280,
+      "type": "store",
+      "store": "washroom"
+    },
+    {
+      "id": "security",
+      "x": 615,
+      "y": 135,
+      "type": "store",
+      "store": "security"
     }
   ],
   "edges": [
@@ -4209,6 +4235,26 @@
       "a": "n-dollarama-ent-s1",
       "b": "n-mpltl537-3bg",
       "cost": 15
+    },
+    {
+      "a": "n-mpm4nxw2-5zm",
+      "b": "a1donuts",
+      "cost": 12
+    },
+    {
+      "a": "n-mpm4ohio-4iu",
+      "b": "unit-19",
+      "cost": 17
+    },
+    {
+      "a": "n-mpltno07-c9",
+      "b": "washroom",
+      "cost": 1
+    },
+    {
+      "a": "n-mpltnly8-7cp",
+      "b": "security",
+      "cost": 78
     }
   ],
   "barriers": [

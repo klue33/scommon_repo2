@@ -747,8 +747,8 @@
       "occupancy": "Occupied",
       "subdomain": null,
       "centroid": [
-        696,
-        280
+        459.4,
+        765.2
       ],
       "synonyms": [
         "restroom",
@@ -768,14 +768,14 @@
     {
       "id": "security",
       "unit": "SEC",
-      "name": "Security Office",
+      "name": "Security",
       "category": "amenities",
       "vacant": false,
       "occupancy": "Occupied",
       "subdomain": null,
       "centroid": [
-        615,
-        135
+        425.4,
+        813.4
       ],
       "synonyms": [
         "security",
