@@ -43,7 +43,7 @@
 
 <!-- BUMP ?v=... on both URLs on every deploy. Browsers cache module
      scripts aggressively and don't always invalidate on Ctrl+Shift+R. -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/klue33/scommon_repo2@0f5b26a/dist/wayfinder.css?v=20260526e">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/klue33/scommon_repo2@0f5b26a/dist/wayfinder.css?v=20260526f">
 
 <div id="scc-wayfinder" style="height: 82vh; min-height: 600px;"></div>
 
@@ -55,15 +55,13 @@
     // initialFrom: "kiosk-a",
     // initialCategory: "food",
 
-    // === Self-hosting overrides (uncomment if jsDelivr is stale or
-    // you want to pin assets to your own server) ====================
-    // Upload site.geojson + surroundings.svg to Squarespace via the
-    // Code Injection > File Manager, then paste the absolute URLs
-    // here. Squarespace serves static files fine — only ES-module JS
-    // is the problem on /s/.
-    // geojsonUrl:      "https://southcommoncentre.ca/s/site.geojson",
-    // surroundingsUrl: "https://southcommoncentre.ca/s/surroundings.svg",
+    // === Self-hosting override (uncomment if jsDelivr is stale or
+    // you want to pin the geojson to your own server) ===============
+    // Upload site.geojson to Squarespace via Code Injection > File
+    // Manager, then paste its absolute URL here. Squarespace serves
+    // static JSON fine — only ES-module JS is the problem on /s/.
+    // geojsonUrl: "https://southcommoncentre.ca/s/site.geojson",
   };
 </script>
 
-<script type="module" src="https://cdn.jsdelivr.net/gh/klue33/scommon_repo2@0f5b26a/dist/wayfinder.js?v=20260526e"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/klue33/scommon_repo2@0f5b26a/dist/wayfinder.js?v=20260526f"></script>

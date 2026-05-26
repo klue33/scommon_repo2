@@ -36,6 +36,13 @@ describe("MapViewer ROTATION_DEG aligns BMO/Shoppers/Rogers to horizontal", () =
     expect(m, "ROTATION_DEG constant not found").toBeTruthy();
     const deg = parseFloat(m![1]);
 
+    // After the parking-lot backdrop was removed we flip 180° so
+    // BMO/Shoppers/Rogers sit along the OPPOSITE edge (the side the
+    // pedestrian-friendly anchor face now lives on). 180° rotation
+    // is slope-invariant, but pin the constant so an accidental
+    // revert is caught.
+    expect(deg).toBeCloseTo(137.654, 1);
+
     const rad = (deg * Math.PI) / 180;
     const cos = Math.cos(rad), sin = Math.sin(rad);
     // SVG rotate(deg cx cy) rotates point (x,y) about (cx,cy) by

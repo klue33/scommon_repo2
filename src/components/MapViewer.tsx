@@ -37,7 +37,7 @@ const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 8;
 const CLICK_PX = 5;
 const STORAGE_KEY = "scc-wayfinder:edit-graph";
-const ROTATION_DEG = -42.346;           // CCW so BMO/Shoppers/Rogers sit horizontal
+const ROTATION_DEG = 137.654;           // -42.346° + 180° — anchor face horizontal on the opposite edge
 const PEN_DOWNSAMPLE = 30;              // px between successive nodes derived from a stroke
 const PEN_RAW_STEP = 4;                 // min screen-px between raw points sampled during a stroke
 const SNAP_RADIUS = 22;                 // px in viewBox space for snapping stroke endpoints to existing nodes
@@ -52,20 +52,17 @@ export function MapViewer({
   const selectedStore = toStore;
   const [collection, setCollection] = useState<SiteFeatureCollection | null>(null);
 
-  // window.SCC_WAYFINDER_CONFIG.geojsonUrl / .surroundingsUrl let
-  // operators self-host these assets when jsDelivr is stale or when
-  // they need a private CDN. Fall back to a URL relative to the
-  // bundle's own location (import.meta.url) — NOT document.baseURI,
-  // which on Squarespace points at the embedding page.
+  // window.SCC_WAYFINDER_CONFIG.geojsonUrl lets operators self-host
+  // the asset when jsDelivr is stale or when they need a private
+  // CDN. Falls back to a URL relative to the bundle's own location
+  // (import.meta.url) — NOT document.baseURI, which on Squarespace
+  // points at the embedding page.
   const cfg = (typeof window !== "undefined"
     ? (window as any).SCC_WAYFINDER_CONFIG
     : null) ?? {};
   const geojsonUrl =
     cfg.geojsonUrl ||
     new URL("./maps/site.geojson", import.meta.url).toString();
-  const surroundingsUrl =
-    cfg.surroundingsUrl ||
-    new URL("./maps/surroundings.svg", import.meta.url).toString();
 
   useEffect(() => {
     let cancelled = false;
@@ -604,24 +601,6 @@ export function MapViewer({
         <g ref={rotRef} transform={rotateTransform}>
           <rect class="scc-wf__lot" x={vx0} y={vy0} width={VW} height={VH} fill="url(#scc-drive)" />
           <rect class="scc-wf__lot-stalls" x={vx0} y={vy0} width={VW} height={VH} fill="url(#scc-parking)" />
-          {/* Site backdrop (parking lot, drive aisles, curbs) inherited
-              from the original southcommoncentre.ca surroundings.svg.
-              The asset's intrinsic viewBox is 1200×800. The original
-              site renders the surroundings wrapper at 2x the size of
-              the mall map (192vmin × 128vmin around a 96 × 64vmin
-              mall), centered on the same point — so we mirror that
-              here. Building polygon centre is (600, 646.5); a 2400×
-              1600 image centered there starts at (-600, -153.5). */}
-          <image
-            href={surroundingsUrl}
-            x={-600}
-            y={-153.5}
-            width={2400}
-            height={1600}
-            preserveAspectRatio="xMidYMid meet"
-            opacity={0.6}
-            style={{ pointerEvents: "none" }}
-          />
 
           {collection?.features.map((f) => {
             const p = f.properties;
