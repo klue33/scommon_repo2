@@ -311,6 +311,36 @@
   stroke: var(--wf-accent-on);
 }
 
+/* Amenities (washroom, security). Smaller than kiosks, distinct
+   colour, glyph inside the dot. Render-only on the live page; the
+   editor uses the same nodes plus the standard edit chrome. */
+.scc-wf__amenity { pointer-events: none; user-select: none; }
+.scc-wf__amenity circle {
+  fill: var(--wf-bg);
+  stroke: var(--wf-ink);
+  stroke-width: 2;
+}
+.scc-wf__amenity--washroom circle {
+  stroke: hsla(var(--accent-hsl, 17, 100%, 57%), 1);
+}
+.scc-wf__amenity--security circle {
+  stroke: hsla(var(--darkAccent-hsl, 180, 1.96%, 10%), 1);
+}
+.scc-wf__amenity-glyph {
+  font-size: 14px;
+  dominant-baseline: middle;
+}
+.scc-wf__amenity-label {
+  font: 600 10px/1 'Clarkson','Helvetica Neue',Helvetica,Arial,sans-serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  fill: var(--wf-ink);
+  paint-order: stroke fill;
+  stroke: var(--wf-bg);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
 .scc-wf__origin-halo {
   fill: var(--wf-accent);
   opacity: 0.25;

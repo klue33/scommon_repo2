@@ -25,7 +25,7 @@ interface SiteFeature {
 }
 interface SiteFeatureCollection { type: "FeatureCollection"; features: SiteFeature[]; }
 
-type EditNodeType = "junction" | "kiosk" | "entrance-main" | "entrance-tenant";
+type EditNodeType = "junction" | "kiosk" | "entrance-main" | "entrance-tenant" | "amenity-washroom" | "amenity-security";
 type ToolMode = "pen" | "line" | "barrier" | EditNodeType;
 const HISTORY_LIMIT = 50;
 interface EditNode { id: string; x: number; y: number; type: EditNodeType; label?: string; }
@@ -515,7 +515,7 @@ export function MapViewer({
       return;
     }
     const editable: EditNode[] = parsed.graph.nodes
-      .filter((n: any) => n.type === "junction" || n.type === "kiosk" || n.type === "entrance-main" || n.type === "entrance-tenant")
+      .filter((n: any) => n.type === "junction" || n.type === "kiosk" || n.type === "entrance-main" || n.type === "entrance-tenant" || n.type === "amenity-washroom" || n.type === "amenity-security")
       .map((n: any) => ({ id: n.id, x: n.x, y: n.y, type: n.type, label: n.label }));
     const ids = new Set(editable.map((n) => n.id));
     const edges: EditEdge[] = parsed.graph.edges
@@ -704,6 +704,25 @@ export function MapViewer({
             );
           })}
 
+          {/* Amenity markers (washrooms, security). Live alongside
+              tenant polygons but render from graph nodes rather than
+              geojson features — they're points on the floor plan,
+              not retail units with floor area. */}
+          {!editMode && (graphData.nodes as Array<GraphNode>)
+            .filter((n) => n.type === "amenity-washroom" || n.type === "amenity-security")
+            .map((n) => {
+              const isWashroom = n.type === "amenity-washroom";
+              const glyph = isWashroom ? "🚻" : "🛡";
+              const label = isWashroom ? "Washroom" : "Security";
+              return (
+                <g key={n.id} class={`scc-wf__amenity scc-wf__amenity--${isWashroom ? "washroom" : "security"}`} data-amenity-id={n.id}>
+                  <circle cx={n.x} cy={n.y} r={12} />
+                  <text x={n.x} y={n.y + 5} textAnchor="middle" class="scc-wf__amenity-glyph">{glyph}</text>
+                  <text x={n.x} y={n.y + 28} textAnchor="middle" class="scc-wf__amenity-label">{label}</text>
+                </g>
+              );
+            })}
+
           {/* Tenant→tenant route polyline. Renders the A* path's
               node points directly — no straight-line shortcuts;
               every segment is a graph edge. In edit mode the route
@@ -754,6 +773,8 @@ export function MapViewer({
               { id: "kiosk",            label: "● Kiosk" },
               { id: "entrance-main",    label: "▲ Main entrance" },
               { id: "entrance-tenant",  label: "◆ Tenant entrance" },
+              { id: "amenity-washroom", label: "🚻 Washroom" },
+              { id: "amenity-security", label: "🛡 Security" },
             ] as { id: ToolMode; label: string }[]).map((opt) => (
               <button
                 key={opt.id}
