@@ -103,17 +103,26 @@ trade-off is **external dependency vs paste size**.
 
 ### Option A — fully inlined (recommended; no external deps)
 
-`docs/squarespace-inline-bundle.html` carries the entire JS bundle
-+ CSS inlined in a single paste. After uploading the five asset
-files to Squarespace's File Manager and filling in their URLs in
-the snippet's config block, the live site has **zero** external
-runtime dependencies — no jsDelivr, no GitHub fetch. The source
-repo can be flipped to private and the live site keeps working.
+Two flavours, both with the entire JS bundle + CSS inlined and the
+same zero-external-deps story:
 
-The snippet is auto-regenerated on every `npm run build`. Paste
-it into **Settings → Advanced → Code Injection** (Page Header for
-the wayfinder page only), not a regular Code Block — Code Blocks
-have a tighter character limit.
+- `docs/squarespace-inline-bundle.html` — paste this on a dedicated
+  `/wayfinder` page. The wayfinder fills the page area.
+- `docs/squarespace-popup-bundle.html` — paste this on any page
+  (home, category, contact, etc.) and visitors get a "Find route"
+  pill button that opens the wayfinder in a modal overlay.
+
+Both snippets carry the same `SCC_WAYFINDER_CONFIG` block with five
+asset-URL slots. After uploading the asset files to Squarespace's
+File Manager and filling in those URLs, the live site has **zero**
+external runtime dependencies — no jsDelivr, no GitHub fetch. The
+source repo can be flipped to private and the live site keeps
+working.
+
+The snippets are auto-regenerated on every `npm run build`. Paste
+into **Settings → Advanced → Code Injection** (Page Header for the
+target page), not a regular Code Block — Code Blocks have a
+tighter character limit.
 
 ### Option B — jsDelivr CDN (smaller paste; public repo only)
 
