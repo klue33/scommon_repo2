@@ -96,6 +96,79 @@ tests/                 vitest specs for pathfind, search, hours
 EMBED.md               Squarespace embed recipe
 ```
 
+## Deployment
+
+The built bundle is served via **jsDelivr's free public-GitHub
+CDN** off this repo's `dist/` directory. No account, no billing —
+the `gh/<user>/<repo>` route is free for public repos. See
+[`EMBED.md`](EMBED.md) and `docs/squarespace-*.html` for the
+Code Block snippets visitors paste into Squarespace.
+
+### Why jsDelivr
+
+| Need | Why jsDelivr | Squarespace `/s/` |
+|---|---|---|
+| ES-module MIME type | yes | **no** — serves `text/plain` |
+| CORS for module fetch | yes (`*`) | **no** |
+| Cache headers | yes, long TTL | yes |
+| Free for public repos | yes | yes |
+
+Squarespace's own file uploader can serve `site.geojson` +
+`level-1*.svg` correctly (plain JSON / SVG MIME is fine there)
+— see `SCC_WAYFINDER_CONFIG.geojsonUrl`, `.level1Url`,
+`.topClusterUrl`, etc., in the snippets if a self-hosted fallback
+is ever needed. Only the ES-module bundle (`wayfinder.js`)
+requires a real CDN.
+
+### Known limitations
+
+- **Stale edge cache on `@main`.** jsDelivr's edges advertise a
+  ~12-hour TTL on branch-tip URLs but can hold stale much
+  longer in practice. We hit this twice during development.
+  **Always pin the snippet URLs to a commit SHA**
+  (`@d35c2fd/dist/...`), not `@main`. The deploy workflow
+  already does this automatically — `docs/squarespace-*.html`
+  carries the latest SHA after every push.
+- **50 MB per file.** Bundle is ~96 KB so this is academic.
+- **Purge is rate-limited.** A handful of requests per minute
+  via `https://purge.jsdelivr.net/gh/<user>/<repo>@<branch>/<path>`.
+  Pinning to commit SHAs sidesteps the purge dance entirely
+  because every deploy produces a fresh URL.
+- **Public repo only — flipping to private kills the wayfinder.**
+  jsDelivr's `gh/` route serves public repos exclusively. The
+  moment the GitHub repo's visibility flips to private, every
+  visitor of `southcommoncentre.ca/wff` will see "Couldn't load
+  the wayfinder bundle" until either the repo is made public
+  again or the snippet is repointed at a different host
+  (GitHub Pages on a `gh-pages` branch, a Vercel or Netlify
+  static deploy, or any other CDN that supports ES-module MIME
+  + CORS). This is the single biggest operational gotcha; we
+  hit it during initial setup. If a private-source workflow is
+  needed, the typical pattern is: keep the source repo private,
+  publish the `dist/` directory to a separate public repo (or
+  to `gh-pages`) on each build, and point jsDelivr at that.
+- **No formal SLA.** Track record has been ~99.99% but there's
+  no contract. Alternates: `cdn.statically.io/gh/...`,
+  `raw.githack.com`, GitHub Pages.
+
+### Deploy workflow
+
+After every commit on `main` that changes `dist/`:
+
+1. `npm run build` — produces fresh `dist/wayfinder.{js,css}` +
+   maps assets.
+2. `git add -A && git commit -m "<reason>"`.
+3. `git push`.
+4. `sed -i "s|@<old-sha>/dist|@$(git rev-parse --short=7 HEAD)/dist|g" docs/squarespace-*.html`
+   and bump the `?v=<token>` cache-bust.
+5. `git add docs/ && git commit -m "pin snippet URLs to commit ..." && git push`.
+6. Paste either `docs/squarespace-inline.html` or
+   `docs/squarespace-popup.html` into the matching Squarespace
+   Code Block.
+
+The `?v=<token>` query bust forces visitors' browsers to refetch
+the module even if they have an old version cached locally.
+
 ## Local dev
 
 ```bash
