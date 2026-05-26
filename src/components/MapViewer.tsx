@@ -54,10 +54,17 @@ export function MapViewer({
 
   useEffect(() => {
     let cancelled = false;
-    fetch(new URL("/maps/site.geojson", document.baseURI).toString())
+    // Resolve site.geojson relative to the BUNDLE'S OWN URL, not the
+    // embedding page. When this is hosted on jsDelivr and dropped
+    // into a Squarespace Code Block, document.baseURI points at
+    // southcommoncentre.ca/wff — which doesn't serve /maps/. The
+    // bundle and its companion geojson both live in dist/, so
+    // import.meta.url gives us the right base on every host.
+    const geojsonUrl = new URL("./maps/site.geojson", import.meta.url).toString();
+    fetch(geojsonUrl)
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`site.geojson ${r.status}`))))
       .then((data: SiteFeatureCollection) => { if (!cancelled) setCollection(data); })
-      .catch((err) => console.error("[scc-wayfinder] failed to load site.geojson", err));
+      .catch((err) => console.error("[scc-wayfinder] failed to load site.geojson from", geojsonUrl, err));
     return () => { cancelled = true; };
   }, []);
 
