@@ -157,28 +157,6 @@ export function Wayfinder({
           editMode={editMode}
         />
 
-        {to && (
-          <div class="scc-wf__detail" role="complementary">
-            <h2>{to.name}</h2>
-            <div class="scc-wf__meta">
-              Unit {to.unit} ·{" "}
-              {CATEGORIES.find((c) => c.id === to.category)?.label ?? to.category}
-              {to.vacant && <> · <em>available for lease</em></>}
-            </div>
-            <div class="scc-wf__detail-actions">
-              {!from && (
-                <button class="scc-wf__btn" onClick={() => setPickMode("from")}>
-                  Directions from another store →
-                </button>
-              )}
-              {from && from.id !== to.id && (
-                <span class="scc-wf__route-summary">
-                  Route shown from <strong>{from.name}</strong>.
-                </span>
-              )}
-            </div>
-          </div>
-        )}
       </section>
     </div>
   );
