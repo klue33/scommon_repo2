@@ -71,6 +71,12 @@ export function MapViewer({
   const level1Url =
     cfg.level1Url ||
     new URL("./maps/level-1.svg", import.meta.url).toString();
+  const midClusterUrl =
+    cfg.midClusterUrl ||
+    new URL("./maps/level-1-cluster-mid.svg", import.meta.url).toString();
+  const rightClusterUrl =
+    cfg.rightClusterUrl ||
+    new URL("./maps/level-1-cluster-right.svg", import.meta.url).toString();
   // Backdrop fit knobs — the hand-drawn floor plan is at a slightly
   // different scale from the surveyed polygons, so the operator can
   // dial in until the building outlines line up. Scale anchors at
@@ -90,11 +96,61 @@ export function MapViewer({
   const [backdropRotation, setBackdropRotation] = useState<number>(
     typeof cfg.backdropRotation === "number" ? cfg.backdropRotation : 0,
   );
+  // Per-cluster translate offsets. Independent of the base backdrop —
+  // the operator drags each cluster (top-middle road sign, top-right
+  // NE parking + signage) on its own to align with our polygons.
+  const [midOffsetX, setMidOffsetX] = useState<number>(
+    typeof cfg.midOffsetX === "number" ? cfg.midOffsetX : 0,
+  );
+  const [midOffsetY, setMidOffsetY] = useState<number>(
+    typeof cfg.midOffsetY === "number" ? cfg.midOffsetY : 0,
+  );
+  const [rightOffsetX, setRightOffsetX] = useState<number>(
+    typeof cfg.rightOffsetX === "number" ? cfg.rightOffsetX : 0,
+  );
+  const [rightOffsetY, setRightOffsetY] = useState<number>(
+    typeof cfg.rightOffsetY === "number" ? cfg.rightOffsetY : 0,
+  );
   const backdropX = (1 - backdropScale) * 600 + backdropOffsetX;
   const backdropY = (1 - backdropScale) * 400 + backdropOffsetY;
   const backdropW = 1200 * backdropScale;
   const backdropH = 800 * backdropScale;
   const backdropTransform = `rotate(${backdropRotation} 600 400)`;
+
+  // Reusable pointer-drag factory: returns an onPointerDown handler
+  // that, while held, calls the given setters with viewBox-scaled
+  // pointer deltas. Used by the base backdrop and each cluster.
+  function makeDragHandler(
+    getOffsetX: () => number,
+    getOffsetY: () => number,
+    setX: (v: number) => void,
+    setY: (v: number) => void,
+  ) {
+    return (e: PointerEvent) => {
+      if (!showTuner) return;
+      e.stopPropagation();
+      const img = e.currentTarget as SVGImageElement;
+      img.setPointerCapture(e.pointerId);
+      const startX = e.clientX, startY = e.clientY;
+      const origX = getOffsetX(), origY = getOffsetY();
+      const svg = svgRef.current!;
+      const rect = svg.getBoundingClientRect();
+      const sx = vw / rect.width, sy = vh / rect.height;
+      const onMove = (ev: PointerEvent) => {
+        setX(origX + (ev.clientX - startX) * sx);
+        setY(origY + (ev.clientY - startY) * sy);
+      };
+      const onUp = (ev: PointerEvent) => {
+        img.releasePointerCapture(ev.pointerId);
+        img.removeEventListener("pointermove", onMove);
+        img.removeEventListener("pointerup", onUp);
+        img.removeEventListener("pointercancel", onUp);
+      };
+      img.addEventListener("pointermove", onMove);
+      img.addEventListener("pointerup", onUp);
+      img.addEventListener("pointercancel", onUp);
+    };
+  }
   // Show the live tuner panel only when ?tune=1 is in the URL — we
   // don't want regular visitors to see development controls.
   const showTuner = typeof window !== "undefined"
@@ -654,31 +710,43 @@ export function MapViewer({
               pointerEvents: showTuner ? "auto" : "none",
               cursor: showTuner ? "move" : "auto",
             }}
-            onPointerDown={showTuner ? (e: PointerEvent) => {
-              e.stopPropagation();
-              const img = e.currentTarget as SVGImageElement;
-              img.setPointerCapture(e.pointerId);
-              const startX = e.clientX, startY = e.clientY;
-              const origOffsetX = backdropOffsetX, origOffsetY = backdropOffsetY;
-              // Map screen-px delta into viewBox-px delta so drags feel 1:1.
-              const svg = svgRef.current!;
-              const rect = svg.getBoundingClientRect();
-              const vbScaleX = vw / rect.width;
-              const vbScaleY = vh / rect.height;
-              const onMove = (ev: PointerEvent) => {
-                setBackdropOffsetX(origOffsetX + (ev.clientX - startX) * vbScaleX);
-                setBackdropOffsetY(origOffsetY + (ev.clientY - startY) * vbScaleY);
-              };
-              const onUp = (ev: PointerEvent) => {
-                img.releasePointerCapture(ev.pointerId);
-                img.removeEventListener("pointermove", onMove);
-                img.removeEventListener("pointerup", onUp);
-                img.removeEventListener("pointercancel", onUp);
-              };
-              img.addEventListener("pointermove", onMove);
-              img.addEventListener("pointerup", onUp);
-              img.addEventListener("pointercancel", onUp);
-            } : undefined}
+            onPointerDown={showTuner ? makeDragHandler(
+              () => backdropOffsetX, () => backdropOffsetY,
+              setBackdropOffsetX, setBackdropOffsetY,
+            ) : undefined}
+          />
+          {/* Top-middle cluster (signage at the north entrance) — its
+              own draggable layer so the operator can nudge it into
+              place without moving the rest of the backdrop. */}
+          <image
+            href={midClusterUrl}
+            x={0} y={0} width={1200} height={800}
+            transform={`translate(${midOffsetX} ${midOffsetY})`}
+            preserveAspectRatio="xMidYMid meet"
+            style={{
+              pointerEvents: showTuner ? "auto" : "none",
+              cursor: showTuner ? "move" : "auto",
+            }}
+            onPointerDown={showTuner ? makeDragHandler(
+              () => midOffsetX, () => midOffsetY,
+              setMidOffsetX, setMidOffsetY,
+            ) : undefined}
+          />
+          {/* Top-right cluster (NE parking stripes + road label) —
+              same drag pattern. */}
+          <image
+            href={rightClusterUrl}
+            x={0} y={0} width={1200} height={800}
+            transform={`translate(${rightOffsetX} ${rightOffsetY})`}
+            preserveAspectRatio="xMidYMid meet"
+            style={{
+              pointerEvents: showTuner ? "auto" : "none",
+              cursor: showTuner ? "move" : "auto",
+            }}
+            onPointerDown={showTuner ? makeDragHandler(
+              () => rightOffsetX, () => rightOffsetY,
+              setRightOffsetX, setRightOffsetY,
+            ) : undefined}
           />
           <rect class="scc-wf__lot" x={vx0} y={vy0} width={VW} height={VH} fill="url(#scc-drive)" opacity={0} />
           <rect class="scc-wf__lot-stalls" x={vx0} y={vy0} width={VW} height={VH} fill="url(#scc-parking)" opacity={0} />
@@ -878,8 +946,29 @@ export function MapViewer({
               <button type="button" onClick={() => setBackdropRotation((r) => r + 1)} aria-label="Rotate CW 1 degree">↻ +1°</button>
             </div>
           </div>
+          <label class="scc-wf__tuner-row">
+            <span>Mid X</span>
+            <input type="number" step="1" value={midOffsetX}
+                   onChange={(e) => setMidOffsetX(parseFloat((e.target as HTMLInputElement).value) || 0)} />
+          </label>
+          <label class="scc-wf__tuner-row">
+            <span>Mid Y</span>
+            <input type="number" step="1" value={midOffsetY}
+                   onChange={(e) => setMidOffsetY(parseFloat((e.target as HTMLInputElement).value) || 0)} />
+          </label>
+          <label class="scc-wf__tuner-row">
+            <span>Right X</span>
+            <input type="number" step="1" value={rightOffsetX}
+                   onChange={(e) => setRightOffsetX(parseFloat((e.target as HTMLInputElement).value) || 0)} />
+          </label>
+          <label class="scc-wf__tuner-row">
+            <span>Right Y</span>
+            <input type="number" step="1" value={rightOffsetY}
+                   onChange={(e) => setRightOffsetY(parseFloat((e.target as HTMLInputElement).value) || 0)} />
+          </label>
           <div class="scc-wf__tuner-hint">
             scale {backdropScale.toFixed(2)} · X {backdropOffsetX} · Y {backdropOffsetY} · rot {backdropRotation}°
+            <br />mid ({Math.round(midOffsetX)},{Math.round(midOffsetY)}) · right ({Math.round(rightOffsetX)},{Math.round(rightOffsetY)})
           </div>
         </div>
       )}
