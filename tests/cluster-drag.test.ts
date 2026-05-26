@@ -9,7 +9,8 @@ import { resolve } from "node:path";
  * tuner mode. Each cluster gets its own offset state and its own
  * pointer-drag handler — same plumbing as the base backdrop drag.
  */
-describe("draggable top-middle + top-right SVG clusters", () => {
+describe("draggable top / mid / right SVG clusters", () => {
+  const top = resolve(__dirname, "../public/maps/level-1-cluster-top.svg");
   const mid = resolve(__dirname, "../public/maps/level-1-cluster-mid.svg");
   const right = resolve(__dirname, "../public/maps/level-1-cluster-right.svg");
   const src = readFileSync(
@@ -17,7 +18,8 @@ describe("draggable top-middle + top-right SVG clusters", () => {
     "utf8",
   );
 
-  it("ships the two cluster SVG assets", () => {
+  it("ships the three cluster SVG assets", () => {
+    expect(existsSync(top), "missing level-1-cluster-top.svg").toBe(true);
     expect(existsSync(mid), "missing level-1-cluster-mid.svg").toBe(true);
     expect(existsSync(right), "missing level-1-cluster-right.svg").toBe(true);
   });
@@ -34,12 +36,12 @@ describe("draggable top-middle + top-right SVG clusters", () => {
     expect(src).toMatch(/level-1-cluster-right\.svg|rightClusterUrl/);
     // Each cluster image must be wired with onPointerDown gated on showTuner.
     const dragHooks = (src.match(/onPointerDown=\{showTuner/g) ?? []).length;
-    expect(dragHooks, `expected three drag handlers (base + 2 clusters), got ${dragHooks}`).toBeGreaterThanOrEqual(3);
+    expect(dragHooks, `expected four drag handlers (base + 3 clusters), got ${dragHooks}`).toBeGreaterThanOrEqual(4);
   });
 
-  it("tuner panel surfaces inputs for the two cluster offsets", () => {
-    // Loose label check — accept either "Top-mid X" or "Mid X" etc.
-    expect(src).toMatch(/[Mm]id[\s\-_]*X|[Tt]op[\s\-_]*[Mm]id/);
-    expect(src).toMatch(/[Rr]ight[\s\-_]*X|[Tt]op[\s\-_]*[Rr]ight/);
+  it("tuner panel surfaces inputs for top / mid / right offsets", () => {
+    expect(src).toMatch(/>Top X</);
+    expect(src).toMatch(/>Mid X</);
+    expect(src).toMatch(/>Right X</);
   });
 });

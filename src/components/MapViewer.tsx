@@ -71,6 +71,9 @@ export function MapViewer({
   const level1Url =
     cfg.level1Url ||
     new URL("./maps/level-1.svg", import.meta.url).toString();
+  const topClusterUrl =
+    cfg.topClusterUrl ||
+    new URL("./maps/level-1-cluster-top.svg", import.meta.url).toString();
   const midClusterUrl =
     cfg.midClusterUrl ||
     new URL("./maps/level-1-cluster-mid.svg", import.meta.url).toString();
@@ -97,8 +100,14 @@ export function MapViewer({
     typeof cfg.backdropRotation === "number" ? cfg.backdropRotation : 0,
   );
   // Per-cluster translate offsets. Independent of the base backdrop —
-  // the operator drags each cluster (top-middle road sign, top-right
-  // NE parking + signage) on its own to align with our polygons.
+  // the operator drags each cluster (top near Fit4Less, top-middle
+  // road sign, top-right NE parking + signage) on its own.
+  const [topOffsetX, setTopOffsetX] = useState<number>(
+    typeof cfg.topOffsetX === "number" ? cfg.topOffsetX : 0,
+  );
+  const [topOffsetY, setTopOffsetY] = useState<number>(
+    typeof cfg.topOffsetY === "number" ? cfg.topOffsetY : 0,
+  );
   const [midOffsetX, setMidOffsetX] = useState<number>(
     typeof cfg.midOffsetX === "number" ? cfg.midOffsetX : 0,
   );
@@ -715,6 +724,22 @@ export function MapViewer({
               setBackdropOffsetX, setBackdropOffsetY,
             ) : undefined}
           />
+          {/* Top cluster (NW parking stripes near Fit4Less) —
+              draggable separately from the base backdrop. */}
+          <image
+            href={topClusterUrl}
+            x={0} y={0} width={1200} height={800}
+            transform={`translate(${topOffsetX} ${topOffsetY})`}
+            preserveAspectRatio="xMidYMid meet"
+            style={{
+              pointerEvents: showTuner ? "auto" : "none",
+              cursor: showTuner ? "move" : "auto",
+            }}
+            onPointerDown={showTuner ? makeDragHandler(
+              () => topOffsetX, () => topOffsetY,
+              setTopOffsetX, setTopOffsetY,
+            ) : undefined}
+          />
           {/* Top-middle cluster (signage at the north entrance) — its
               own draggable layer so the operator can nudge it into
               place without moving the rest of the backdrop. */}
@@ -947,6 +972,16 @@ export function MapViewer({
             </div>
           </div>
           <label class="scc-wf__tuner-row">
+            <span>Top X</span>
+            <input type="number" step="1" value={topOffsetX}
+                   onChange={(e) => setTopOffsetX(parseFloat((e.target as HTMLInputElement).value) || 0)} />
+          </label>
+          <label class="scc-wf__tuner-row">
+            <span>Top Y</span>
+            <input type="number" step="1" value={topOffsetY}
+                   onChange={(e) => setTopOffsetY(parseFloat((e.target as HTMLInputElement).value) || 0)} />
+          </label>
+          <label class="scc-wf__tuner-row">
             <span>Mid X</span>
             <input type="number" step="1" value={midOffsetX}
                    onChange={(e) => setMidOffsetX(parseFloat((e.target as HTMLInputElement).value) || 0)} />
@@ -968,7 +1003,7 @@ export function MapViewer({
           </label>
           <div class="scc-wf__tuner-hint">
             scale {backdropScale.toFixed(2)} · X {backdropOffsetX} · Y {backdropOffsetY} · rot {backdropRotation}°
-            <br />mid ({Math.round(midOffsetX)},{Math.round(midOffsetY)}) · right ({Math.round(rightOffsetX)},{Math.round(rightOffsetY)})
+            <br />top ({Math.round(topOffsetX)},{Math.round(topOffsetY)}) · mid ({Math.round(midOffsetX)},{Math.round(midOffsetY)}) · right ({Math.round(rightOffsetX)},{Math.round(rightOffsetY)})
           </div>
         </div>
       )}
