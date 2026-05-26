@@ -84,3 +84,41 @@ describe("searchStores (real catalogue)", () => {
     expect(cats.has("restaurants")).toBe(true);
   });
 });
+
+describe("searchStores synonyms (amenities)", () => {
+  // Washrooms and security are routable amenities; users search for
+  // them under several names. The catalogue stores each under a
+  // canonical name and lists alternates in a `synonyms` array. Every
+  // common term must surface at least one amenity result so the
+  // picker is forgiving regardless of regional vocabulary.
+  const WASHROOM_TERMS = ["washroom", "restroom", "toilet", "bathroom"];
+  const SECURITY_TERMS = ["security", "guard", "lost and found"];
+
+  it("includes at least one washroom entry in the catalogue", () => {
+    const hits = STORES.filter((s) => s.name.toLowerCase().includes("washroom"));
+    expect(hits.length).toBeGreaterThan(0);
+  });
+
+  it("includes at least one security entry in the catalogue", () => {
+    const hits = STORES.filter((s) => s.name.toLowerCase().includes("security"));
+    expect(hits.length).toBeGreaterThan(0);
+  });
+
+  for (const term of WASHROOM_TERMS) {
+    it(`returns a washroom for the search "${term}"`, () => {
+      const r = searchStores(term);
+      expect(r.length).toBeGreaterThan(0);
+      const first = r[0];
+      expect(first.name.toLowerCase()).toMatch(/washroom/);
+    });
+  }
+
+  for (const term of SECURITY_TERMS) {
+    it(`returns security for the search "${term}"`, () => {
+      const r = searchStores(term);
+      expect(r.length).toBeGreaterThan(0);
+      const first = r[0];
+      expect(first.name.toLowerCase()).toMatch(/security/);
+    });
+  }
+});

@@ -19,6 +19,9 @@ export interface Store {
   subdomain?: string | null;
   /** [x, y] in viewBox units; matches the polygon centroid in site.geojson. */
   centroid?: [number, number] | null;
+  /** Alternate search terms — e.g. "Washroom" answers to "restroom",
+   *  "toilet", "bathroom". Lowercased substrings are sufficient. */
+  synonyms?: string[];
 }
 
 export interface Category {
@@ -46,11 +49,15 @@ export function searchStores(query: string, all: Store[] = STORES): Store[] {
   const scored: Array<{ store: Store; score: number }> = [];
   for (const s of all) {
     const name = s.name.toLowerCase();
+    const synonyms = (s.synonyms ?? []).map((x) => x.toLowerCase());
     let score = 0;
     if (name === q) score = 1000;
+    else if (synonyms.includes(q)) score = 900;
     else if (name.startsWith(q)) score = 500;
+    else if (synonyms.some((sy) => sy.startsWith(q))) score = 450;
     else if (name.split(/\s+/).some((w) => w.startsWith(q))) score = 250;
     else if (name.includes(q)) score = 100;
+    else if (synonyms.some((sy) => sy.includes(q))) score = 90;
     else if (s.category.toLowerCase().includes(q)) score = 25;
     if (score > 0) scored.push({ store: s, score });
   }

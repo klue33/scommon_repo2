@@ -393,7 +393,7 @@
     {
       "id": "samrsquosshoesrepair",
       "unit": "28",
-      "name": "Sam\u2019s Shoes Repair",
+      "name": "Sam’s Shoes Repair",
       "category": "other",
       "vacant": false,
       "occupancy": "Occupied",
@@ -640,7 +640,7 @@
     {
       "id": "unit-18",
       "unit": "18",
-      "name": "Available \u2014 Unit 18",
+      "name": "Available — Unit 18",
       "category": "available",
       "vacant": true,
       "occupancy": "Available",
@@ -653,7 +653,7 @@
     {
       "id": "unit-19",
       "unit": "19",
-      "name": "Available \u2014 Unit 19",
+      "name": "Available — Unit 19",
       "category": "available",
       "vacant": true,
       "occupancy": "Available",
@@ -666,7 +666,7 @@
     {
       "id": "unit-22",
       "unit": "22",
-      "name": "Available \u2014 Unit 22",
+      "name": "Available — Unit 22",
       "category": "available",
       "vacant": true,
       "occupancy": "Available",
@@ -679,7 +679,7 @@
     {
       "id": "unit-27",
       "unit": "27",
-      "name": "Available \u2014 Unit 27",
+      "name": "Available — Unit 27",
       "category": "available",
       "vacant": true,
       "occupancy": "Available",
@@ -692,7 +692,7 @@
     {
       "id": "unit-32",
       "unit": "32",
-      "name": "Available \u2014 Unit 32",
+      "name": "Available — Unit 32",
       "category": "available",
       "vacant": true,
       "occupancy": "Available",
@@ -705,7 +705,7 @@
     {
       "id": "unit-33",
       "unit": "33",
-      "name": "Available \u2014 Unit 33",
+      "name": "Available — Unit 33",
       "category": "available",
       "vacant": true,
       "occupancy": "Available",
@@ -718,7 +718,7 @@
     {
       "id": "unit-403",
       "unit": "403",
-      "name": "Available \u2014 Unit 403",
+      "name": "Available — Unit 403",
       "category": "available",
       "vacant": true,
       "occupancy": "Occupied",
@@ -728,7 +728,7 @@
     {
       "id": "unit-55",
       "unit": "55",
-      "name": "Available \u2014 Unit 55",
+      "name": "Available — Unit 55",
       "category": "available",
       "vacant": true,
       "occupancy": "Available",
@@ -736,6 +736,53 @@
       "centroid": [
         442.65,
         723.32
+      ]
+    },
+    {
+      "id": "washroom",
+      "unit": "WC",
+      "name": "Washroom",
+      "category": "amenities",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": null,
+      "centroid": [
+        696,
+        280
+      ],
+      "synonyms": [
+        "restroom",
+        "toilet",
+        "bathroom",
+        "washroom",
+        "restrooms",
+        "toilets",
+        "bathrooms",
+        "washrooms",
+        "wc",
+        "lavatory",
+        "ladies room",
+        "men's room"
+      ]
+    },
+    {
+      "id": "security",
+      "unit": "SEC",
+      "name": "Security Office",
+      "category": "amenities",
+      "vacant": false,
+      "occupancy": "Occupied",
+      "subdomain": null,
+      "centroid": [
+        615,
+        135
+      ],
+      "synonyms": [
+        "security",
+        "guard",
+        "lost and found",
+        "mall security",
+        "help desk"
       ]
     }
   ],
@@ -767,6 +814,10 @@
     {
       "id": "available",
       "label": "Available for Lease"
+    },
+    {
+      "id": "amenities",
+      "label": "Amenities"
     }
   ],
   "mall_hours": {
