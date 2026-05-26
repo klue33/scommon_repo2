@@ -68,9 +68,9 @@ export function MapViewer({
   const geojsonUrl =
     cfg.geojsonUrl ||
     new URL("./maps/site.geojson", import.meta.url).toString();
-  const level1Url =
-    cfg.level1Url ||
-    new URL("./maps/level-1.svg", import.meta.url).toString();
+  const surroundingsUrl =
+    cfg.surroundingsUrl ||
+    new URL("./maps/surroundings.svg", import.meta.url).toString();
   // Backdrop fit knobs — the hand-drawn floor plan is at a slightly
   // different scale from the surveyed polygons, so the operator can
   // dial in until the building outlines line up. Scale anchors at
@@ -635,13 +635,16 @@ export function MapViewer({
         </defs>
 
         <g ref={rotRef} transform={rotateTransform}>
-          {/* Site backdrop: the level-1 floor plan inherited from
-              southcommoncentre.ca's wayfinder. Polygons in
-              site.geojson + graph nodes were affine-aligned to this
-              asset's intrinsic 1200×800 coord system so they sit
-              directly on top of it. */}
+          {/* Site backdrop: the top-down 2D parking-lot rendering
+              inherited from southcommoncentre.ca's wayfinder
+              (s/surroundings.svg). Street names are baked into the
+              SVG as path glyphs. Polygons were affine-aligned to
+              the 1200×800 coord system so they sit on top.
+              The previous level-1.svg attempt was rejected because
+              its parking lot was drawn in 3D perspective and
+              couldn't be lined up with a 2D scale/offset/rotate. */}
           <image
-            href={level1Url}
+            href={surroundingsUrl}
             x={backdropX}
             y={backdropY}
             width={backdropW}

@@ -24,10 +24,11 @@ describe("MapViewer config overrides", () => {
     expect(src).toMatch(/new URL\(\s*["']\.\/maps\/site\.geojson["']\s*,\s*import\.meta\.url/);
   });
 
-  it("no longer references a surroundings.svg backdrop", () => {
-    // The parking-lot SVG was removed — the bundle should not fetch
-    // it, render it, or expose a surroundingsUrl config knob.
-    expect(src).not.toMatch(/surroundings\.svg/);
-    expect(src).not.toMatch(/surroundingsUrl/);
+  it("reads window.SCC_WAYFINDER_CONFIG.surroundingsUrl as an override", () => {
+    expect(src).toMatch(/SCC_WAYFINDER_CONFIG[\s\S]{0,400}surroundingsUrl|cfg\.surroundingsUrl/);
+  });
+
+  it("falls back to import.meta.url-relative path for surroundings.svg", () => {
+    expect(src).toMatch(/new URL\(\s*["']\.\/maps\/surroundings\.svg["']\s*,\s*import\.meta\.url/);
   });
 });
