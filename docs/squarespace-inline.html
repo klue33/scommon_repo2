@@ -43,7 +43,7 @@
 
 <!-- BUMP ?v=... on both URLs on every deploy. Browsers cache module
      scripts aggressively and don't always invalidate on Ctrl+Shift+R. -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/klue33/scommon_repo2@ff2dee0/dist/wayfinder.css?v=20260526h">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/klue33/scommon_repo2@ff2dee0/dist/wayfinder.css?v=20260526i">
 
 <div id="scc-wayfinder" style="height: 82vh; min-height: 600px;"></div>
 
@@ -55,6 +55,16 @@
     // initialFrom: "kiosk-a",
     // initialCategory: "food",
 
+    // === Backdrop fit (tune until building outlines line up) =======
+    // The level-1.svg backdrop is hand-drawn at a slightly different
+    // scale from the surveyed polygons. Bump backdropScale up (e.g.
+    // 1.05) or down (0.95) and nudge offsetX / offsetY by pixels
+    // until the parking lot lines hug the polygons. Scale anchors at
+    // the viewBox centre so the building doesn't drift.
+    // backdropScale:   1.0,
+    // backdropOffsetX: 0,
+    // backdropOffsetY: 0,
+
     // === Self-hosting override (uncomment if jsDelivr is stale or
     // you want to pin the geojson to your own server) ===============
     // Upload site.geojson to Squarespace via Code Injection > File
@@ -64,4 +74,4 @@
   };
 </script>
 
-<script type="module" src="https://cdn.jsdelivr.net/gh/klue33/scommon_repo2@ff2dee0/dist/wayfinder.js?v=20260526h"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/klue33/scommon_repo2@ff2dee0/dist/wayfinder.js?v=20260526i"></script>

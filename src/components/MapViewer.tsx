@@ -71,6 +71,17 @@ export function MapViewer({
   const level1Url =
     cfg.level1Url ||
     new URL("./maps/level-1.svg", import.meta.url).toString();
+  // Backdrop fit knobs — the hand-drawn floor plan is at a slightly
+  // different scale from the surveyed polygons, so the operator can
+  // dial in until the building outlines line up. Scale anchors at
+  // the viewBox centre (600, 400) so the building doesn't drift.
+  const backdropScale: number = typeof cfg.backdropScale === "number" ? cfg.backdropScale : 1;
+  const backdropOffsetX: number = typeof cfg.backdropOffsetX === "number" ? cfg.backdropOffsetX : 0;
+  const backdropOffsetY: number = typeof cfg.backdropOffsetY === "number" ? cfg.backdropOffsetY : 0;
+  const backdropX = (1 - backdropScale) * 600 + backdropOffsetX;
+  const backdropY = (1 - backdropScale) * 400 + backdropOffsetY;
+  const backdropW = 1200 * backdropScale;
+  const backdropH = 800 * backdropScale;
 
   useEffect(() => {
     let cancelled = false;
@@ -614,10 +625,10 @@ export function MapViewer({
               directly on top of it. */}
           <image
             href={level1Url}
-            x={0}
-            y={0}
-            width={1200}
-            height={800}
+            x={backdropX}
+            y={backdropY}
+            width={backdropW}
+            height={backdropH}
             preserveAspectRatio="xMidYMid meet"
             style={{ pointerEvents: "none" }}
           />
