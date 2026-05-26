@@ -75,13 +75,30 @@ export function MapViewer({
   // different scale from the surveyed polygons, so the operator can
   // dial in until the building outlines line up. Scale anchors at
   // the viewBox centre (600, 400) so the building doesn't drift.
-  const backdropScale: number = typeof cfg.backdropScale === "number" ? cfg.backdropScale : 1;
-  const backdropOffsetX: number = typeof cfg.backdropOffsetX === "number" ? cfg.backdropOffsetX : 0;
-  const backdropOffsetY: number = typeof cfg.backdropOffsetY === "number" ? cfg.backdropOffsetY : 0;
+  // Values live in state so the tuner panel (?tune=1) can update
+  // them live without a page reload; initial values come from
+  // SCC_WAYFINDER_CONFIG.
+  const [backdropScale, setBackdropScale] = useState<number>(
+    typeof cfg.backdropScale === "number" ? cfg.backdropScale : 1,
+  );
+  const [backdropOffsetX, setBackdropOffsetX] = useState<number>(
+    typeof cfg.backdropOffsetX === "number" ? cfg.backdropOffsetX : 0,
+  );
+  const [backdropOffsetY, setBackdropOffsetY] = useState<number>(
+    typeof cfg.backdropOffsetY === "number" ? cfg.backdropOffsetY : 0,
+  );
+  const [backdropRotation, setBackdropRotation] = useState<number>(
+    typeof cfg.backdropRotation === "number" ? cfg.backdropRotation : 0,
+  );
   const backdropX = (1 - backdropScale) * 600 + backdropOffsetX;
   const backdropY = (1 - backdropScale) * 400 + backdropOffsetY;
   const backdropW = 1200 * backdropScale;
   const backdropH = 800 * backdropScale;
+  const backdropTransform = `rotate(${backdropRotation} 600 400)`;
+  // Show the live tuner panel only when ?tune=1 is in the URL — we
+  // don't want regular visitors to see development controls.
+  const showTuner = typeof window !== "undefined"
+    && new URLSearchParams(window.location.search).get("tune") === "1";
 
   useEffect(() => {
     let cancelled = false;
@@ -629,6 +646,7 @@ export function MapViewer({
             y={backdropY}
             width={backdropW}
             height={backdropH}
+            transform={backdropTransform}
             preserveAspectRatio="xMidYMid meet"
             style={{ pointerEvents: "none" }}
           />
@@ -803,6 +821,38 @@ export function MapViewer({
         <button onClick={() => setZoom((z) => clamp(z / 1.2, MIN_ZOOM, MAX_ZOOM))} aria-label="Zoom out">−</button>
         <button onClick={reset} aria-label="Reset view">⟲</button>
       </div>
+
+      {showTuner && (
+        <div class="scc-wf__tuner" role="region" aria-label="Backdrop tuner">
+          <div class="scc-wf__tuner-title">Backdrop tuner</div>
+          <label class="scc-wf__tuner-row">
+            <span>Scale</span>
+            <input type="number" step="0.01" value={backdropScale}
+                   onChange={(e) => setBackdropScale(parseFloat((e.target as HTMLInputElement).value) || 0)} />
+          </label>
+          <label class="scc-wf__tuner-row">
+            <span>Offset X</span>
+            <input type="number" step="1" value={backdropOffsetX}
+                   onChange={(e) => setBackdropOffsetX(parseFloat((e.target as HTMLInputElement).value) || 0)} />
+          </label>
+          <label class="scc-wf__tuner-row">
+            <span>Offset Y</span>
+            <input type="number" step="1" value={backdropOffsetY}
+                   onChange={(e) => setBackdropOffsetY(parseFloat((e.target as HTMLInputElement).value) || 0)} />
+          </label>
+          <div class="scc-wf__tuner-row">
+            <span>Rotate</span>
+            <div class="scc-wf__tuner-rot">
+              <button type="button" onClick={() => setBackdropRotation((r) => r - 1)} aria-label="Rotate CCW 1 degree">↺ −1°</button>
+              <span class="scc-wf__tuner-rot-val">{backdropRotation.toFixed(0)}°</span>
+              <button type="button" onClick={() => setBackdropRotation((r) => r + 1)} aria-label="Rotate CW 1 degree">↻ +1°</button>
+            </div>
+          </div>
+          <div class="scc-wf__tuner-hint">
+            scale {backdropScale.toFixed(2)} · X {backdropOffsetX} · Y {backdropOffsetY} · rot {backdropRotation}°
+          </div>
+        </div>
+      )}
 
       {editMode && (
         <div class="scc-wf__editor">
