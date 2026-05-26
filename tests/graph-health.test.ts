@@ -171,6 +171,56 @@ describe("graph-health", () => {
     expect(onNeFace, `entrance positions: ${JSON.stringify(entranceIds.map((n) => [n.x, n.y]))}`).toBe(true);
   });
 
+  it("Dollarama only enters/exits via an entrance inside its own polygon", () => {
+    // On-site observation (2026-05-26): the path out of Dollarama
+    // was routing through Cell Max because Dollarama's recorded
+    // entrance-tenant node sat inside cell-max's polygon (it's at
+    // a point in the small notch dollarama cuts out for cell-max).
+    // Every entrance node bonded to dollarama must live inside the
+    // dollarama polygon, not inside any other tenant.
+    const dollId = "dollarama";
+    const polys = geo.features
+      .filter((f) => f.geometry?.type === "Polygon")
+      .map((f) => ({
+        store_id: f.properties?.store_id ?? "?",
+        ring: f.geometry!.coordinates![0] as number[][],
+      }));
+    const dollPoly = polys.find((p) => p.store_id === dollId);
+    expect(dollPoly, "dollarama polygon missing from geojson").toBeDefined();
+    const inRing = (pt: number[], ring: number[][]) => {
+      let inside = false;
+      for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        const xi = ring[i][0], yi = ring[i][1];
+        const xj = ring[j][0], yj = ring[j][1];
+        const intersect = (yi > pt[1]) !== (yj > pt[1]) &&
+          pt[0] < ((xj - xi) * (pt[1] - yi)) / ((yj - yi) || 1e-9) + xi;
+        if (intersect) inside = !inside;
+      }
+      return inside;
+    };
+    const adjEdges = edges.filter((e) => e.a === dollId || e.b === dollId);
+    expect(adjEdges.length).toBeGreaterThan(0);
+    const offenders: Array<{ entrance: string; insideStore: string | null }> = [];
+    for (const e of adjEdges) {
+      const otherId = e.a === dollId ? e.b : e.a;
+      const other = nodes.find((n) => n.id === otherId);
+      if (!other) continue;
+      if (!inRing([other.x, other.y], dollPoly!.ring)) {
+        // Find which tenant the misplaced entrance actually sits in.
+        let foundIn: string | null = null;
+        for (const p of polys) {
+          if (p.store_id === dollId) continue;
+          if (inRing([other.x, other.y], p.ring)) { foundIn = p.store_id; break; }
+        }
+        offenders.push({ entrance: otherId, insideStore: foundIn });
+      }
+    }
+    expect(
+      offenders,
+      `dollarama edges go through entrances that aren't inside dollarama: ${JSON.stringify(offenders)}`,
+    ).toEqual([]);
+  });
+
   it("no walking edge crosses an operator-drawn barrier", () => {
     // Barriers are operator-defined lines that the wayfinder can't
     // cross. The on-disk graph is what visitors actually use — any

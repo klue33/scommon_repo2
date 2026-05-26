@@ -2180,6 +2180,12 @@
       "y": 723.32,
       "type": "store",
       "store": "unit-55"
+    },
+    {
+      "id": "n-dollarama-ent-s1",
+      "x": 555.0,
+      "y": 660.0,
+      "type": "entrance-tenant"
     }
   ],
   "edges": [
@@ -3489,11 +3495,6 @@
       "cost": 40
     },
     {
-      "a": "n-mpltwfox-6ya",
-      "b": "dollarama",
-      "cost": 45
-    },
-    {
       "a": "n-mpltw3vr-36e",
       "b": "famousoptic",
       "cost": 19
@@ -4198,6 +4199,16 @@
       "b": "n-mplu99ct-5yw",
       "cost": 156,
       "auto": true
+    },
+    {
+      "a": "dollarama",
+      "b": "n-dollarama-ent-s1",
+      "cost": 56
+    },
+    {
+      "a": "n-dollarama-ent-s1",
+      "b": "n-mpltl537-3bg",
+      "cost": 15
     }
   ],
   "barriers": [
