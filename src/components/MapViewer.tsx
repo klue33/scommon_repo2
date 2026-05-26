@@ -606,17 +606,20 @@ export function MapViewer({
           <rect class="scc-wf__lot-stalls" x={vx0} y={vy0} width={VW} height={VH} fill="url(#scc-parking)" />
           {/* Site backdrop (parking lot, drive aisles, curbs) inherited
               from the original southcommoncentre.ca surroundings.svg.
-              Sits inside the rotated <g> so it tracks the building
-              orientation. The asset's intrinsic viewBox is 1200×800,
-              matching the building's x-extent in our viewBox. */}
+              The asset's intrinsic viewBox is 1200×800. The original
+              site renders the surroundings wrapper at 2x the size of
+              the mall map (192vmin × 128vmin around a 96 × 64vmin
+              mall), centered on the same point — so we mirror that
+              here. Building polygon centre is (600, 646.5); a 2400×
+              1600 image centered there starts at (-600, -153.5). */}
           <image
             href={surroundingsUrl}
-            x={0}
-            y={0}
-            width={1200}
-            height={800}
+            x={-600}
+            y={-153.5}
+            width={2400}
+            height={1600}
             preserveAspectRatio="xMidYMid meet"
-            opacity={0.85}
+            opacity={0.6}
             style={{ pointerEvents: "none" }}
           />
 

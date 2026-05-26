@@ -32,4 +32,23 @@ describe("surroundings.svg backdrop", () => {
     expect(src).toMatch(/<image[\s>]/);
     expect(src).toMatch(/surroundings\.svg/);
   });
+
+  it("places the backdrop at 2x scale centered on the building (per the original wayfinder CSS)", () => {
+    // The original southcommoncentre.ca wayfinder rendered
+    // surroundings.svg in a wrapper TWICE the size of the mall map
+    // (.surroundings = 192vmin x 128vmin around a 96 x 64vmin mall),
+    // centered on the same point. Our viewer mirrors that — anything
+    // smaller and the parking lot is clipped to a tiny strip above
+    // the building.
+    const src = readFileSync(
+      resolve(__dirname, "../src/components/MapViewer.tsx"),
+      "utf8",
+    );
+    // Width must be 2x the SVG's intrinsic 1200 -> 2400.
+    expect(src).toMatch(/width=\{?\s*2400\s*\}?/);
+    expect(src).toMatch(/height=\{?\s*1600\s*\}?/);
+    // x must be negative (image extends left of viewBox origin),
+    // because 2x scale around centre 600 puts x at -600.
+    expect(src).toMatch(/<image[\s\S]*?x=\{?\s*-600\s*\}?/);
+  });
 });
