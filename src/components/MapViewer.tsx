@@ -87,26 +87,27 @@ export function MapViewer({
   // Values live in state so the tuner panel (?tune=1) can update
   // them live without a page reload; initial values come from
   // SCC_WAYFINDER_CONFIG.
+  // Defaults dialled in by the operator on 2026-05-26 via the live
+  // tuner. Re-dial with ?tune=1 if a future asset re-extraction
+  // moves the artwork.
   const [backdropScale, setBackdropScale] = useState<number>(
-    typeof cfg.backdropScale === "number" ? cfg.backdropScale : 1,
+    typeof cfg.backdropScale === "number" ? cfg.backdropScale : 0.95,
   );
   const [backdropOffsetX, setBackdropOffsetX] = useState<number>(
-    typeof cfg.backdropOffsetX === "number" ? cfg.backdropOffsetX : 0,
+    typeof cfg.backdropOffsetX === "number" ? cfg.backdropOffsetX : 63,
   );
   const [backdropOffsetY, setBackdropOffsetY] = useState<number>(
-    typeof cfg.backdropOffsetY === "number" ? cfg.backdropOffsetY : 0,
+    typeof cfg.backdropOffsetY === "number" ? cfg.backdropOffsetY : 25,
   );
   const [backdropRotation, setBackdropRotation] = useState<number>(
     typeof cfg.backdropRotation === "number" ? cfg.backdropRotation : 0,
   );
-  // Per-cluster translate offsets. Independent of the base backdrop —
-  // the operator drags each cluster (top near Fit4Less, top-middle
-  // road sign, top-right NE parking + signage) on its own.
+  // Per-cluster translate offsets. Independent of the base backdrop.
   const [topOffsetX, setTopOffsetX] = useState<number>(
-    typeof cfg.topOffsetX === "number" ? cfg.topOffsetX : 0,
+    typeof cfg.topOffsetX === "number" ? cfg.topOffsetX : -3,
   );
   const [topOffsetY, setTopOffsetY] = useState<number>(
-    typeof cfg.topOffsetY === "number" ? cfg.topOffsetY : 0,
+    typeof cfg.topOffsetY === "number" ? cfg.topOffsetY : 36,
   );
   const [midOffsetX, setMidOffsetX] = useState<number>(
     typeof cfg.midOffsetX === "number" ? cfg.midOffsetX : 0,
@@ -115,10 +116,10 @@ export function MapViewer({
     typeof cfg.midOffsetY === "number" ? cfg.midOffsetY : 0,
   );
   const [rightOffsetX, setRightOffsetX] = useState<number>(
-    typeof cfg.rightOffsetX === "number" ? cfg.rightOffsetX : 0,
+    typeof cfg.rightOffsetX === "number" ? cfg.rightOffsetX : -5,
   );
   const [rightOffsetY, setRightOffsetY] = useState<number>(
-    typeof cfg.rightOffsetY === "number" ? cfg.rightOffsetY : 0,
+    typeof cfg.rightOffsetY === "number" ? cfg.rightOffsetY : 54.64,
   );
   const backdropX = (1 - backdropScale) * 600 + backdropOffsetX;
   const backdropY = (1 - backdropScale) * 400 + backdropOffsetY;
