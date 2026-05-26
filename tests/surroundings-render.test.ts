@@ -23,6 +23,22 @@ describe("surroundings.svg backdrop", () => {
     expect(readFileSync(publicPath, "utf8")).toMatch(/<svg[\s>]/i);
   });
 
+  it("is well-formed XML (no Illustrator-mangled attributes)", async () => {
+    // <image href="…"> on Squarespace/Chrome/Firefox loads SVGs
+    // through the XML parser, which chokes on the original asset's
+    // mangled attributes like:
+    //   class="fill="none";stroke:="#FFFFFF";stroke-width="20";"
+    //   class=fill="#BCBCBC"
+    //   fill="#DCDBDB";
+    // We sanitize the SVG at vendor time. None of those patterns
+    // should survive into the file we ship.
+    const text = readFileSync(publicPath, "utf8");
+    expect(text).not.toMatch(/class="fill=/);
+    expect(text).not.toMatch(/class=fill=/);
+    expect(text).not.toMatch(/stroke:=/);
+    expect(text).not.toMatch(/fill="[^"]*";/);
+  });
+
   it("MapViewer renders an <image> tag inside the rotated <g>", () => {
     const src = readFileSync(
       resolve(__dirname, "../src/components/MapViewer.tsx"),
