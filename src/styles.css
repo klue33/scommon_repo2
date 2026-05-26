@@ -257,10 +257,16 @@
 @media (prefers-reduced-motion: reduce) {
   .scc-wf__unit.is-selected { animation: none; }
 }
+/* Available-for-lease units. They're physical floor area — the
+   walls and unit shape must read as part of the mall — but no
+   tenant currently operates there, so we render with a flat
+   warm-grey fill and a dashed border to flag "not customer
+   accessible." Earlier this rule used ~4% alpha which made them
+   look like holes in the map. */
 .scc-wf__unit.is-vacant {
-  fill: hsla(var(--black-hsl, 0,0%,5.1%), 0.04);
+  fill: hsla(var(--black-hsl, 0,0%,5.1%), 0.55);
   stroke-dasharray: 4 4;
-  stroke-opacity: 0.5;
+  stroke-opacity: 0.7;
 }
 /* Tint occupied units by category. The accent override on selection
    sits above these in cascade so selection still wins. */
