@@ -1,6 +1,6 @@
 # scc-wayfinder
 
-Rebuild of the South Common Centre (Edmonton) site directory and
+Rebuild of the South Common Centre (Mississauga) site directory and
 wayfinder (`southcommoncentre.ca/wayfinder`). The existing page is
 a static SVG with a basic store search. This rebuild keeps the
 SVG-vector approach but layers on the interactive features visitors

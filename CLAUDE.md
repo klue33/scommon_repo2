@@ -1,6 +1,6 @@
 # scc-wayfinder — project rules
 
-Site directory + wayfinder for South Common Centre (Edmonton),
+Site directory + wayfinder for South Common Centre (Mississauga),
 **embedded into the existing Squarespace site** at
 `southcommoncentre.ca/wayfinder`.
 
