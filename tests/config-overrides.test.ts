@@ -24,11 +24,11 @@ describe("MapViewer config overrides", () => {
     expect(src).toMatch(/new URL\(\s*["']\.\/maps\/site\.geojson["']\s*,\s*import\.meta\.url/);
   });
 
-  it("reads window.SCC_WAYFINDER_CONFIG.surroundingsUrl as an override", () => {
-    expect(src).toMatch(/SCC_WAYFINDER_CONFIG[\s\S]{0,400}surroundingsUrl|cfg\.surroundingsUrl/);
+  it("reads window.SCC_WAYFINDER_CONFIG.level1Url as an override", () => {
+    expect(src).toMatch(/cfg\.level1Url/);
   });
 
-  it("falls back to import.meta.url-relative path for surroundings.svg", () => {
-    expect(src).toMatch(/new URL\(\s*["']\.\/maps\/surroundings\.svg["']\s*,\s*import\.meta\.url/);
+  it("falls back to import.meta.url-relative path for level-1.svg", () => {
+    expect(src).toMatch(/new URL\(\s*["']\.\/maps\/level-1\.svg["']\s*,\s*import\.meta\.url/);
   });
 });

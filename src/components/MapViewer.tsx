@@ -68,9 +68,9 @@ export function MapViewer({
   const geojsonUrl =
     cfg.geojsonUrl ||
     new URL("./maps/site.geojson", import.meta.url).toString();
-  const surroundingsUrl =
-    cfg.surroundingsUrl ||
-    new URL("./maps/surroundings.svg", import.meta.url).toString();
+  const level1Url =
+    cfg.level1Url ||
+    new URL("./maps/level-1.svg", import.meta.url).toString();
   // Backdrop fit knobs — the hand-drawn floor plan is at a slightly
   // different scale from the surveyed polygons, so the operator can
   // dial in until the building outlines line up. Scale anchors at
@@ -635,23 +635,50 @@ export function MapViewer({
         </defs>
 
         <g ref={rotRef} transform={rotateTransform}>
-          {/* Site backdrop: the top-down 2D parking-lot rendering
-              inherited from southcommoncentre.ca's wayfinder
-              (s/surroundings.svg). Street names are baked into the
-              SVG as path glyphs. Polygons were affine-aligned to
-              the 1200×800 coord system so they sit on top.
-              The previous level-1.svg attempt was rejected because
-              its parking lot was drawn in 3D perspective and
-              couldn't be lined up with a 2D scale/offset/rotate. */}
+          {/* Site backdrop: full level-1.svg with all parking-lot
+              vectors, street labels, building shell, and decorations
+              from the original southcommoncentre.ca/wff layout.
+              Tenant cells stripped at vendor time so they don't
+              double up with the route polygons. Operator can drag
+              the image around in tuner mode (?tune=1) to align it
+              with the same items in our surveyed polygons. */}
           <image
-            href={surroundingsUrl}
+            href={level1Url}
             x={backdropX}
             y={backdropY}
             width={backdropW}
             height={backdropH}
             transform={backdropTransform}
             preserveAspectRatio="xMidYMid meet"
-            style={{ pointerEvents: "none" }}
+            style={{
+              pointerEvents: showTuner ? "auto" : "none",
+              cursor: showTuner ? "move" : "auto",
+            }}
+            onPointerDown={showTuner ? (e: PointerEvent) => {
+              e.stopPropagation();
+              const img = e.currentTarget as SVGImageElement;
+              img.setPointerCapture(e.pointerId);
+              const startX = e.clientX, startY = e.clientY;
+              const origOffsetX = backdropOffsetX, origOffsetY = backdropOffsetY;
+              // Map screen-px delta into viewBox-px delta so drags feel 1:1.
+              const svg = svgRef.current!;
+              const rect = svg.getBoundingClientRect();
+              const vbScaleX = vw / rect.width;
+              const vbScaleY = vh / rect.height;
+              const onMove = (ev: PointerEvent) => {
+                setBackdropOffsetX(origOffsetX + (ev.clientX - startX) * vbScaleX);
+                setBackdropOffsetY(origOffsetY + (ev.clientY - startY) * vbScaleY);
+              };
+              const onUp = (ev: PointerEvent) => {
+                img.releasePointerCapture(ev.pointerId);
+                img.removeEventListener("pointermove", onMove);
+                img.removeEventListener("pointerup", onUp);
+                img.removeEventListener("pointercancel", onUp);
+              };
+              img.addEventListener("pointermove", onMove);
+              img.addEventListener("pointerup", onUp);
+              img.addEventListener("pointercancel", onUp);
+            } : undefined}
           />
           <rect class="scc-wf__lot" x={vx0} y={vy0} width={VW} height={VH} fill="url(#scc-drive)" opacity={0} />
           <rect class="scc-wf__lot-stalls" x={vx0} y={vy0} width={VW} height={VH} fill="url(#scc-parking)" opacity={0} />
