@@ -2212,6 +2212,13 @@
       "y": 165.02,
       "type": "store",
       "store": "security"
+    },
+    {
+      "id": "fido",
+      "x": 263.48,
+      "y": 729.81,
+      "type": "store",
+      "store": "fido"
     }
   ],
   "edges": [
@@ -4255,6 +4262,11 @@
       "a": "n-mpm4ohio-4iu",
       "b": "n-mpltm49k-720",
       "cost": 8
+    },
+    {
+      "a": "fido",
+      "b": "n-mpltpq72-17o",
+      "cost": 52
     }
   ],
   "barriers": [
