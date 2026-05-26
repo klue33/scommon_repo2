@@ -37,7 +37,7 @@ const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 8;
 const CLICK_PX = 5;
 const STORAGE_KEY = "scc-wayfinder:edit-graph";
-const ROTATION_DEG = -22.5;             // map rotated CCW
+const ROTATION_DEG = -42.346;           // CCW so BMO/Shoppers/Rogers sit horizontal
 const PEN_DOWNSAMPLE = 30;              // px between successive nodes derived from a stroke
 const PEN_RAW_STEP = 4;                 // min screen-px between raw points sampled during a stroke
 const SNAP_RADIUS = 22;                 // px in viewBox space for snapping stroke endpoints to existing nodes
@@ -52,21 +52,29 @@ export function MapViewer({
   const selectedStore = toStore;
   const [collection, setCollection] = useState<SiteFeatureCollection | null>(null);
 
+  // window.SCC_WAYFINDER_CONFIG.geojsonUrl / .surroundingsUrl let
+  // operators self-host these assets when jsDelivr is stale or when
+  // they need a private CDN. Fall back to a URL relative to the
+  // bundle's own location (import.meta.url) — NOT document.baseURI,
+  // which on Squarespace points at the embedding page.
+  const cfg = (typeof window !== "undefined"
+    ? (window as any).SCC_WAYFINDER_CONFIG
+    : null) ?? {};
+  const geojsonUrl =
+    cfg.geojsonUrl ||
+    new URL("./maps/site.geojson", import.meta.url).toString();
+  const surroundingsUrl =
+    cfg.surroundingsUrl ||
+    new URL("./maps/surroundings.svg", import.meta.url).toString();
+
   useEffect(() => {
     let cancelled = false;
-    // Resolve site.geojson relative to the BUNDLE'S OWN URL, not the
-    // embedding page. When this is hosted on jsDelivr and dropped
-    // into a Squarespace Code Block, document.baseURI points at
-    // southcommoncentre.ca/wff — which doesn't serve /maps/. The
-    // bundle and its companion geojson both live in dist/, so
-    // import.meta.url gives us the right base on every host.
-    const geojsonUrl = new URL("./maps/site.geojson", import.meta.url).toString();
     fetch(geojsonUrl)
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`site.geojson ${r.status}`))))
       .then((data: SiteFeatureCollection) => { if (!cancelled) setCollection(data); })
       .catch((err) => console.error("[scc-wayfinder] failed to load site.geojson from", geojsonUrl, err));
     return () => { cancelled = true; };
-  }, []);
+  }, [geojsonUrl]);
 
   // --- pan / zoom -------------------------------------------------
   const [zoom, setZoom] = useState(1);
@@ -596,6 +604,21 @@ export function MapViewer({
         <g ref={rotRef} transform={rotateTransform}>
           <rect class="scc-wf__lot" x={vx0} y={vy0} width={VW} height={VH} fill="url(#scc-drive)" />
           <rect class="scc-wf__lot-stalls" x={vx0} y={vy0} width={VW} height={VH} fill="url(#scc-parking)" />
+          {/* Site backdrop (parking lot, drive aisles, curbs) inherited
+              from the original southcommoncentre.ca surroundings.svg.
+              Sits inside the rotated <g> so it tracks the building
+              orientation. The asset's intrinsic viewBox is 1200×800,
+              matching the building's x-extent in our viewBox. */}
+          <image
+            href={surroundingsUrl}
+            x={0}
+            y={0}
+            width={1200}
+            height={800}
+            preserveAspectRatio="xMidYMid meet"
+            opacity={0.85}
+            style={{ pointerEvents: "none" }}
+          />
 
           {collection?.features.map((f) => {
             const p = f.properties;

@@ -130,12 +130,20 @@
     // BUMP THIS on every deploy. Browsers cache module scripts
     // aggressively and don't always invalidate on Ctrl+Shift+R;
     // a fresh ?v=… makes the URL look new to the cache.
-    var VERSION = '20260526b';
+    var VERSION = '20260526c';
     // =========================================================
 
     // Optional pre-fill for the bundle. URL params (?to, ?from,
     // ?category) override these — see EMBED.md.
+    //
+    // Self-hosting overrides: paste absolute URLs into
+    // geojsonUrl / surroundingsUrl below if you'd rather pin those
+    // assets to your own server (e.g. Squarespace's /s/ uploader,
+    // which serves plain SVG + JSON correctly even though it can't
+    // serve ES modules).
     window.SCC_WAYFINDER_CONFIG = window.SCC_WAYFINDER_CONFIG || {};
+    // window.SCC_WAYFINDER_CONFIG.geojsonUrl      = 'https://southcommoncentre.ca/s/site.geojson';
+    // window.SCC_WAYFINDER_CONFIG.surroundingsUrl = 'https://southcommoncentre.ca/s/surroundings.svg';
 
     var overlay = document.getElementById('scc-wf-popup-overlay');
     var launch  = document.getElementById('scc-wf-popup-launch');
