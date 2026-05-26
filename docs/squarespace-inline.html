@@ -1,0 +1,58 @@
+<!--
+  South Common Wayfinder — inline embed (Squarespace Code Block).
+
+  Use this on the existing /wayfinder page, where the wayfinder
+  IS the page. The mall map fills the block; no launcher button,
+  no modal. If you want a button-and-popup version (for use on
+  the homepage or a category page), see docs/squarespace-popup.html.
+
+  How to install:
+    1. In Squarespace, edit /wayfinder. Delete the current SVG /
+       directory block.
+    2. Add a Code Block (NOT Embed, NOT Markdown).
+    3. Paste this entire snippet. Save.
+    4. (Optional) Pin to a release tag instead of @main below — see
+       below.
+
+  Hosting:
+    The two URLs below point at jsDelivr, which serves files from
+    the public GitHub repo with CORS headers and correct MIME
+    types. Squarespace's own /s/ uploader DOES NOT serve ES-module
+    bundles correctly (no CORS, wrong MIME).
+
+    Pattern:
+      https://cdn.jsdelivr.net/gh/<user>/<repo>@<branch-or-tag>/dist/<file>
+
+    For production stability, replace @main with a release tag
+    (e.g. @v1.2.0) so visitors don't pick up half-built commits.
+    jsDelivr caches by URL for ~12h.
+
+  Why this is safe on Squarespace:
+    - The bundle scopes itself under .scc-wf (CLAUDE.md
+      non-negotiable).
+    - No iframe.
+    - Only window.SCC_WAYFINDER_CONFIG touches global scope.
+    - The mount div gets an explicit height so the wayfinder has
+      room to render in the page's flow.
+
+  Deep links you can use anywhere on the site:
+    /wayfinder?to=walmart        — preselect a destination
+    /wayfinder?from=kiosk-a      — set the route origin
+    /wayfinder?category=food     — open with a category filter
+-->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/klue33/scommon_repo2@main/dist/wayfinder.css">
+
+<div id="scc-wayfinder" style="height: 82vh; min-height: 600px;"></div>
+
+<script>
+  // Optional pre-fill for the bundle. URL params (?to, ?from,
+  // ?category) override these — see EMBED.md.
+  window.SCC_WAYFINDER_CONFIG = {
+    // initialStore: "walmart",
+    // initialFrom: "kiosk-a",
+    // initialCategory: "food",
+  };
+</script>
+
+<script type="module" src="https://cdn.jsdelivr.net/gh/klue33/scommon_repo2@main/dist/wayfinder.js"></script>

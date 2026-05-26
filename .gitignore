@@ -1,5 +1,7 @@
 node_modules/
-dist/
+# dist/ is intentionally tracked so jsDelivr (and other CDNs that
+# serve raw repo files) have something to ship. Rebuild it via
+# `npm run build` before tagging a release.
 .env*.local
 .DS_Store
 *.log
