@@ -38,6 +38,10 @@ const MAX_ZOOM = 8;
 const CLICK_PX = 5;
 const STORAGE_KEY = "scc-wayfinder:edit-graph";
 const ROTATION_DEG = 137.654;           // -42.346° + 180° — anchor face horizontal on the opposite edge
+// Counter-rotation applied to every <text> inside the rotated <g>
+// so the glyphs face the viewer upright regardless of map angle.
+// Derived from ROTATION_DEG so the two never drift apart.
+const LABEL_COUNTER_ROTATION = -ROTATION_DEG;
 const PEN_DOWNSAMPLE = 30;              // px between successive nodes derived from a stroke
 const PEN_RAW_STEP = 4;                 // min screen-px between raw points sampled during a stroke
 const SNAP_RADIUS = 22;                 // px in viewBox space for snapping stroke endpoints to existing nodes
@@ -678,7 +682,8 @@ export function MapViewer({
                   >
                     <circle cx={n.x} cy={n.y} r={r} />
                     {(n.type === "kiosk" || n.type === "entrance-main") && (
-                      <text x={n.x} y={n.y + r + 18} textAnchor="middle">
+                      <text x={n.x} y={n.y + r + 18} textAnchor="middle"
+                            transform={`rotate(${LABEL_COUNTER_ROTATION} ${n.x} ${n.y + r + 18})`}>
                         {n.label ?? (n.type === "kiosk" ? "KIOSK" : "MAIN")}
                       </text>
                     )}
@@ -693,7 +698,8 @@ export function MapViewer({
             const [lx, ly] = f.properties.centroid;
             return (
               <text key={`lbl-${f.properties.store_id}`} class="scc-wf__label"
-                    x={lx} y={ly + 4} textAnchor="middle">
+                    x={lx} y={ly + 4} textAnchor="middle"
+                    transform={`rotate(${LABEL_COUNTER_ROTATION} ${lx} ${ly + 4})`}>
                 {f.properties.name}
               </text>
             );
@@ -704,7 +710,8 @@ export function MapViewer({
             return (
               <g key={n.id} class="scc-wf__kiosk" data-kiosk-id={n.id}>
                 <circle cx={n.x} cy={n.y} r={14} />
-                <text x={n.x} y={n.y + 32} textAnchor="middle">{label}</text>
+                <text x={n.x} y={n.y + 32} textAnchor="middle"
+                      transform={`rotate(${LABEL_COUNTER_ROTATION} ${n.x} ${n.y + 32})`}>{label}</text>
               </g>
             );
           })}
@@ -722,8 +729,10 @@ export function MapViewer({
               return (
                 <g key={n.id} class={`scc-wf__amenity scc-wf__amenity--${isWashroom ? "washroom" : "security"}`} data-amenity-id={n.id}>
                   <circle cx={n.x} cy={n.y} r={12} />
-                  <text x={n.x} y={n.y + 5} textAnchor="middle" class="scc-wf__amenity-glyph">{glyph}</text>
-                  <text x={n.x} y={n.y + 28} textAnchor="middle" class="scc-wf__amenity-label">{label}</text>
+                  <text x={n.x} y={n.y + 5} textAnchor="middle" class="scc-wf__amenity-glyph"
+                        transform={`rotate(${LABEL_COUNTER_ROTATION} ${n.x} ${n.y + 5})`}>{glyph}</text>
+                  <text x={n.x} y={n.y + 28} textAnchor="middle" class="scc-wf__amenity-label"
+                        transform={`rotate(${LABEL_COUNTER_ROTATION} ${n.x} ${n.y + 28})`}>{label}</text>
                 </g>
               );
             })}
