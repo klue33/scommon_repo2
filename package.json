@@ -5,11 +5,12 @@
   "description": "Embeddable Squarespace wayfinder for South Common Centre",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 3100",
-    "build": "vite build",
+    "build": "vite build && node scripts/inline-bundle.mjs",
     "preview": "vite preview --host 127.0.0.1 --port 3100",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "inline": "node scripts/inline-bundle.mjs"
   },
   "dependencies": {
     "preact": "^10.22.0"

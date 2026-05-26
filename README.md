@@ -98,11 +98,30 @@ EMBED.md               Squarespace embed recipe
 
 ## Deployment
 
-The built bundle is served via **jsDelivr's free public-GitHub
-CDN** off this repo's `dist/` directory. No account, no billing —
-the `gh/<user>/<repo>` route is free for public repos. See
-[`EMBED.md`](EMBED.md) and `docs/squarespace-*.html` for the
-Code Block snippets visitors paste into Squarespace.
+Two equivalent options. Both produce the same live wayfinder; the
+trade-off is **external dependency vs paste size**.
+
+### Option A — fully inlined (recommended; no external deps)
+
+`docs/squarespace-inline-bundle.html` carries the entire JS bundle
++ CSS inlined in a single paste. After uploading the five asset
+files to Squarespace's File Manager and filling in their URLs in
+the snippet's config block, the live site has **zero** external
+runtime dependencies — no jsDelivr, no GitHub fetch. The source
+repo can be flipped to private and the live site keeps working.
+
+The snippet is auto-regenerated on every `npm run build`. Paste
+it into **Settings → Advanced → Code Injection** (Page Header for
+the wayfinder page only), not a regular Code Block — Code Blocks
+have a tighter character limit.
+
+### Option B — jsDelivr CDN (smaller paste; public repo only)
+
+`docs/squarespace-inline.html` and `docs/squarespace-popup.html`
+fetch the bundle from **jsDelivr's free public-GitHub CDN** off
+this repo's `dist/` directory. No account, no billing — the
+`gh/<user>/<repo>` route is free for public repos. See
+[`EMBED.md`](EMBED.md) for the recipe.
 
 ### Why jsDelivr
 
