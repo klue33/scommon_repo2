@@ -105,4 +105,18 @@ describe("docs/squarespace-popup.html (Code Block snippet)", () => {
     // for their own CDN if they prefer.
     expect(snippet).toMatch(/cdn\.jsdelivr\.net\/gh\/[\w-]+\/[\w-]+/);
   });
+
+  it("cache-busts the bundle URLs (so browser cache doesn't pin old versions)", () => {
+    // jsDelivr serves the latest @main commit, but browsers cache
+    // <script type="module"> aggressively — Ctrl+Shift+R on the
+    // embedding page doesn't always purge a dynamically-injected
+    // module script. Each bundle URL needs a cache-bust query
+    // string the operator bumps on deploy.
+    // We accept either ?v=<token> or ?<digits>+ — the test only
+    // pins the contract, not the version syntax.
+    expect(
+      snippet,
+      "snippet must append a cache-bust query string to wayfinder.js + wayfinder.css URLs",
+    ).toMatch(/wayfinder\.js['"]?\s*\+\s*['"]?\?v=|wayfinder\.js\?v=|\+\s*['"]?\?v=/);
+  });
 });

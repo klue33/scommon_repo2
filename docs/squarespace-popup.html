@@ -127,6 +127,10 @@
     // CORS + correct MIME types. Swap @main for a release tag for
     // production stability.
     var HOST = 'https://cdn.jsdelivr.net/gh/klue33/scommon_repo2@main/dist';
+    // BUMP THIS on every deploy. Browsers cache module scripts
+    // aggressively and don't always invalidate on Ctrl+Shift+R;
+    // a fresh ?v=… makes the URL look new to the cache.
+    var VERSION = '20260526b';
     // =========================================================
 
     // Optional pre-fill for the bundle. URL params (?to, ?from,
@@ -146,10 +150,10 @@
         bundleLoaded = true;
         var css = document.createElement('link');
         css.rel = 'stylesheet';
-        css.href = HOST + '/wayfinder.css';
+        css.href = HOST + '/wayfinder.css' + '?v=' + VERSION;
         document.head.appendChild(css);
         var js = document.createElement('script');
-        js.src = HOST + '/wayfinder.js';
+        js.src = HOST + '/wayfinder.js' + '?v=' + VERSION;
         js.type = 'module';
         // Surface a clear failure instead of a silent blank modal
         // when HOST isn't replaced, the upload's 404, the file
