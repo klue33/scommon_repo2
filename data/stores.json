@@ -9,8 +9,8 @@
       "occupancy": "Occupied",
       "subdomain": "a1donuts",
       "centroid": [
-        468.5,
-        757.4
+        653.01,
+        228.69
       ]
     },
     {
@@ -22,8 +22,8 @@
       "occupancy": "Occupied",
       "subdomain": "asiangourmet",
       "centroid": [
-        483.88,
-        753.04
+        644.85,
+        241.86
       ]
     },
     {
@@ -35,8 +35,8 @@
       "occupancy": "Occupied",
       "subdomain": "barburrito",
       "centroid": [
-        1141.16,
-        694.74
+        208.29,
+        720.93
       ]
     },
     {
@@ -48,8 +48,8 @@
       "occupancy": "Occupied",
       "subdomain": "bmo",
       "centroid": [
-        498.04,
-        70.52
+        1103.44,
+        696.11
       ]
     },
     {
@@ -61,8 +61,8 @@
       "occupancy": "Occupied",
       "subdomain": null,
       "centroid": [
-        553.36,
-        733.36
+        607.99,
+        301.31
       ]
     },
     {
@@ -74,8 +74,8 @@
       "occupancy": "Occupied",
       "subdomain": null,
       "centroid": [
-        630.41,
-        645.18
+        612.69,
+        410.47
       ]
     },
     {
@@ -87,8 +87,8 @@
       "occupancy": "Occupied",
       "subdomain": "dentist",
       "centroid": [
-        679.84,
-        1192.51
+        200.86,
+        86.99
       ]
     },
     {
@@ -100,8 +100,8 @@
       "occupancy": "Occupied",
       "subdomain": "dollarama",
       "centroid": [
-        524.77,
-        706.91
+        646.89,
+        299.36
       ]
     },
     {
@@ -113,8 +113,8 @@
       "occupancy": "Occupied",
       "subdomain": "famousoptic",
       "centroid": [
-        432.49,
-        750.86
+        683.61,
+        208.79
       ]
     },
     {
@@ -126,8 +126,8 @@
       "occupancy": "Occupied",
       "subdomain": "fikacannabis",
       "centroid": [
-        762.59,
-        263.2
+        779.25,
+        748.09
       ]
     },
     {
@@ -139,8 +139,8 @@
       "occupancy": "Occupied",
       "subdomain": "firstchoicehaircutters",
       "centroid": [
-        750.28,
-        276.6
+        778.97,
+        731.09
       ]
     },
     {
@@ -152,8 +152,8 @@
       "occupancy": "Occupied",
       "subdomain": "fit4less",
       "centroid": [
-        490.98,
-        924.88
+        521.66,
+        134.65
       ]
     },
     {
@@ -165,8 +165,8 @@
       "occupancy": "Occupied",
       "subdomain": null,
       "centroid": [
-        532.99,
-        876.59
+        524.37,
+        194.3
       ]
     },
     {
@@ -178,8 +178,8 @@
       "occupancy": "Occupied",
       "subdomain": "infolottokiosk",
       "centroid": [
-        598.87,
-        716.56
+        586.53,
+        342.8
       ]
     },
     {
@@ -191,8 +191,8 @@
       "occupancy": "Occupied",
       "subdomain": "kumon",
       "centroid": [
-        645.21,
-        805.94
+        491.53,
+        315.65
       ]
     },
     {
@@ -204,8 +204,8 @@
       "occupancy": "Occupied",
       "subdomain": "lacoupla",
       "centroid": [
-        590.51,
-        628.48
+        653.1,
+        394.58
       ]
     },
     {
@@ -217,8 +217,8 @@
       "occupancy": "Occupied",
       "subdomain": null,
       "centroid": [
-        451.61,
-        758.92
+        664.21,
+        216.37
       ]
     },
     {
@@ -230,8 +230,8 @@
       "occupancy": "Occupied",
       "subdomain": "lynearhairsalon",
       "centroid": [
-        515.84,
-        856.55
+        550.57,
+        195.85
       ]
     },
     {
@@ -243,8 +243,8 @@
       "occupancy": "Occupied",
       "subdomain": null,
       "centroid": [
-        509.68,
-        827.47
+        575.01,
+        210.67
       ]
     },
     {
@@ -256,8 +256,8 @@
       "occupancy": "Occupied",
       "subdomain": "nailsforyou",
       "centroid": [
-        615.57,
-        662.78
+        611.36,
+        389.05
       ]
     },
     {
@@ -269,8 +269,8 @@
       "occupancy": "Occupied",
       "subdomain": "nofrills",
       "centroid": [
-        720.44,
-        873.88
+        390.3,
+        321.86
       ]
     },
     {
@@ -282,8 +282,8 @@
       "occupancy": "Occupied",
       "subdomain": "onenesswellnesscentre",
       "centroid": [
-        694.82,
-        1207.18
+        179.92,
+        87.48
       ]
     },
     {
@@ -295,8 +295,8 @@
       "occupancy": "Occupied",
       "subdomain": "pamirrugsco",
       "centroid": [
-        572.67,
-        815.18
+        537.78,
+        260.95
       ]
     },
     {
@@ -308,8 +308,8 @@
       "occupancy": "Occupied",
       "subdomain": "peplosbydesigner",
       "centroid": [
-        566.82,
-        834.16
+        528.98,
+        244.66
       ]
     },
     {
@@ -321,8 +321,8 @@
       "occupancy": "Occupied",
       "subdomain": "pitaland",
       "centroid": [
-        655.75,
-        694.3
+        560.57,
+        395.47
       ]
     },
     {
@@ -334,8 +334,8 @@
       "occupancy": "Occupied",
       "subdomain": "popeyes",
       "centroid": [
-        676.31,
-        711.95
+        533.54,
+        397.77
       ]
     },
     {
@@ -347,8 +347,8 @@
       "occupancy": "Occupied",
       "subdomain": null,
       "centroid": [
-        444.24,
-        758.64
+        669.75,
+        211.61
       ]
     },
     {
@@ -360,8 +360,8 @@
       "occupancy": "Occupied",
       "subdomain": "realfruitbubbletea",
       "centroid": [
-        478.04,
-        835.23
+        592.62,
+        184.38
       ]
     },
     {
@@ -373,8 +373,8 @@
       "occupancy": "Occupied",
       "subdomain": "rogers",
       "centroid": [
-        1109.47,
-        630.78
+        275.2,
+        741.35
       ]
     },
     {
@@ -386,21 +386,21 @@
       "occupancy": "Occupied",
       "subdomain": "samphhealth",
       "centroid": [
-        626.37,
-        753.91
+        540.93,
+        336.91
       ]
     },
     {
       "id": "samrsquosshoesrepair",
       "unit": "28",
-      "name": "Sam’s Shoes Repair",
+      "name": "Sam\u2019s Shoes Repair",
       "category": "other",
       "vacant": false,
       "occupancy": "Occupied",
       "subdomain": "samrsquosshoesrepair",
       "centroid": [
-        547.68,
-        832.77
+        543.82,
+        232.72
       ]
     },
     {
@@ -412,8 +412,8 @@
       "occupancy": "Occupied",
       "subdomain": "shoppersdrugmart",
       "centroid": [
-        901.13,
-        425.22
+        567.49,
+        735.48
       ]
     },
     {
@@ -425,8 +425,8 @@
       "occupancy": "Occupied",
       "subdomain": "softrontax",
       "centroid": [
-        451.93,
-        829.35
+        615.6,
+        170.69
       ]
     },
     {
@@ -438,8 +438,8 @@
       "occupancy": "Occupied",
       "subdomain": null,
       "centroid": [
-        581.91,
-        805.88
+        537.47,
+        273.21
       ]
     },
     {
@@ -451,8 +451,8 @@
       "occupancy": "Occupied",
       "subdomain": "southcommonmedicalcentre",
       "centroid": [
-        720.05,
-        1211.42
+        158.71,
+        101.65
       ]
     },
     {
@@ -464,8 +464,8 @@
       "occupancy": "Occupied",
       "subdomain": null,
       "centroid": [
-        639.87,
-        766.12
+        522.75,
+        338.02
       ]
     },
     {
@@ -477,8 +477,8 @@
       "occupancy": "Occupied",
       "subdomain": "stackedpancakeampbreakfasthouse",
       "centroid": [
-        723.36,
-        306.02
+        778.28,
+        693.86
       ]
     },
     {
@@ -490,8 +490,8 @@
       "occupancy": "Occupied",
       "subdomain": "stanzigelsteinlawyers",
       "centroid": [
-        386.88,
-        847.98
+        649.97,
+        114.9
       ]
     },
     {
@@ -503,8 +503,8 @@
       "occupancy": "Occupied",
       "subdomain": "subway",
       "centroid": [
-        737.09,
-        290.96
+        778.67,
+        712.89
       ]
     },
     {
@@ -516,8 +516,8 @@
       "occupancy": "Occupied",
       "subdomain": null,
       "centroid": [
-        499.11,
-        814.56
+        591.54,
+        211.99
       ]
     },
     {
@@ -529,8 +529,8 @@
       "occupancy": "Occupied",
       "subdomain": null,
       "centroid": [
-        653.75,
-        813.84
+        479.91,
+        316.23
       ]
     },
     {
@@ -542,8 +542,8 @@
       "occupancy": "Occupied",
       "subdomain": "td",
       "centroid": [
-        81.09,
-        449.63
+        1145.35,
+        169.26
       ]
     },
     {
@@ -555,8 +555,8 @@
       "occupancy": "Occupied",
       "subdomain": null,
       "centroid": [
-        1123.79,
-        681.37
+        230.07,
+        717.99
       ]
     },
     {
@@ -568,8 +568,8 @@
       "occupancy": "Occupied",
       "subdomain": "theupperhandgamesandsportscards",
       "centroid": [
-        604.34,
-        642.32
+        633.56,
+        394.84
       ]
     },
     {
@@ -581,8 +581,8 @@
       "occupancy": "Occupied",
       "subdomain": "thewineshop",
       "centroid": [
-        694.83,
-        730.07
+        507.66,
+        398.39
       ]
     },
     {
@@ -594,8 +594,8 @@
       "occupancy": "Occupied",
       "subdomain": "topstitch",
       "centroid": [
-        648.31,
-        773.78
+        511.37,
+        338.69
       ]
     },
     {
@@ -607,8 +607,8 @@
       "occupancy": "Occupied",
       "subdomain": "viewcleaners",
       "centroid": [
-        578.6,
-        616.57
+        669.91,
+        394.35
       ]
     },
     {
@@ -620,8 +620,8 @@
       "occupancy": "Occupied",
       "subdomain": "walmartsupercentre",
       "centroid": [
-        324.04,
-        553.35
+        897.93,
+        264.71
       ]
     },
     {
@@ -633,92 +633,92 @@
       "occupancy": "Occupied",
       "subdomain": "wcgservices",
       "centroid": [
-        571.35,
-        690.87
+        624.13,
+        341.07
       ]
     },
     {
       "id": "unit-18",
       "unit": "18",
-      "name": "Available — Unit 18",
+      "name": "Available \u2014 Unit 18",
       "category": "available",
       "vacant": true,
       "occupancy": "Available",
       "subdomain": null,
       "centroid": [
-        409.32,
-        844.56
+        636.05,
+        132.18
       ]
     },
     {
       "id": "unit-19",
       "unit": "19",
-      "name": "Available — Unit 19",
+      "name": "Available \u2014 Unit 19",
       "category": "available",
       "vacant": true,
       "occupancy": "Available",
       "subdomain": null,
       "centroid": [
-        426.24,
-        830.48
+        633.45,
+        152.71
       ]
     },
     {
       "id": "unit-22",
       "unit": "22",
-      "name": "Available — Unit 22",
+      "name": "Available \u2014 Unit 22",
       "category": "available",
       "vacant": true,
       "occupancy": "Available",
       "subdomain": null,
       "centroid": [
-        477.96,
-        815.26
+        606.4,
+        197.34
       ]
     },
     {
       "id": "unit-27",
       "unit": "27",
-      "name": "Available — Unit 27",
+      "name": "Available \u2014 Unit 27",
       "category": "available",
       "vacant": true,
       "occupancy": "Available",
       "subdomain": null,
       "centroid": [
-        567.28,
-        863.21
+        508.69,
+        226.04
       ]
     },
     {
       "id": "unit-32",
       "unit": "32",
-      "name": "Available — Unit 32",
+      "name": "Available \u2014 Unit 32",
       "category": "available",
       "vacant": true,
       "occupancy": "Available",
       "subdomain": null,
       "centroid": [
-        596.6,
-        773.16
+        549.29,
+        304.39
       ]
     },
     {
       "id": "unit-33",
       "unit": "33",
-      "name": "Available — Unit 33",
+      "name": "Available \u2014 Unit 33",
       "category": "available",
       "vacant": true,
       "occupancy": "Available",
       "subdomain": null,
       "centroid": [
-        610.36,
-        736.78
+        564.31,
+        337.33
       ]
     },
     {
       "id": "unit-403",
       "unit": "403",
-      "name": "Available — Unit 403",
+      "name": "Available \u2014 Unit 403",
       "category": "available",
       "vacant": true,
       "occupancy": "Occupied",
@@ -728,14 +728,14 @@
     {
       "id": "unit-55",
       "unit": "55",
-      "name": "Available — Unit 55",
+      "name": "Available \u2014 Unit 55",
       "category": "available",
       "vacant": true,
       "occupancy": "Available",
       "subdomain": null,
       "centroid": [
-        442.65,
-        723.32
+        695.16,
+        233.55
       ]
     },
     {
@@ -747,8 +747,8 @@
       "occupancy": "Occupied",
       "subdomain": null,
       "centroid": [
-        459.4,
-        765.2
+        654.25,
+        217.5
       ],
       "synonyms": [
         "restroom",
@@ -774,8 +774,8 @@
       "occupancy": "Occupied",
       "subdomain": null,
       "centroid": [
-        425.4,
-        813.4
+        645.79,
+        163.28
       ],
       "synonyms": [
         "security",
@@ -829,6 +829,6 @@
     0,
     0,
     1200,
-    1293
+    800
   ]
 }

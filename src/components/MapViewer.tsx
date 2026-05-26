@@ -37,10 +37,11 @@ const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 8;
 const CLICK_PX = 5;
 const STORAGE_KEY = "scc-wayfinder:edit-graph";
-const ROTATION_DEG = 137.654;           // -42.346° + 180° — anchor face horizontal on the opposite edge
-// Counter-rotation applied to every <text> inside the rotated <g>
-// so the glyphs face the viewer upright regardless of map angle.
-// Derived from ROTATION_DEG so the two never drift apart.
+// Polygon data was affine-aligned to the level-1.svg backdrop's
+// native coord system (1200×800), so no render-time rotation is
+// needed. Keeping the constant + counter-rotation infra in place
+// in case a future deploy wants to rotate again.
+const ROTATION_DEG = 0;
 const LABEL_COUNTER_ROTATION = -ROTATION_DEG;
 const PEN_DOWNSAMPLE = 30;              // px between successive nodes derived from a stroke
 const PEN_RAW_STEP = 4;                 // min screen-px between raw points sampled during a stroke
@@ -67,6 +68,9 @@ export function MapViewer({
   const geojsonUrl =
     cfg.geojsonUrl ||
     new URL("./maps/site.geojson", import.meta.url).toString();
+  const level1Url =
+    cfg.level1Url ||
+    new URL("./maps/level-1.svg", import.meta.url).toString();
 
   useEffect(() => {
     let cancelled = false;
@@ -603,8 +607,22 @@ export function MapViewer({
         </defs>
 
         <g ref={rotRef} transform={rotateTransform}>
-          <rect class="scc-wf__lot" x={vx0} y={vy0} width={VW} height={VH} fill="url(#scc-drive)" />
-          <rect class="scc-wf__lot-stalls" x={vx0} y={vy0} width={VW} height={VH} fill="url(#scc-parking)" />
+          {/* Site backdrop: the level-1 floor plan inherited from
+              southcommoncentre.ca's wayfinder. Polygons in
+              site.geojson + graph nodes were affine-aligned to this
+              asset's intrinsic 1200×800 coord system so they sit
+              directly on top of it. */}
+          <image
+            href={level1Url}
+            x={0}
+            y={0}
+            width={1200}
+            height={800}
+            preserveAspectRatio="xMidYMid meet"
+            style={{ pointerEvents: "none" }}
+          />
+          <rect class="scc-wf__lot" x={vx0} y={vy0} width={VW} height={VH} fill="url(#scc-drive)" opacity={0} />
+          <rect class="scc-wf__lot-stalls" x={vx0} y={vy0} width={VW} height={VH} fill="url(#scc-parking)" opacity={0} />
 
           {collection?.features.map((f) => {
             const p = f.properties;

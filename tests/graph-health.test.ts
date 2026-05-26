@@ -164,9 +164,11 @@ describe("graph-health", () => {
       .filter((n): n is Node => !!n && n.type === "entrance-tenant");
     expect(entranceIds.length).toBeGreaterThan(0);
     // At least one tenant entrance for Sunshine must sit on the
-    // NE face — within ~25 px of (682.7, 783.8).
+    // NE face. Asserted point is the affine-transformed image of
+    // the pre-alignment coord (682.7, 783.8) into the level-1.svg
+    // coord system — (479.55, 355.24).
     const onNeFace = entranceIds.some(
-      (n) => Math.hypot(n.x - 682.7, n.y - 783.8) <= 25,
+      (n) => Math.hypot(n.x - 479.55, n.y - 355.24) <= 25,
     );
     expect(onNeFace, `entrance positions: ${JSON.stringify(entranceIds.map((n) => [n.x, n.y]))}`).toBe(true);
   });
