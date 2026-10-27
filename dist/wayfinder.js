@@ -520,7 +520,7 @@ const io = [{
     }, {
         id: "dentist",
         unit: "13",
-        name: "Dentist",
+        name: "South Commons Dental",
         category: "services",
         vacant: !1,
         occupancy: "Occupied",
@@ -545,13 +545,13 @@ const io = [{
         subdomain: "famousoptic",
         centroid: [690.23, 211.82]
     }, {
-        id: "fikacannabis",
+        id: "popscannabis",
         unit: "10",
-        name: "FIKA Cannabis",
+        name: "Pop's Cannabis",
         category: "general",
         vacant: !1,
         occupancy: "Occupied",
-        subdomain: "fikacannabis",
+        subdomain: "popscannabis",
         centroid: [766.99, 754.13]
     }, {
         id: "firstchoicehaircutters",
@@ -571,6 +571,15 @@ const io = [{
         occupancy: "Occupied",
         subdomain: "fit4less",
         centroid: [530.97, 132.08]
+    }, {
+        id: "j1hairsalon",
+        unit: "2.39",
+        name: "J1 Hair Salon & Barber",
+        category: "services",
+        vacant: !1,
+        occupancy: "Occupied",
+        subdomain: null,
+        centroid: null
     }, {
         id: "honey-nails-spa",
         unit: "26",
@@ -619,11 +628,11 @@ const io = [{
     }, {
         id: "lynearhairsalon",
         unit: "25",
-        name: "Lynear Hair Salon",
-        category: "services",
-        vacant: !1,
-        occupancy: "Occupied",
-        subdomain: "lynearhairsalon",
+        name: "Available — Unit 25",
+        category: "available",
+        vacant: !0,
+        occupancy: "Available",
+        subdomain: null,
         centroid: [557.72, 194.25]
     }, {
         id: "mad-digital-exchange",
@@ -700,12 +709,21 @@ const io = [{
     }, {
         id: "rapizza",
         unit: "53",
-        name: "RAPiZZA",
+        name: "Available — Unit 53",
+        category: "available",
+        vacant: !0,
+        occupancy: "Available",
+        subdomain: null,
+        centroid: [676.28, 214.16]
+    }, {
+        id: "flavoursofdeccan",
+        unit: "3.53",
+        name: "Flavours of Deccan",
         category: "restaurants",
         vacant: !1,
         occupancy: "Occupied",
         subdomain: null,
-        centroid: [676.28, 214.16]
+        centroid: null
     }, {
         id: "realfruitbubbletea",
         unit: "21",
@@ -736,11 +754,11 @@ const io = [{
     }, {
         id: "samrsquosshoesrepair",
         unit: "28",
-        name: "Sam’s Shoes Repair",
-        category: "other",
-        vacant: !1,
-        occupancy: "Occupied",
-        subdomain: "samrsquosshoesrepair",
+        name: "Available — Unit 28",
+        category: "available",
+        vacant: !0,
+        occupancy: "Available",
+        subdomain: null,
         centroid: [549.69, 230.86]
     }, {
         id: "shoppersdrugmart",
@@ -797,12 +815,12 @@ const io = [{
         subdomain: "stackedpancakeampbreakfasthouse",
         centroid: [767.92, 699.9]
     }, {
-        id: "",
+        id: "Vacant",
         unit: "17",
         name: "",
-        category: "services",
-        vacant: !1,
-        occupancy: "Occupied",
+        category: "",
+        vacant: 1,
+        occupancy: "",
         subdomain: "",
         centroid: [659.89, 116.82]
     }, {
@@ -844,7 +862,7 @@ const io = [{
     }, {
         id: "thairoomgrand",
         unit: "4",
-        name: "Thairoomgrand",
+        name: "Thai Room Grande",
         category: "restaurants",
         vacant: !1,
         occupancy: "Occupied",
@@ -2773,12 +2791,6 @@ const mo = [{
         type: "store",
         store: "stackedpancakeampbreakfasthouse"
     }, {
-        id: "",
-        x: 659.89,
-        y: 116.82,
-        type: "store",
-        store: ""
-    }, {
         id: "subway",
         x: 767.64,
         y: 718.93,
@@ -4066,10 +4078,6 @@ const mo = [{
         a: "n-mpltpjce-5fq",
         b: "stackedpancakeampbreakfasthouse",
         cost: 27
-    }, {
-        a: "n-mpltvxkj-hu",
-        b: "",
-        cost: 15
     }, {
         a: "n-mpltpk4o-3xn",
         b: "subway",
