@@ -898,7 +898,7 @@ const io = [{
     }, {
         id: "viewcleaners",
         unit: "46",
-        name: "Viewcleaners",
+        name: "City View Cleaners",
         category: "services",
         vacant: !1,
         occupancy: "Occupied",
