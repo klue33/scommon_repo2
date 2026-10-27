@@ -32,7 +32,7 @@ function Ut(t, n, e, l, c) {
         __e: null,
         __c: null,
         constructor: void 0,
-        __v: c ? ? ++Qn,
+        __v: c ?? ++Qn,
         __i: -1,
         __u: 0
     };
@@ -61,7 +61,7 @@ function Je(t) {
             l = [],
             c = [],
             o = J({}, n);
-        o.__v = n.__v + 1, $.vnode && $.vnode(o), yn(t.__P, o, n, t.__n, t.__P.namespaceURI, 32 & n.__u ? [e] : null, l, e ? ? yt(n), !!(32 & n.__u), c), o.__v = n.__v, o.__.__k[o.__i] = o, ce(l, o, c), n.__e = n.__ = null, o.__e != e && oe(o)
+        o.__v = n.__v + 1, $.vnode && $.vnode(o), yn(t.__P, o, n, t.__n, t.__P.namespaceURI, 32 & n.__u ? [e] : null, l, e ?? yt(n), !!(32 & n.__u), c), o.__v = n.__v, o.__.__k[o.__i] = o, ce(l, o, c), n.__e = n.__ = null, o.__e != e && oe(o)
     }
 }
 
@@ -127,7 +127,7 @@ function Ve(t, n, e, l) {
 }
 
 function Rn(t, n, e) {
-    n[0] == "-" ? t.setProperty(n, e ? ? "") : t[n] = e == null ? "" : typeof e != "number" || Ge.test(n) ? e : e + "px"
+    n[0] == "-" ? t.setProperty(n, e ?? "") : t[n] = e == null ? "" : typeof e != "number" || Ge.test(n) ? e : e + "px"
 }
 
 function Et(t, n, e, l, c) {
@@ -144,7 +144,7 @@ function Et(t, n, e, l, c) {
     else {
         if (c == "http://www.w3.org/2000/svg") n = n.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");
         else if (n != "width" && n != "height" && n != "href" && n != "list" && n != "form" && n != "tabIndex" && n != "download" && n != "rowSpan" && n != "colSpan" && n != "role" && n != "popover" && n in t) try {
-            t[n] = e ? ? "";
+            t[n] = e ?? "";
             break t
         } catch {}
         typeof e == "function" || (e == null || e === !1 && n[4] != "-" ? t.removeAttribute(n) : t.setAttribute(n, n == "popover" && e == 1 ? "" : e))
@@ -1057,7 +1057,7 @@ function ro(t, n = jt) {
     const l = [];
     for (const c of n) {
         const o = c.name.toLowerCase(),
-            s = (c.synonyms ? ? []).map(d => d.toLowerCase());
+            s = (c.synonyms ?? []).map(d => d.toLowerCase());
         let a = 0;
         o === e ? a = 1e3 : s.includes(e) ? a = 900 : o.startsWith(e) ? a = 500 : s.some(d => d.startsWith(e)) ? a = 450 : o.split(/\s+/).some(d => d.startsWith(e)) ? a = 250 : o.includes(e) ? a = 100 : s.some(d => d.includes(e)) ? a = 90 : c.category.toLowerCase().includes(e) && (a = 25), a > 0 && l.push({
             store: c,
@@ -4611,12 +4611,12 @@ function fo(t) {
     const n = new Map,
         e = new Map,
         l = (s, a) => {
-            const d = e.get(s) ? ? [];
+            const d = e.get(s) ?? [];
             d.push(a), e.set(s, d)
         };
     for (const s of t.nodes) n.set(s.id, s);
-    const c = t.barriers ? ? [],
-        o = t.polygons ? ? [];
+    const c = t.barriers ?? [],
+        o = t.polygons ?? [];
     for (const s of t.edges) {
         const a = n.get(s.a),
             d = n.get(s.b);
@@ -4711,19 +4711,19 @@ function nn(t, n, e, l = {}) {
         let p = null,
             f = 1 / 0;
         for (const b of a) {
-            const g = y.get(b) ? ? 1 / 0;
+            const g = y.get(b) ?? 1 / 0;
             g < f && (f = g, p = b)
         }
         if (p === null) break;
         if (p === e) return go(t, d, p);
         a.delete(p);
-        for (const b of t.adj.get(p) ? ? []) {
+        for (const b of t.adj.get(p) ?? []) {
             if (o && b.b !== e) {
-                const M = t.nodes.get(b.b) ? .type;
+                const M = t.nodes.get(b.b) ?.type;
                 if (M && o.has(M)) continue
             }
-            const g = (m.get(p) ? ? 1 / 0) + b.cost;
-            g < (m.get(b.b) ? ? 1 / 0) && (d.set(b.b, p), m.set(b.b, g), y.set(b.b, g + s(b.b)), a.add(b.b))
+            const g = (m.get(p) ?? 1 / 0) + b.cost;
+            g < (m.get(b.b) ?? 1 / 0) && (d.set(b.b, p), m.set(b.b, g), y.set(b.b, g + s(b.b)), a.add(b.b))
         }
     }
     return null
@@ -4731,8 +4731,8 @@ function nn(t, n, e, l = {}) {
 
 function vo(t, n, e) {
     if (n === e) return null;
-    const l = Wn(t, n) ? ? n,
-        c = Wn(t, e) ? ? e;
+    const l = Wn(t, n) ?? n,
+        c = Wn(t, e) ?? e;
     if (l === c) return null;
     const o = new Set(["entrance-main", "store"]),
         s = new Set(["entrance-main"]);
@@ -4747,26 +4747,26 @@ function vo(t, n, e) {
 function Wn(t, n) {
     const e = t.nodes.get(n);
     if (!e || e.type !== "store") return null;
-    const l = t.adj.get(n) ? ? [];
+    const l = t.adj.get(n) ?? [];
     let c = null;
-    for (const o of l) t.nodes.get(o.b) ? .type === "entrance-tenant" && (!c || o.cost < c.cost) && (c = {
+    for (const o of l) t.nodes.get(o.b) ?.type === "entrance-tenant" && (!c || o.cost < c.cost) && (c = {
         id: o.b,
         cost: o.cost
     });
-    return c ? .id ? ? null
+    return c ?.id ?? null
 }
 
 function xo(t, n) {
     const e = [...n.path],
         l = [...n.points];
-    for (; e.length > 0 && t.nodes.get(e[0]) ? .type === "store";) e.shift(), l.shift();
-    for (; e.length > 0 && t.nodes.get(e[e.length - 1]) ? .type === "store";) e.pop(), l.pop();
+    for (; e.length > 0 && t.nodes.get(e[0]) ?.type === "store";) e.shift(), l.shift();
+    for (; e.length > 0 && t.nodes.get(e[e.length - 1]) ?.type === "store";) e.pop(), l.pop();
     if (e.length < 2) return null;
     let c = 0;
     for (let o = 1; o < e.length; o++) {
         const s = t.nodes.get(e[o - 1]),
             a = t.nodes.get(e[o]),
-            d = (t.adj.get(s.id) ? ? []).find(m => m.b === a.id);
+            d = (t.adj.get(s.id) ?? []).find(m => m.b === a.id);
         d && (c += d.cost)
     }
     return {
@@ -4786,7 +4786,7 @@ function go(t, n, e) {
         const d = t.nodes.get(l[a]);
         if (o.push([d.x, d.y]), a > 0) {
             const m = t.nodes.get(l[a - 1]),
-                y = (t.adj.get(m.id) ? ? []).find(p => p.b === d.id);
+                y = (t.adj.get(m.id) ?? []).find(p => p.b === d.id);
             y && (s += y.cost)
         }
     }
@@ -4919,7 +4919,7 @@ function Gn(t) {
 }
 
 function qo(t, n, e, l) {
-    const c = [...t.barriers ? ? []];
+    const c = [...t.barriers ?? []];
     return (n[0] !== e[0] || n[1] !== e[1]) && c.push({
         id: l.newId(),
         a: n,
@@ -4989,7 +4989,7 @@ function Mo({
 }) {
     const c = t,
         [o, s] = S(null),
-        a = (typeof window < "u" ? window.SCC_WAYFINDER_CONFIG : null) ? ? {},
+        a = (typeof window < "u" ? window.SCC_WAYFINDER_CONFIG : null) ?? {},
         d = a.geojsonUrl || new URL("./maps/site.geojson",
             import.meta.url).toString(),
         m = a.level1Url || new URL("./maps/level-1.svg",
@@ -5052,8 +5052,8 @@ function Mo({
         y: 0
     }), st = ht(null), V = ht(null), kn = ht(null), [Mt, At, bt, _t] = so, jn = bt / St, zn = _t / St, xe = Mt + gn.x, ge = At + gn.y, we = `${xe} ${ge} ${jn} ${zn}`, [ke, je] = S(0);
     nt(() => {
-        c ? .id && je(i => i + 1)
-    }, [c ? .id]);
+        c ?.id && je(i => i + 1)
+    }, [c ?.id]);
     const [T, Pt] = S(() => Zn()), [I, ze] = S("pen"), [X, K] = S(null), [Wt, Gt] = S([]), [qn, qe] = S(!0), [U, Q] = S(null), [rt, Kt] = S(null), B = ht([]), [Ce, Rt] = S(!1), ot = Lt(i => {
         Pt(u => (B.current.push(u), B.current.length > en && B.current.shift(), Rt(!0), i(u)))
     }, []), Jt = Lt(() => {
@@ -5078,7 +5078,7 @@ function Mo({
         if (!l) return;
         const i = u => {
             if (!X || u.key !== "Backspace" && u.key !== "Delete") return;
-            const _ = u.target ? .tagName ? .toLowerCase();
+            const _ = u.target ?.tagName ?.toLowerCase();
             _ === "input" || _ === "select" || _ === "textarea" || (u.preventDefault(), ot(x => ({
                 ...x,
                 nodes: x.nodes.filter(v => v.id !== X),
@@ -5090,7 +5090,7 @@ function Mo({
         if (!l) return;
         const i = u => {
             if (!(u.key === "z" || u.key === "Z") || !(u.ctrlKey || u.metaKey)) return;
-            const _ = u.target ? .tagName ? .toLowerCase();
+            const _ = u.target ?.tagName ?.toLowerCase();
             _ === "input" || _ === "select" || _ === "textarea" || (u.preventDefault(), Jt())
         };
         return window.addEventListener("keydown", i), () => window.removeEventListener("keydown", i)
@@ -5133,7 +5133,7 @@ function Mo({
                     moved: 0,
                     type: "drag-node",
                     nodeId: _.dataset.editNodeId
-                }, B.current.push(T), B.current.length > en && B.current.shift(), Rt(!0), V.current ? .setPointerCapture(i.pointerId);
+                }, B.current.push(T), B.current.length > en && B.current.shift(), Rt(!0), V.current ?.setPointerCapture(i.pointerId);
                 return
             }
             if (l && I === "pen" && !v && !x && !_) {
@@ -5146,7 +5146,7 @@ function Mo({
                     pid: i.pointerId,
                     moved: 0,
                     type: "stroke"
-                }, V.current ? .setPointerCapture(i.pointerId);
+                }, V.current ?.setPointerCapture(i.pointerId);
                 return
             }!l && (v || x) || (st.current = {
                 x: i.clientX,
@@ -5154,7 +5154,7 @@ function Mo({
                 pid: i.pointerId,
                 moved: 0,
                 type: "pan"
-            }, V.current ? .setPointerCapture(i.pointerId))
+            }, V.current ?.setPointerCapture(i.pointerId))
         },
         $e = i => {
             if (l && (I === "line" || I === "barrier") && U) {
@@ -5207,7 +5207,7 @@ function Mo({
         },
         On = i => {
             const u = st.current;
-            if (u ? .pid === i.pointerId && V.current ? .releasePointerCapture(i.pointerId), st.current = null, !u) return;
+            if (u ?.pid === i.pointerId && V.current ?.releasePointerCapture(i.pointerId), st.current = null, !u) return;
             const _ = u.moved < So;
             if (u.type === "stroke") {
                 const C = Wt;
@@ -5354,10 +5354,10 @@ function Mo({
                 barriers: []
             }), K(null))
         },
-        Ue = () => Cn.current ? .click(),
+        Ue = () => Cn.current ?.click(),
         Ne = async i => {
             const u = i.target,
-                _ = u.files ? . [0];
+                _ = u.files ?. [0];
             if (u.value = "", !_) return;
             const x = await _.text(),
                 v = jo(x);
@@ -5378,9 +5378,9 @@ ${v.error}`);
                 C = v.graph.edges.filter(h => O.has(h.a) && O.has(h.b)).map(h => ({
                     a: h.a,
                     b: h.b,
-                    cost: h.cost ? ? Math.round(Math.hypot(w.find(P => P.id === h.a).x - w.find(P => P.id === h.b).x, w.find(P => P.id === h.a).y - w.find(P => P.id === h.b).y))
+                    cost: h.cost ?? Math.round(Math.hypot(w.find(P => P.id === h.a).x - w.find(P => P.id === h.b).x, w.find(P => P.id === h.a).y - w.find(P => P.id === h.b).y))
                 })),
-                q = (v.graph.barriers ? ? []).filter(h => h && typeof h.id == "string" && Array.isArray(h.a) && Array.isArray(h.b)).map(h => ({
+                q = (v.graph.barriers ?? []).filter(h => h && typeof h.id == "string" && Array.isArray(h.a) && Array.isArray(h.b)).map(h => ({
                     id: h.id,
                     a: [h.a[0], h.a[1]],
                     b: [h.b[0], h.b[1]]
@@ -5396,7 +5396,7 @@ ${v.error}`);
                 y: 0
             })
         }, Fe = ct.nodes.filter(i => i.type === "kiosk"), Sn = kt(() => {
-            const i = (o ? .features ? ? []).filter(u => u.geometry ? .type === "Polygon").map(u => ({
+            const i = (o ?.features ?? []).filter(u => u.geometry ?.type === "Polygon").map(u => ({
                 store_id: u.properties.store_id,
                 ring: u.geometry.coordinates[0]
             }));
@@ -5404,7 +5404,7 @@ ${v.error}`);
                 ...ct,
                 polygons: i
             })
-        }, [o]), $n = kt(() => !n ? .id || !t ? .id || n.id === t.id ? null : vo(Sn, n.id, t.id), [Sn, n ? .id, t ? .id]), Mn = $n ? .points ? $n.points.map(([i, u]) => `${i},${u}`).join(" ") : null, De = Mt + bt / 2, Xe = At + _t / 2, Be = `rotate(${ye} ${De} ${Xe})`;
+        }, [o]), $n = kt(() => !n ?.id || !t ?.id || n.id === t.id ? null : vo(Sn, n.id, t.id), [Sn, n ?.id, t ?.id]), Mn = $n ?.points ? $n.points.map(([i, u]) => `${i},${u}`).join(" ") : null, De = Mt + bt / 2, Xe = At + _t / 2, Be = `rotate(${ye} ${De} ${Xe})`;
     return r("div", {
         class: "scc-wf__viewer" + (l ? " is-editing" : ""),
         children: [r("svg", {
@@ -5519,17 +5519,17 @@ ${v.error}`);
                     height: _t,
                     fill: "url(#scc-parking)",
                     opacity: 0
-                }), o ? .features.map(i => {
+                }), o ?.features.map(i => {
                     const u = i.properties,
                         _ = mn(u.store_id),
-                        x = c ? .id === u.store_id,
+                        x = c ?.id === u.store_id,
                         v = ["scc-wf__unit", `scc-wf__unit--${u.category}`, u.vacant ? "is-vacant" : "", x ? "is-selected" : ""].filter(Boolean).join(" "),
                         w = Ao(i.geometry.coordinates);
                     return r("path", {
                         class: v,
                         d: w,
                         "data-store-id": u.store_id,
-                        onClick: () => _ && e ? .(_),
+                        onClick: () => _ && e ?.(_),
                         children: r("title", {
                             children: [u.name, " · #", u.unit]
                         })
@@ -5592,12 +5592,12 @@ ${v.error}`);
                                 y: i.y + _ + 18,
                                 textAnchor: "middle",
                                 transform: `rotate(${vt} ${i.x} ${i.y+_+18})`,
-                                children: i.label ? ? (i.type === "kiosk" ? "KIOSK" : "MAIN")
+                                children: i.label ?? (i.type === "kiosk" ? "KIOSK" : "MAIN")
                             })]
                         }, i.id)
                     })]
-                }), o ? .features.map(i => {
-                    if (c ? .id !== i.properties.store_id) return null;
+                }), o ?.features.map(i => {
+                    if (c ?.id !== i.properties.store_id) return null;
                     const [u, _] = i.properties.centroid;
                     return r("text", {
                         class: "scc-wf__label",
@@ -5608,7 +5608,7 @@ ${v.error}`);
                         children: i.properties.name
                     }, `lbl-${i.properties.store_id}`)
                 }), !l && Fe.map(i => {
-                    const u = i.label ? ? i.id.replace(/^kiosk-/, "Kiosk ").toUpperCase();
+                    const u = i.label ?? i.id.replace(/^kiosk-/, "Kiosk ").toUpperCase();
                     return r("g", {
                         class: "scc-wf__kiosk",
                         "data-kiosk-id": i.id,
@@ -5930,7 +5930,7 @@ function Ro(t, n, e, l) {
             d: s
         })
     }
-    return c ? .node ? ? null
+    return c ?.node ?? null
 }
 
 function Eo(t, n) {
@@ -5951,9 +5951,9 @@ function Zn(t = !1) {
         const o = localStorage.getItem(de);
         if (o) {
             const s = JSON.parse(o);
-            if (s ? .nodes && s ? .edges) return {
+            if (s ?.nodes && s ?.edges) return {
                 ...s,
-                barriers: s.barriers ? ? []
+                barriers: s.barriers ?? []
             }
         }
     } catch {}
@@ -5970,7 +5970,7 @@ function Zn(t = !1) {
             b: o.b,
             cost: o.cost
         })),
-        c = ct.barriers ? ? [];
+        c = ct.barriers ?? [];
     return {
         nodes: n,
         edges: l,
@@ -6015,10 +6015,10 @@ function Io({
     initialFrom: e,
     editMode: l
 }) {
-    const c = n ? mn(n) ? ? null : null,
-        o = e ? mn(e) ? ? null : null,
+    const c = n ? mn(n) ?? null : null,
+        o = e ? mn(e) ?? null : null,
         [s, a] = S(""),
-        [d, m] = S(c ? .category ? ? t ? ? null),
+        [d, m] = S(c ?.category ?? t ?? null),
         [y, p] = S(c),
         [f, b] = S(o),
         [g, M] = S("to"),
@@ -6027,7 +6027,7 @@ function Io({
     nt(() => {
         const k = new URL(window.location.href);
         y ? k.searchParams.set("to", y.id) : k.searchParams.delete("to"), f ? k.searchParams.set("from", f.id) : k.searchParams.delete("from"), window.history.replaceState(null, "", k.toString())
-    }, [y ? .id, f ? .id]);
+    }, [y ?.id, f ?.id]);
     const z = k => {
             g === "from" ? (b(k), M("to")) : p(k)
         },
@@ -6111,8 +6111,8 @@ function Io({
             }), r("ul", {
                 class: "scc-wf__list",
                 children: [j.map(k => {
-                    const D = y ? .id === k.id,
-                        Z = f ? .id === k.id;
+                    const D = y ?.id === k.id,
+                        Z = f ?.id === k.id;
                     return r("li", {
                         children: r("button", {
                             class: "scc-wf__item" + (D ? " is-to" : "") + (Z ? " is-from" : ""),
@@ -6150,7 +6150,7 @@ function Io({
                     children: y.name
                 }), r("div", {
                     class: "scc-wf__meta",
-                    children: ["Unit ", y.unit, " ·", " ", Xn.find(k => k.id === y.category) ? .label ? ? y.category, y.vacant && r(ft, {
+                    children: ["Unit ", y.unit, " ·", " ", Xn.find(k => k.id === y.category) ?.label ?? y.category, y.vacant && r(ft, {
                         children: [" · ", r("em", {
                             children: "available for lease"
                         })]
@@ -6174,16 +6174,16 @@ function Io({
 }
 
 function Vn() {
-    const t = window.SCC_WAYFINDER_CONFIG ? ? {},
-        n = document.getElementById(t.target ? ? "scc-wayfinder");
+    const t = window.SCC_WAYFINDER_CONFIG ?? {},
+        n = document.getElementById(t.target ?? "scc-wayfinder");
     if (!n) {
         console.warn("[scc-wayfinder] target element not found");
         return
     }
     const e = new URL(window.location.href),
-        l = t.initialStore ? ? e.searchParams.get("to") ? ? void 0,
-        c = t.initialFrom ? ? e.searchParams.get("from") ? ? void 0,
-        o = t.initialCategory ? ? e.searchParams.get("category") ? ? void 0,
+        l = t.initialStore ?? e.searchParams.get("to") ?? void 0,
+        c = t.initialFrom ?? e.searchParams.get("from") ?? void 0,
+        o = t.initialCategory ?? e.searchParams.get("category") ?? void 0,
         s = e.searchParams.get("edit") === "1";
     no(r(Io, {
         initialCategory: o,
