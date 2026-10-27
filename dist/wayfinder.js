@@ -545,7 +545,7 @@ const io = [{
         subdomain: "famousoptic",
         centroid: [690.23, 211.82]
     }, {
-        id: "popscannabis",
+        id: "fikacannabis",
         unit: "10",
         name: "Pop's Cannabis",
         category: "general",
