@@ -977,15 +977,6 @@ const io = [{
         subdomain: null,
         centroid: [566.52, 336.12]
     }, {
-        id: "unit-403",
-        unit: "403",
-        name: "Available — Unit 403",
-        category: "available",
-        vacant: !0,
-        occupancy: "Occupied",
-        subdomain: null,
-        centroid: null
-    }, {
         id: "unit-55",
         unit: "55",
         name: "Available — Unit 55",
